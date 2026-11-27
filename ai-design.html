@@ -1,0 +1,295 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — AI Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:#0d0b08;position:sticky;top:0;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px 110px}
+.hero{background:linear-gradient(135deg,#111 0%,#4c1d95 50%,#ec4899 100%);color:#fff;border-radius:22px;padding:22px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:28px}.hero h1 span{color:#d8b45a}.hero p{color:#e8dcc0;font-size:12px;margin-top:6px;line-height:1.6}
+.hero .pill{display:inline-block;background:#fff;color:#111;padding:7px 14px;border-radius:999px;font-size:11px;font-weight:800;margin-top:10px}
+.limit-bar{background:#fff;border:1px solid #eee;border-radius:18px;padding:14px;margin-top:12px;display:flex;gap:12px;align-items:center}
+.limit-bar .num{font-size:28px;font-weight:900}.limit-bar .bar{flex:1;height:10px;background:#eee;border-radius:999px;overflow:hidden}.limit-bar .fill{height:100%;background:linear-gradient(90deg,#111,#9333ea,#ec4899);border-radius:999px;transition:width .5s}
+.limit-bar button{background:#111;color:#fff;border:none;padding:9px 12px;border-radius:999px;font-weight:800;font-size:11px;cursor:pointer;white-space:nowrap}
+.card{background:#fff;border:1px solid #eee;border-radius:20px;padding:16px;margin-top:12px}
+.card label{font-size:11px;font-weight:800;display:block;margin:12px 0 6px;letter-spacing:.5px}.card label:first-child{margin-top:0}
+.types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.types button{padding:12px 6px;border-radius:14px;border:2px solid #eee;background:#fff;font-weight:800;font-size:12px;cursor:pointer}.types button.active{border-color:#111;background:#111;color:#fff}
+.types button small{display:block;font-size:10px;font-weight:400;color:#888;margin-top:3px}.types button.active small{color:#d8b45a}
+.styles{display:flex;gap:8px;flex-wrap:wrap}.styles button{padding:9px 14px;border-radius:999px;border:1px solid #eee;background:#fff;font-weight:700;font-size:12px;cursor:pointer}.styles button.active{background:#111;color:#fff}
+.colors{display:flex;gap:8px;flex-wrap:wrap}.color{width:34px;height:34px;border-radius:50%;cursor:pointer;border:3px solid transparent}.color.active{border-color:#111;transform:scale(1.15)}
+input,select,textarea{width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;outline:none;font-family:'Inter',sans-serif}
+textarea{resize:none}
+.examples{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.examples button{background:#f5f1ea;border:none;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700;cursor:pointer}
+.upload-box{border:2px dashed #d8b45a;border-radius:16px;padding:14px;text-align:center;background:#fffdf5;cursor:pointer;margin-top:6px}
+.upload-box img{width:100%;height:160px;object-fit:cover;border-radius:12px;display:none}
+.upload-box .txt{font-size:12px;color:#666;line-height:1.5}.upload-box .txt b{color:#111}
+.ref-actions{display:flex;gap:8px;margin-top:8px}.ref-actions button{flex:1;padding:10px;border:none;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer}
+.gen{width:100%;padding:15px;border:none;border-radius:999px;font-weight:900;font-size:15px;cursor:pointer;background:linear-gradient(90deg,#111,#9333ea,#ec4899);color:#fff;margin-top:14px}
+.gen:disabled{opacity:.6}
+.results{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.result{background:#fff;border:1px solid #eee;border-radius:18px;overflow:hidden;cursor:pointer}
+.result canvas{width:100%;display:block}.result .pad{padding:10px}.result b{font-size:12px;display:block}.result button{width:100%;padding:10px;border:none;border-radius:999px;font-weight:800;margin-top:8px;cursor:pointer;font-size:12px}
+.result button.use{background:#111;color:#fff}.result button.dl{background:#16a34a;color:#fff}
+.loading{display:none;text-align:center;padding:20px;background:#fff;border-radius:18px;margin-top:12px}.loading .spin{font-size:36px;animation:spin 1s linear infinite;display:inline-block}@keyframes spin{to{transform:rotate(360deg)}}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.sheet{background:#fff;width:100%;max-width:460px;border-radius:24px;padding:22px;text-align:center;max-height:90vh;overflow-y:auto}
+.sheet h2{font-family:'Playfair Display',serif;font-style:italic;font-size:24px}.sheet p{font-size:13px;color:#666;margin-top:8px;line-height:1.6}
+.btn{width:100%;padding:13px;border:none;border-radius:999px;font-weight:800;margin-top:10px;cursor:pointer}.btn-dark{background:#111;color:#fff}.btn-gold{background:#b08d3e;color:#fff}.btn-close{background:#eee;color:#111}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}.bottom a.active{color:#111;font-weight:700}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:200;max-width:90%;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div>
+  <div style="display:flex;gap:8px">
+    <button onclick="location.href='notification.html'" style="background:#fff;color:#111;border:none;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer">🔔 Notification</button>
+    <button onclick="location.href='designs.html'" style="background:#111;color:#fff;border:1px solid #3a2f1c;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer">← Designs</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="hero"><h1>🤖 AI <span>Design</span></h1><p>Describe ANY design — or show AI a sample from your phone.<br>AI will create it in seconds.<br><b>Logo • Brand • Flyer • Poster • Anything</b></p><span class="pill" id="heroPill">✨ 5 FREE Designs — Then Subscription</span></div>
+
+<!-- LIMIT BAR - NO PRICE HERE -->
+<div class="limit-bar">
+<div><div class="num" id="leftNum">5</div><div style="font-size:11px;color:#888">Free Left</div></div>
+<div style="flex:1"><div style="font-size:12px;font-weight:800" id="limitText">You have 5 free AI designs</div><div class="bar"><div class="fill" id="limitFill" style="width:100%"></div></div><div style="font-size:11px;color:#888;margin-top:4px" id="limitSub">After 5, subscribe to continue unlimited</div></div>
+<button id="limitBtn" onclick="location.href='subscription.html'">Subscribe →</button>
+</div>
+
+<div class="card">
+<label>1. What Do You Want To Design? — ANY TYPE</label>
+<div class="types" id="types">
+<button class="active" onclick="setType('Logo',this)">🏷️ Logo<small>For your brand</small></button>
+<button onclick="setType('Flyer',this)">📢 Flyer<small>Sale / Event</small></button>
+<button onclick="setType('Brand Kit',this)">🏢 Brand Kit<small>Colors + Logo</small></button>
+<button onclick="setType('Poster',this)">🖼️ Poster<small>Big design</small></button>
+<button onclick="setType('Business Card',this)">💳 Business Card<small>Your card</small></button>
+<button onclick="setType('Social Post',this)">📱 Social Post<small>Instagram / WhatsApp</small></button>
+</div>
+<label>Or Type Your Own Type</label>
+<input id="customType" placeholder="e.g. Wedding Invitation, Menu, Album Cover, T-Shirt, Banner...">
+<label>2. Describe It — Be Specific</label>
+<textarea id="prompt" rows="3" placeholder="e.g. Luxury fashion brand called ADA COUTURE, black and gold, elegant, with crown icon...">Luxury fashion brand called LUXORA, black and gold, elegant, with crown</textarea>
+<div class="examples">
+<button onclick="setPrompt('Luxury fashion brand, black and gold, elegant, crown')">👑 Fashion Luxury</button>
+<button onclick="setPrompt('Fast food restaurant, red and yellow, fun, burger, tasty')">🍔 Fast Food</button>
+<button onclick="setPrompt('Beauty salon, pink and white, soft, glow, elegant')">💄 Beauty Salon</button>
+<button onclick="setPrompt('Wedding invitation, gold and white, romantic, flowers')">💍 Wedding</button>
+<button onclick="setPrompt('Tech company, blue and white, modern, clean, professional')">💻 Tech</button>
+<button onclick="setPrompt('Church event, purple and gold, holy, celebration')">⛪ Church</button>
+</div>
+
+<label>3. 📸 Show AI A Sample From Your Phone (Optional)</label>
+<div class="upload-box" onclick="document.getElementById('sampleFile').click()">
+<img id="samplePreview">
+<div class="txt" id="sampleTxt"><b>Tap to upload sample</b><br>Pick a photo, logo, flyer, or anything you like.<br>AI will use its colors & style as inspiration.<br><span style="color:#b08d3e;font-weight:800">From Gallery / Camera</span></div>
+</div>
+<input type="file" id="sampleFile" accept="image/*" hidden onchange="handleSample(event)">
+<div class="ref-actions" id="refActions" style="display:none">
+<button style="background:#111;color:#fff" onclick="document.getElementById('sampleFile').click()">🔄 Change Sample</button>
+<button style="background:#ffe5e5;color:#c00" onclick="removeSample()">🗑️ Remove Sample</button>
+</div>
+
+<label>4. How Should AI Use Your Sample?</label>
+<div class="styles" id="useSampleWrap">
+<button class="active" onclick="setSampleMode('style',this)">🎨 Use Its Style & Colors</button>
+<button onclick="setSampleMode('remake',this)">🔄 Remake It With My Brand</button>
+<button onclick="setSampleMode('improve',this)">✨ Improve It / Make It Luxury</button>
+</div>
+<label>5. Style</label>
+<div class="styles" id="styles">
+<button class="active" onclick="setStyle('Luxury',this)">👑 Luxury</button>
+<button onclick="setStyle('Modern',this)">✨ Modern</button>
+<button onclick="setStyle('Bold',this)">🔥 Bold</button>
+<button onclick="setStyle('Soft',this)">🌸 Soft</button>
+<button onclick="setStyle('Minimal',this)">⬜ Minimal</button>
+</div>
+<label>6. Main Color</label>
+<div class="colors" id="colors"></div>
+<label>7. Your Brand / Business Name</label>
+<input id="brandName" placeholder="e.g. Ada Couture" value="LUXORA">
+<label>Your Phone / WhatsApp (to put on design)</label>
+<input id="brandPhone" placeholder="e.g. 0803 123 4567 — optional">
+<button class="gen" id="genBtn" onclick="generate()">✨ Generate Design With AI →</button>
+<p style="text-align:center;font-size:11px;color:#888;margin-top:8px">AI creates 4 variations. If you uploaded a sample, AI will copy its vibe.</p>
+</div>
+
+<div class="loading" id="loading"><div class="spin">🤖</div><h3 style="margin-top:10px">AI is designing...</h3><p style="font-size:12px;color:#888;margin-top:6px" id="loadText">Looking at your sample...</p></div>
+
+<div id="resultsWrap" style="display:none">
+<h3 style="font-size:16px;margin-top:14px">✨ Your AI Designs</h3>
+<p style="font-size:12px;color:#888;margin-top:4px" id="resultsNote"></p>
+<div class="results" id="results"></div>
+<div style="background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;margin-top:12px;text-align:center">
+<h3 style="font-size:14px">Not Perfect Yet?</h3>
+<p style="font-size:12px;color:#888;margin-top:4px">Tap Regenerate to get 4 new ideas.</p>
+<button onclick="generate()" style="background:#111;color:#fff;border:none;padding:11px 18px;border-radius:999px;font-weight:800;margin-top:8px;cursor:pointer">🔄 Regenerate New 4 →</button>
+</div>
+</div>
+</div>
+
+<!-- SUBSCRIPTION LOCK - NO PRICE, JUST LINK TO subscription.html -->
+<div class="modal" id="paywall"><div class="sheet">
+<div style="font-size:44px">🔒</div>
+<h2>You Used All 5 Free Designs</h2>
+<p>You have created <b>5 free AI designs</b>.<br>To create & save more, subscribe.<br><br>Subscribers get <b>UNLIMITED</b> AI designs, save & download, premium templates.</p>
+<button class="btn btn-gold" onclick="location.href='subscription.html'">👑 View Subscription Plans →</button>
+<button class="btn btn-dark" onclick="location.href='verification.html'">✅ Verify My Account →</button>
+<button class="btn btn-close" onclick="closePaywall()">Close</button>
+<p style="font-size:11px;color:#888;margin-top:8px">Prices are shown in Subscription page.</p>
+</div></div>
+
+<div class="modal" id="bigView"><div class="sheet">
+<canvas id="bigCanvas" width="600" height="600" style="width:100%;border-radius:12px"></canvas>
+<h3 id="bigTitle" style="margin-top:10px"></h3>
+<p id="bigDesc" style="font-size:12px;color:#888;margin-top:4px"></p>
+<div style="display:flex;gap:8px">
+<button class="btn btn-dark" style="flex:1" onclick="editInTool()">🎨 Edit In Manual Tool</button>
+<button class="btn" style="flex:1;background:#16a34a;color:#fff" onclick="downloadBig()">⬇️ Download</button>
+</div>
+<button class="btn btn-close" onclick="closeBig()">Close</button>
+</div></div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html" class="active">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_WHATSAPP='2347083358402';
+const FREE_LIMIT=5;
+let currentType='Logo', currentStyle='Luxury', currentColor='#111111', sampleMode='style', sampleImg=null, sampleData=null, generated=[];
+let palette=['#111111','#b08d3e','#d8b45a','#dc2626','#ec4899','#9333ea','#2563eb','#16a34a','#f59e0b','#06b6d4'];
+
+// === SUBSCRIPTION CHECK - NO PRICE HERE, PRICE IS IN subscription.html ===
+function isSubscribed(){
+  // Check all possible subscription flags - subscription.html will set one of these
+  if(localStorage.getItem('luxora_subscribed')==='true') return true;
+  if(localStorage.getItem('luxora_is_pro')==='true') return true;
+  if(localStorage.getItem('luxora_subscription_active')==='true') return true;
+  let sess=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+  let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+  if(sess && users[sess.email]){
+    let u=users[sess.email];
+    if(u.subscribed || u.subscription==='active' || u.plan==='pro' || u.isPro) return true;
+    if(u.subUntil && Date.now()<u.subUntil) return true;
+    if(u.proUntil && Date.now()<u.proUntil) return true;
+  }
+  return false;
+}
+function getUsed(){ return parseInt(localStorage.getItem('luxora_ai_used')||'0'); }
+function setUsed(n){ localStorage.setItem('luxora_ai_used', String(n)); }
+function getLeft(){ if(isSubscribed()) return 999; return Math.max(0, FREE_LIMIT - getUsed()); }
+function updateLimit(){
+  let sub=isSubscribed(), left=getLeft(), used=getUsed();
+  if(sub){
+    document.getElementById('leftNum').textContent='∞';
+    document.getElementById('limitText').textContent='✅ Subscribed — Unlimited AI Designs';
+    document.getElementById('limitSub').textContent='Create as many as you want. No limit.';
+    document.getElementById('limitFill').style.width='100%';
+    document.getElementById('heroPill').textContent='👑 Subscribed — Unlimited AI Designs';
+    document.getElementById('limitBtn').style.display='none';
+  } else {
+    document.getElementById('leftNum').textContent=left;
+    document.getElementById('limitText').textContent=`You have ${left} free AI designs left (${used}/${FREE_LIMIT} used)`;
+    document.getElementById('limitSub').textContent='After 5, subscribe to continue unlimited';
+    document.getElementById('limitFill').style.width=(left/FREE_LIMIT*100)+'%';
+    document.getElementById('heroPill').textContent=`✨ ${left} FREE Designs Left — Then Subscription`;
+    document.getElementById('limitBtn').style.display='block';
+  }
+}
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000)}
+function renderColors(){ document.getElementById('colors').innerHTML=palette.map(c=>`<div class="color ${c===currentColor?'active':''}" style="background:${c}" onclick="setColor('${c}')"></div>`).join(''); }
+function setColor(c){ currentColor=c; renderColors(); }
+function setType(t,el){ currentType=t; document.getElementById('customType').value=''; document.querySelectorAll('#types button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); }
+function setStyle(s,el){ currentStyle=s; document.querySelectorAll('#styles button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); }
+function setSampleMode(m,el){ sampleMode=m; document.querySelectorAll('#useSampleWrap button').forEach(b=>b.classList.remove('active')); el.classList.add('active'); }
+function setPrompt(t){ document.getElementById('prompt').value=t; }
+function getFinalType(){ let c=document.getElementById('customType').value.trim(); return c||currentType; }
+function handleSample(e){
+  let file=e.target.files[0]; if(!file) return;
+  let reader=new FileReader();
+  reader.onload=(ev)=>{ sampleData=ev.target.result; let img=new Image(); img.onload=()=>{ sampleImg=img; }; img.src=sampleData; document.getElementById('samplePreview').src=sampleData; document.getElementById('samplePreview').style.display='block'; document.getElementById('sampleTxt').innerHTML='<b style="color:#16a34a">✅ Sample Added!</b><br>AI will use this as inspiration.'; document.getElementById('refActions').style.display='flex'; toast('Sample added! AI will copy its style ✨'); };
+  reader.readAsDataURL(file);
+}
+function removeSample(){ sampleImg=null; sampleData=null; document.getElementById('sampleFile').value=''; document.getElementById('samplePreview').style.display='none'; document.getElementById('sampleTxt').innerHTML='<b>Tap to upload sample</b><br>Pick a photo, logo, flyer, or anything you like.<br>AI will use its colors & style as inspiration.'; document.getElementById('refActions').style.display='none'; toast('Sample removed'); }
+function getEmoji(){
+  let p=(document.getElementById('prompt').value||'').toLowerCase();
+  if(p.includes('food')||p.includes('burger')||p.includes('restaurant')) return '🍔';
+  if(p.includes('beauty')||p.includes('salon')||p.includes('makeup')) return '💄';
+  if(p.includes('wedding')||p.includes('marriage')) return '💍';
+  if(p.includes('tech')||p.includes('computer')) return '💻';
+  if(p.includes('church')||p.includes('gospel')) return '⛪';
+  if(p.includes('fashion')||p.includes('cloth')) return '👗';
+  if(p.includes('crown')||p.includes('luxury')||p.includes('royal')) return '👑';
+  if(p.includes('fitness')||p.includes('gym')) return '💪';
+  if(p.includes('house')||p.includes('real estate')) return '🏠';
+  if(p.includes('music')||p.includes('album')) return '🎵';
+  return '✨';
+}
+function getSecondColor(){ let map={'Luxury':'#d8b45a','Modern':'#2563eb','Bold':'#dc2626','Soft':'#ec4899','Minimal':'#ffffff'}; return map[currentStyle]||'#d8b45a'; }
+function drawDesign(canvas, variant){
+  let ctx=canvas.getContext('2d'); let W=canvas.width, H=canvas.height;
+  let c1=currentColor, c2=getSecondColor(), emoji=getEmoji();
+  let brand=(document.getElementById('brandName').value||'LUXORA').toUpperCase();
+  let phone=document.getElementById('brandPhone').value.trim();
+  let finalType=getFinalType();
+  ctx.clearRect(0,0,W,H);
+  if(sampleImg && variant!==1){ ctx.globalAlpha = sampleMode==='remake' ? 0.35 : 0.22; ctx.drawImage(sampleImg, 0, 0, W, H); ctx.globalAlpha=1; ctx.fillStyle='rgba(0,0,0,0.45)'; ctx.fillRect(0,0,W,H); }
+  else if(variant===0){ let g=ctx.createLinearGradient(0,0,W,H); g.addColorStop(0,c1); g.addColorStop(1,c2); ctx.fillStyle=g; ctx.fillRect(0,0,W,H); }
+  else if(variant===1){ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,W,H); ctx.fillStyle=c1; ctx.beginPath(); ctx.arc(W/2,H/2,230,0,Math.PI*2); ctx.fill(); }
+  else if(variant===2){ ctx.fillStyle=c2; ctx.fillRect(0,0,W,H); ctx.fillStyle=c1; ctx.fillRect(0,0,W,H*0.55); }
+  else { ctx.fillStyle='#111111'; ctx.fillRect(0,0,W,H); ctx.strokeStyle=c2; ctx.lineWidth=6; ctx.strokeRect(20,20,W-40,H-40); }
+  if(sampleImg && sampleMode==='remake'){ ctx.save(); ctx.beginPath(); ctx.arc(W/2, 110, 55, 0, Math.PI*2); ctx.clip(); ctx.drawImage(sampleImg, W/2-55, 55, 110, 110); ctx.restore(); ctx.strokeStyle='#fff'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(W/2,110,55,0,Math.PI*2); ctx.stroke(); }
+  ctx.textAlign='center'; ctx.font='80px sans-serif'; ctx.fillText(emoji, W/2, sampleMode==='remake'&&sampleImg?260:210);
+  ctx.fillStyle='#fff'; ctx.font='900 36px Inter, sans-serif'; let name=brand.length>16? brand.slice(0,16): brand; ctx.fillText(name, W/2, sampleMode==='remake'&&sampleImg?320:300);
+  ctx.font='700 15px Inter, sans-serif'; ctx.fillStyle='#fff'; ctx.fillText(currentStyle.toUpperCase()+' • '+finalType.toUpperCase() + (sampleImg? ' • INSPIRED BY SAMPLE':''), W/2, 350);
+  ctx.font='italic 16px Playfair Display, serif'; ctx.fillStyle='rgba(255,255,255,.9)';
+  let tag = sampleMode==='improve' ? 'MADE BETTER • LUXURY VERSION' : sampleMode==='remake' ? 'REMADE WITH YOUR BRAND' : (finalType==='Logo' ? 'PREMIUM BRAND' : finalType==='Flyer' ? 'ORDER NOW • LIMITED OFFER' : 'DESIGNED BY LUXORA AI');
+  ctx.fillText(tag, W/2, 385);
+  if(phone){ ctx.font='700 16px Inter, sans-serif'; ctx.fillStyle='#d8b45a'; ctx.fillText(phone, W/2, 420); }
+  ctx.fillStyle='rgba(0,0,0,.3)'; ctx.fillRect(0,H-60,W,60); ctx.fillStyle='#fff'; ctx.font='700 14px Inter, sans-serif'; ctx.fillText('LUXORA.DEV  •  AI DESIGN', W/2, H-22);
+  return canvas.toDataURL();
+}
+function generate(){
+  if(!isSubscribed() && getUsed()>=FREE_LIMIT){ openPaywall(); return; }
+  let prompt=document.getElementById('prompt').value.trim();
+  if(!prompt && !sampleImg){ toast('Describe it OR upload a sample'); return; }
+  document.getElementById('loading').style.display='block'; document.getElementById('resultsWrap').style.display='none'; document.getElementById('genBtn').disabled=true;
+  let steps = sampleImg ? ['Looking at your sample...','Copying its colors...','Adding your brand name...','Making it luxury...','Creating 4 versions...'] : ['Thinking of colors...','Choosing fonts...','Drawing layout...','Adding luxury touch...','Creating 4 versions...'];
+  let i=0; let iv=setInterval(()=>{ document.getElementById('loadText').textContent=steps[i%steps.length]; i++; }, 600);
+  setTimeout(()=>{
+    clearInterval(iv); document.getElementById('loading').style.display='none'; document.getElementById('genBtn').disabled=false;
+    if(!isSubscribed()){ setUsed(getUsed()+1); }
+    updateLimit();
+    generated=[]; let wrap=document.getElementById('results'); wrap.innerHTML=''; let finalType=getFinalType();
+    document.getElementById('resultsNote').textContent = sampleImg ? `✨ Used your sample as inspiration — Mode: ${sampleMode} • Style: ${currentStyle}` : `Style: ${currentStyle} • Based on your description`;
+    for(let v=0; v<4; v++){
+      let c=document.createElement('canvas'); c.width=600; c.height=600; let data=drawDesign(c,v); generated.push(data);
+      let div=document.createElement('div'); div.className='result';
+      div.innerHTML=`<canvas width="600" height="600"></canvas><div class="pad"><b>Variation ${v+1} — ${currentStyle} ${finalType}</b><button class="use" onclick="openBig(${v},event)">👁️ View Full</button><button class="dl" onclick="downloadOne(${v},event)">⬇️ Download</button></div>`;
+      let rc=div.querySelector('canvas'); let rctx=rc.getContext('2d'); let img=new Image(); img.onload=()=>rctx.drawImage(img,0,0); img.src=data; div.querySelector('canvas').onclick=()=>openBig(v); wrap.appendChild(div);
+    }
+    document.getElementById('resultsWrap').style.display='block'; document.getElementById('resultsWrap').scrollIntoView({behavior:'smooth'});
+    toast(isSubscribed() ? 'AI created 4 designs! ✨ Unlimited' : `AI created 4 designs! ${getLeft()} free left`);
+    if(!isSubscribed() && getUsed()>=FREE_LIMIT){ setTimeout(openPaywall, 1200); }
+  }, 2600);
+}
+let bigIndex=0;
+function openBig(v,e){ if(e) e.stopPropagation(); bigIndex=v; let c=document.getElementById('bigCanvas'); let ctx=c.getContext('2d'); let img=new Image(); img.onload=()=>{ ctx.clearRect(0,0,600,600); ctx.drawImage(img,0,0); }; img.src=generated[v]; document.getElementById('bigTitle').textContent='Variation '+(v+1)+' — '+getFinalType(); document.getElementById('bigDesc').textContent= sampleImg ? 'Inspired by your sample • '+sampleMode : document.getElementById('prompt').value; document.getElementById('bigView').style.display='flex'; }
+function closeBig(){ document.getElementById('bigView').style.display='none'; }
+function downloadBig(){ let a=document.createElement('a'); a.download='luxora-ai-design.png'; a.href=generated[bigIndex]; a.click(); toast('Downloaded!'); }
+function downloadOne(v,e){ e.stopPropagation(); let a=document.createElement('a'); a.download='luxora-ai-'+(v+1)+'.png'; a.href=generated[v]; a.click(); toast('Downloaded Variation '+(v+1)); }
+function editInTool(){ let saved=JSON.parse(localStorage.getItem('luxora_saved_designs')||'[]'); saved.unshift({img:generated[bigIndex], time:Date.now()}); localStorage.setItem('luxora_saved_designs', JSON.stringify(saved.slice(0,12))); location.href='design-tool.html'; }
+function openPaywall(){ document.getElementById('paywall').style.display='flex'; }
+function closePaywall(){ document.getElementById('paywall').style.display='none'; }
+renderColors(); updateLimit();
+</script>
+</body>
+</html>
