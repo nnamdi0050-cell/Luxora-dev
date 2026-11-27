@@ -1,0 +1,158 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxora — Secure Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#ffffff;color:#111;font-family:'Inter',sans-serif;padding:0 16px 40px}
+.top{max-width:440px;margin:0 auto;padding:16px 0 0;display:flex;align-items:center;gap:12px}
+.top a{font-size:22px;text-decoration:none;color:#111}
+.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;text-align:center;flex:1}
+.logo span{color:#b08d3e}
+.wrap{max-width:440px;margin:0 auto}
+.secure{display:flex;align-items:center;justify-content:center;gap:6px;background:#f0fdf4;border:1px solid #bbf7d0;color:#166534;padding:9px;border-radius:999px;font-size:12px;font-weight:700;margin-top:14px}
+.card{background:#fff;border:1px solid #eee;border-radius:20px;padding:20px;margin-top:14px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.card h2{font-family:'Playfair Display',serif;font-style:italic;font-size:22px}
+.card p{font-size:12px;color:#888;margin-top:4px;line-height:1.6}
+label{display:block;font-size:12px;font-weight:700;margin:16px 0 6px}
+input,select{width:100%;padding:13px;border:1.5px solid #eee;border-radius:12px;outline:none;font-size:14px;background:#FFFEFB}
+input:focus{border-color:#d8b45a}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.plan{border:1.5px solid #eee;border-radius:16px;padding:14px;cursor:pointer;text-align:left;background:#fff}
+.plan.active{border-color:#111;background:#111;color:#fff}
+.plan b{font-size:14px;display:block}.plan span{font-size:11px;color:#888;display:block;margin-top:3px;line-height:1.5}
+.plan.active span{color:#ccc}
+.plan .price{font-size:18px;font-weight:800;margin-top:6px}
+.badge{display:inline-block;background:#d8b45a;color:#111;font-size:10px;font-weight:800;padding:3px 8px;border-radius:999px;margin-top:6px}
+.methods{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.methods button{border:1.5px solid #eee;background:#fff;padding:11px 4px;border-radius:12px;font-weight:700;font-size:12px;cursor:pointer}
+.methods button.active{background:#111;color:#fff;border-color:#111}
+.info{background:#FFFEFB;border:1px dashed #ddd;padding:14px;border-radius:12px;margin-top:14px;font-size:13px;line-height:1.7;display:none}
+.summary{background:#F5F1EA;border-radius:14px;padding:14px;margin-top:16px}
+.summary div{display:flex;justify-content:space-between;font-size:13px;margin:4px 0;color:#555}
+.summary div.total{font-size:16px;font-weight:800;color:#111;border-top:1px solid #ddd;padding-top:8px;margin-top:8px}
+.pay{width:100%;background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111;border:none;padding:15px;border-radius:999px;font-weight:800;font-size:15px;margin-top:16px;cursor:pointer}
+.paid{width:100%;background:#fff;color:#111;border:1.5px solid #111;padding:14px;border-radius:999px;font-weight:800;font-size:14px;margin-top:10px;cursor:pointer}
+.trust{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.trust span{background:#f5f1ea;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:600}
+.note{text-align:center;font-size:11px;color:#999;margin-top:14px;line-height:1.6}
+.note a{color:#111;font-weight:700}
+.copyBtn{background:#111;color:#fff;padding:3px 9px;border-radius:999px;font-size:11px;cursor:pointer;border:none;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="top"><a href="subscription.html">←</a><div class="logo">LUXORA<span>.DEV</span></div><div style="width:22px"></div></div>
+
+<div class="wrap">
+<div class="secure">🔒 256-bit SSL Secure Payment &nbsp;•&nbsp; Powered by Flutterwave</div>
+
+<div class="card">
+<h2>Complete Your Payment</h2>
+<p>Choose your plan. You will pay on Flutterwave secure checkout. We never see or store your card details.</p>
+
+<label>1. Choose Plan</label>
+<div class="plans">
+  <div class="plan" onclick="selectPlan('Verification','₦5,000',5000,'https://flutterwave.com/pay/t3lfbpnpvo8f',this)"><b>Verification</b><span>Verified Badge<br>30 Days</span><div class="price">₦5,000</div></div>
+  <div class="plan active" onclick="selectPlan('Basic','₦10,000',10000,'https://flutterwave.com/pay/vc0iufpti7do',this)"><b>Basic Plan</b><span>1 Template<br>30 Days</span><div class="price">₦10,000</div><span class="badge">MOST POPULAR</span></div>
+  <div class="plan" onclick="selectPlan('Pro','₦25,000',25000,'https://flutterwave.com/pay/cv7cejed47zt',this)"><b>Pro Plan</b><span>5 Templates<br>30 Days</span><div class="price">₦25,000</div></div>
+  <div class="plan" onclick="selectPlan('Premium','₦50,000',50000,'https://flutterwave.com/pay/36edarc8burj',this)"><b>Premium</b><span>All Templates<br>30 Days</span><div class="price">₦50,000</div></div>
+</div>
+
+<label>2. Your Details</label>
+<input id="name" placeholder="Full Name — e.g. John Doe">
+<input id="email" placeholder="Email — e.g. john@gmail.com" style="margin-top:10px" type="email">
+<input id="phone" placeholder="WhatsApp Number — e.g. 0707..." style="margin-top:10px">
+
+<label>3. Payment Method</label>
+<div class="methods">
+  <button type="button" id="m-flutter" class="active" onclick="selectMethod('flutterwave')">Flutterwave</button>
+  <button type="button" id="m-card" onclick="selectMethod('card')">Card</button>
+  <button type="button" id="m-bank" onclick="selectMethod('bank')">Bank Transfer</button>
+</div>
+
+<div class="info" id="info-flutter" style="display:block">
+<b>🔒 Flutterwave Secure Checkout</b><br>
+You will be redirected to Flutterwave to pay with Card, Bank Transfer or USSD. Your payment is protected and verified by Flutterwave.
+</div>
+
+<div class="info" id="info-card">
+<b>💳 Card Payment — Via Flutterwave</b><br>
+Visa, Mastercard & Verve accepted. You will pay on Flutterwave secure page. We do NOT collect your card number, CVV or PIN on Luxora.
+</div>
+
+<div class="info" id="info-bank">
+<b>🏦 Bank Transfer — Palmpay</b><br>
+Bank: <b>Palmpay</b><br>
+Account Name: <b>Jane Omuwa</b><br>
+Account Number: <b>7072369543</b> <button class="copyBtn" onclick="copyAcct()">Copy</button><br><br>
+Transfer the exact amount, then tap <b>"I Have Paid"</b> below and send receipt on WhatsApp.<br>
+<span style="font-size:11px;color:#888">Make sure the name shows Jane Omuwa before you confirm transfer.</span>
+</div>
+
+<div class="summary">
+<div><span>Plan</span><span id="sumPlan">Basic Plan</span></div>
+<div><span>Duration</span><span>30 Days</span></div>
+<div><span>Processing Fee</span><span>₦0</span></div>
+<div class="total"><span>Total to Pay</span><span id="sumAmount">₦10,000</span></div>
+</div>
+
+<button class="pay" id="payBtn" onclick="payNow()">🔒 Pay ₦10,000 Securely</button>
+<button class="paid" onclick="iHavePaid()">I Have Paid — Send Receipt on WhatsApp</button>
+
+<div class="trust"><span>✓ No Card Stored</span><span>✓ Instant Confirmation</span><span>✓ 30-Day Access</span></div>
+<p class="note">By paying, you agree to Luxora terms. Need help? <a href="https://wa.me/2347072369543">Chat on WhatsApp</a><br>Reference: <span id="ref">LUXORA-</span></p>
+</div>
+</div>
+
+<script>
+let currentPlan = 'Basic';
+let currentAmount = 10000;
+let currentAmountText = '₦10,000';
+let currentLink = 'https://flutterwave.com/pay/vc0iufpti7do';
+let currentMethod = 'flutterwave';
+document.getElementById('ref').textContent = 'LUXORA-' + Date.now();
+
+function selectPlan(name, amountText, amount, link, el){
+  currentPlan = name; currentAmount = amount; currentAmountText = amountText; currentLink = link;
+  document.querySelectorAll('.plan').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sumPlan').textContent = name + (name==='Verification' ? '' : ' Plan');
+  document.getElementById('sumAmount').textContent = amountText;
+  document.getElementById('payBtn').textContent = '🔒 Pay ' + amountText + ' Securely';
+}
+function selectMethod(m){
+  currentMethod = m;
+  ['flutter','card','bank'].forEach(x=>document.getElementById('m-'+x).classList.remove('active'));
+  ['flutter','card','bank'].forEach(x=>document.getElementById('info-'+x).style.display='none');
+  if(m==='flutterwave'){ document.getElementById('m-flutter').classList.add('active'); document.getElementById('info-flutter').style.display='block'; document.getElementById('payBtn').textContent='🔒 Pay '+currentAmountText+' Securely'; }
+  if(m==='card'){ document.getElementById('m-card').classList.add('active'); document.getElementById('info-card').style.display='block'; document.getElementById('payBtn').textContent='💳 Pay with Card — '+currentAmountText; }
+  if(m==='bank'){ document.getElementById('m-bank').classList.add('active'); document.getElementById('info-bank').style.display='block'; document.getElementById('payBtn').textContent='Show Bank Details'; }
+}
+function copyAcct(){
+  navigator.clipboard.writeText('7072369543').then(()=>alert('Account number copied: 7072369543 - Jane Omuwa (Palmpay)'));
+}
+function payNow(){
+  let name = document.getElementById('name').value.trim();
+  let email = document.getElementById('email').value.trim();
+  if(!name || !email){ alert('Please enter your Full Name and Email first — we need am to unlock you after payment.'); return; }
+  if(currentMethod==='bank'){
+    document.getElementById('info-bank').scrollIntoView({behavior:'smooth'});
+    alert('Copy the Bank Details and transfer ' + currentAmountText + ' to Jane Omuwa (Palmpay 7072369543) for ' + currentPlan + '. Then tap "I Have Paid".');
+    return;
+  }
+  window.location.href = currentLink;
+}
+function iHavePaid(){
+  let name = document.getElementById('name').value.trim();
+  let email = document.getElementById('email').value.trim();
+  if(!name || !email){ alert('Enter your Name and Email first, so admin go fit find you to unlock.'); return; }
+  let msg = 'Hello Luxora, I have paid for ' + currentPlan + ' Plan (' + currentAmountText + ') via ' + currentMethod + '. My name is ' + name + '. My email is ' + email + '. Here is my receipt:';
+  window.location.href = 'https://wa.me/2347072369543?text=' + encodeURIComponent(msg);
+}
+</script>
+</body>
+</html>
