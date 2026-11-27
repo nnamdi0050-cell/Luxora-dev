@@ -1,0 +1,199 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Advertise Your Product</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0d0b08;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.topnav2{background:#0d0b08;padding:0 16px 12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.topnav2 a{padding:9px 14px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.topnav2 a.home{background:#fff;color:#111}.topnav2 a.market{background:#111;color:#fff;border:1px solid #3a2f1c}.topnav2 a.ai{background:#1a160f;color:#d8b45a;border:1px solid #3a2f1c}.topnav2 a.follow{background:#0fa958;color:#fff}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 100px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:24px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:30px}.hero p{color:#ccc;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;margin-top:6px}
+.status-banner{border-radius:16px;padding:14px;margin-top:14px;text-align:center;font-size:13px;line-height:1.6}
+.status-banner.free{background:#fff3cd;border:1px solid #f0d48a}.status-banner.verified{background:#d1fae5;border:1px solid #6ee7b7}.status-banner.expired{background:#fee2e2;border:1px solid #fca5a5}
+.status-banner b{font-size:14px}.status-banner button{margin-top:8px;border:none;padding:9px 16px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer;background:#111;color:#fff}
+.trust{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}.trust span{background:#fff;border:1px solid #eee;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:700}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.plan{background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;text-align:center;cursor:pointer}.plan.active{border:2px solid #b08d3e;background:#fffdf5}.plan.locked{opacity:.55}.plan b{font-size:15px}.plan span{display:block;font-size:11px;color:#888;margin-top:4px}.plan .price{font-size:15px;font-weight:800;margin-top:6px;color:#111}.plan.verif .price{color:#0a7a44}
+.form{background:#fff;border:1px solid #eee;border-radius:20px;padding:18px;margin-top:14px}.form h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+.form label{display:block;font-size:12px;font-weight:700;margin:14px 0 6px}
+.form input,.form select,.form textarea{width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;outline:none;font-size:14px;background:#FFFEFB}.form input:focus,.form select:focus,.form textarea:focus{border-color:#b08d3e}.form textarea{min-height:70px;resize:vertical}
+.form input:disabled,.form select:disabled,.form textarea:disabled{background:#f3f3f3;color:#888}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.hint{font-size:11px;color:#888;margin-top:4px}.char{font-size:11px;color:#888;text-align:right;margin-top:4px}
+.img-preview{width:100%;height:190px;border:1.5px dashed #ddd;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa;color:#999;font-size:13px;text-align:center;line-height:1.5}.img-preview img{width:100%;height:100%;object-fit:cover}
+.upload-btn{display:block;text-align:center;background:#f5f1ea;padding:11px;border-radius:999px;font-weight:700;font-size:13px;margin-top:8px;cursor:pointer}
+.checks{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.checks label{display:flex;align-items:center;gap:6px;background:#f9f7f2;border:1px solid #eee;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:600;margin:0;cursor:pointer}.checks input{width:auto;margin:0}
+.preview-card{border:1px solid #eee;border-radius:16px;overflow:hidden;margin-top:14px;display:none}.preview-card img{width:100%;height:180px;object-fit:cover}.preview-body{padding:12px}.preview-body b{font-size:15px}.preview-body p{font-size:12px;color:#888;margin-top:4px}
+.submit{width:100%;background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111;border:none;padding:15px;border-radius:999px;font-weight:800;font-size:15px;margin-top:16px;cursor:pointer}.submit:disabled{opacity:.5;cursor:not-allowed;background:#ccc}
+.secondary{width:100%;background:#fff;border:1px solid #ddd;color:#111;padding:12px;border-radius:999px;font-weight:700;font-size:13px;margin-top:10px;cursor:pointer}
+.note{font-size:11px;color:#888;text-align:center;margin-top:10px;line-height:1.6}
+.my-ads{margin-top:20px}.my-ads h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+.acard{background:#fff;border:1px solid #eee;border-radius:16px;margin-top:12px;padding:12px;display:flex;gap:12px;align-items:flex-start}.acard img{width:72px;height:72px;object-fit:cover;border-radius:12px}.acard b{font-size:14px}.acard span{font-size:12px;color:#888;display:block;margin-top:2px}
+.acard .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.acard button{border:none;padding:7px 11px;border-radius:999px;font-weight:700;font-size:11px;cursor:pointer}.btn-view{background:#111;color:#fff}.btn-edit{background:#fef3c7;color:#92400e}.btn-share{background:#e6f7ee;color:#0a7a44}.btn-del{background:#ffe5e5;color:#c00}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:99;max-width:90%;text-align:center}
+.lock-overlay{background:#111;color:#fff;border-radius:18px;padding:18px;margin-top:14px;text-align:center;display:none}.lock-overlay h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}.lock-overlay p{font-size:12px;color:#bbb;margin-top:6px;line-height:1.6}.lock-overlay button{margin-top:12px;background:#1d4ed8;color:#fff;border:none;padding:12px 20px;border-radius:999px;font-weight:800;cursor:pointer}
+.success{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.success-card{background:#fff;border-radius:20px;padding:22px;text-align:center;max-width:360px;width:100%}.success-card h2{font-family:'Playfair Display',serif;font-style:italic;font-size:24px}.success-card p{font-size:13px;color:#666;margin-top:8px;line-height:1.6}.success-card button{width:100%;padding:13px;border-radius:999px;border:none;font-weight:800;margin-top:10px;cursor:pointer}
+</style>
+</head>
+<body>
+<header><div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div>🔔</div></header>
+<div class="topnav2"><a href="home.html" class="home">Home</a><a href="marketplace.html" class="market">Marketplace</a><a href="ai.html" class="ai">AI Assistant</a><a href="#" class="follow">Follow Channel</a></div>
+
+<div class="wrap">
+<div class="hero"><h1>Advertise Your Product</h1><p>Post your product. It will appear in the Marketplace.<br>Other users will see it and buy from you.</p></div>
+
+<div id="statusBanner" class="status-banner free"></div>
+
+<div class="trust"><span>1 Free Product</span><span>Verified = Unlimited</span><span>Verification Lasts 30 Days</span></div>
+
+<div class="plans" id="plans">
+<div class="plan active" onclick="setPlan('Free',this)"><b>Free Listing</b><span>1 Product Only • Standard Placement</span><div class="price">Free</div><span>For new sellers</span></div>
+<div class="plan verif" onclick="goVerification()"><b>Verified Seller</b><span>Unlimited Products + Badge</span><div class="price">Get Verified — Monthly</div><span>Renews every 30 days</span></div>
+</div>
+
+<div id="lockOverlay" class="lock-overlay">
+<h3>Verification Required</h3>
+<p id="lockText">You have already used your 1 free product. To publish another product, you must be verified. Verification lasts 30 days.</p>
+<button onclick="location.href='verification.html'">Get Verified Now</button>
+<p style="margin-top:8px">You can still edit or delete your first product below.</p>
+</div>
+
+<div class="form" id="adForm">
+<h3>Your Product Details</h3>
+<label>Product Name *</label>
+<input id="title" placeholder="Example: Luxury Leather Handbag" oninput="updatePreview()">
+<div class="hint">Use a clear name buyers will search for.</div>
+<div class="row"><div><label>Price *</label><input id="price" placeholder="Example: 45000" inputmode="numeric" oninput="updatePreview()"></div><div><label>Stock Quantity</label><input id="stock" type="number" min="1" value="1"></div></div>
+<div class="row"><div><label>Category *</label><select id="category" onchange="updatePreview()"><option value="Fashion">Fashion</option><option value="Shoes">Shoes</option><option value="Bags">Bags</option><option value="Watches">Watches</option><option value="Beauty">Beauty</option><option value="Electronics">Electronics</option></select></div><div><label>Condition *</label><select id="condition"><option value="Brand New">Brand New</option><option value="Like New">Like New</option><option value="Gently Used">Gently Used</option><option value="Pre-Owned">Pre-Owned</option></select></div></div>
+<label>Your Name / Shop Name *</label><input id="sellerName" placeholder="Example: Ada's Store" oninput="updatePreview()">
+<label>WhatsApp Number *</label><input id="whatsapp" placeholder="Example: 08031234567" inputmode="tel"><div class="hint">Buyers will contact you on this number.</div>
+<label>Location / City</label><input id="location" placeholder="Example: Lagos, Abuja, Warri">
+<label>Product Description</label><textarea id="desc" maxlength="300" placeholder="Describe your product: condition, size, color, delivery options..." oninput="updatePreview();countChars()"></textarea><div class="char" id="charCount">0 / 300</div>
+<label>Delivery Options</label><div class="checks"><label><input type="checkbox" id="dPickup" checked> Pickup</label><label><input type="checkbox" id="dDelivery" checked> Delivery</label><label><input type="checkbox" id="dNationwide"> Nationwide Shipping</label></div>
+<label>Product Image *</label><div class="img-preview" id="imgPreview">No image yet<br>Tap below to add a photo</div><label class="upload-btn" for="imgFile">Choose Photo From Gallery</label><input type="file" id="imgFile" accept="image/*" style="display:none" onchange="previewImg(event)">
+<label>Or Paste Image Link (Optional)</label><input id="imgLink" placeholder="https://..." oninput="previewLink()">
+<div class="preview-card" id="livePreview"><img id="prevImg" src=""><div class="preview-body"><b id="prevTitle">Your Product Name</b><p id="prevMeta">Category • Condition</p><p id="prevPrice" style="color:#111;font-weight:800;font-size:14px">Price</p><p id="prevSeller" style="color:#b08d3e;font-weight:700"></p></div></div>
+<div class="hint" style="text-align:center">This is how your product will look in the Marketplace.</div>
+<button class="submit" id="submitBtn" onclick="submitAd()">Post to Marketplace</button>
+<button class="secondary" onclick="clearForm()">Clear Form</button>
+<p class="note">By posting, you confirm your product is real and available.<br>Your product will appear in the Marketplace immediately.</p>
+</div>
+
+<div class="my-ads"><h3>My Advertised Products</h3><p style="font-size:12px;color:#888">Only your products are shown here.</p><div id="myAdsList"></div><div id="noAds" style="text-align:center;color:#888;padding:20px;font-size:13px">You have not advertised anything yet.<br>Post your first product above.</div></div>
+</div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+<div class="success" id="successBox"><div class="success-card"><div style="font-size:40px">✅</div><h2>Posted Successfully</h2><p>Your product is now live in the Marketplace. Buyers can see it and contact you.</p><button style="background:#111;color:#fff" onclick="location.href='marketplace.html'">View in Marketplace</button><button style="background:#f5f1ea;color:#111" onclick="closeSuccess()">Stay on This Page</button></div></div>
+
+<script>
+let selectedPlan='Free'; let selectedImage=''; let editingId=null;
+let session=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+let cur=session&&users[session.email]?users[session.email]:null;
+if(cur) document.getElementById('sellerName').value=cur.name||'';
+
+// ---- VERIFICATION CHECK - MONTHLY (30 DAYS) ----
+function getVerificationStatus(){
+  let all=JSON.parse(localStorage.getItem('luxora_verifications')||'[]');
+  // Find latest approved for this user
+  let mine = cur ? all.filter(x=>x.ownerEmail===(cur.email||session.email)) : all;
+  // Also check by phone/name fallback for guest
+  let approved = mine.filter(x=>x.status==='Approved').sort((a,b)=> (b.approvedAt||b.id)-(a.approvedAt||a.id))[0];
+  if(!approved) return {status:'Not Verified', daysLeft:0, expiry:null};
+  let approvedTime = approved.approvedAt ? new Date(approved.approvedAt).getTime() : new Date(approved.createdAt).getTime();
+  // If Admin approved but did not set approvedAt, use createdAt + check expiry
+  let expiry = approved.expiry ? new Date(approved.expiry).getTime() : approvedTime + (30*24*60*60*1000);
+  let now = Date.now();
+  let daysLeft = Math.ceil((expiry - now)/(24*60*60*1000));
+  if(now > expiry) return {status:'Expired', daysLeft:0, expiry:new Date(expiry), data:approved};
+  return {status:'Verified', daysLeft:daysLeft, expiry:new Date(expiry), data:approved};
+}
+function getMyProductCount(){
+  let all=JSON.parse(localStorage.getItem('luxora_user_products')||'[]');
+  if(cur) return all.filter(x=>x.ownerEmail===(cur.email||session.email)).length;
+  return all.length;
+}
+function canPost(){
+  let count=getMyProductCount();
+  if(editingId) return true; // Editing existing product is always allowed
+  if(count===0) return true; // First product is free for everyone
+  let v=getVerificationStatus();
+  if(v.status==='Verified') return true; // Verified users can post unlimited
+  return false; // 1 product used + not verified = blocked
+}
+function updateBanner(){
+  let v=getVerificationStatus(); let count=getMyProductCount();
+  let banner=document.getElementById('statusBanner');
+  let form=document.getElementById('adForm'); let lock=document.getElementById('lockOverlay');
+  let allowed=canPost();
+  if(v.status==='Verified'){
+    banner.className='status-banner verified';
+    banner.innerHTML=`<b>✓ You Are Verified</b><br>Your verification is active for <b>${v.daysLeft} more day(s)</b> — until ${v.expiry.toLocaleDateString()}.<br>You can publish unlimited products.<button onclick="location.href='verification.html'">Renew Verification</button>`;
+    form.style.display='block'; lock.style.display='none';
+  } else if(v.status==='Expired'){
+    banner.className='status-banner expired';
+    banner.innerHTML=`<b>Your Verification Has Expired</b><br>It expired on ${v.expiry.toLocaleDateString()}. Verification lasts 30 days.<br>You have ${count} product(s). To publish more, renew now.<button onclick="location.href='verification.html'">Renew Verification — Monthly</button>`;
+    if(count>=1 && !editingId){ form.style.display='none'; lock.style.display='block'; document.getElementById('lockText').textContent='Your verification expired. Renew it to publish another product. Your old products are still live.'; }
+    else { form.style.display='block'; lock.style.display='none'; }
+  } else {
+    // Not Verified
+    if(count===0){
+      banner.className='status-banner free';
+      banner.innerHTML=`<b>You Have 1 Free Product</b><br>You have not published yet. Your first product is free.<br>After that, you must get verified to publish more.<button onclick="location.href='verification.html'">Get Verified — Monthly</button>`;
+      form.style.display='block'; lock.style.display='none';
+    } else {
+      banner.className='status-banner free';
+      banner.innerHTML=`<b>You Have Used Your 1 Free Product</b><br>You have ${count} product(s). To publish another one, you must be verified.<br>Verification is monthly — it lasts 30 days.<button onclick="location.href='verification.html'">Get Verified Now</button>`;
+      form.style.display='none'; lock.style.display='block';
+    }
+  }
+  // Update submit button text
+  let btn=document.getElementById('submitBtn');
+  if(!allowed && !editingId){ btn.disabled=true; btn.textContent='Verification Required to Post More'; }
+  else { btn.disabled=false; btn.textContent=editingId?'Update Product':'Post to Marketplace'; }
+}
+
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3200)}
+function setPlan(p,el){selectedPlan=p;document.querySelectorAll('.plan').forEach(x=>x.classList.remove('active'));if(el)el.classList.add('active');}
+function goVerification(){ location.href='verification.html'; }
+function countChars(){ let v=document.getElementById('desc').value; document.getElementById('charCount').textContent=v.length+' / 300'; }
+function previewImg(e){ let file=e.target.files[0]; if(!file) return; let r=new FileReader(); r.onload=function(){selectedImage=r.result; document.getElementById('imgPreview').innerHTML=`<img src="${selectedImage}">`; updatePreview();}; r.readAsDataURL(file); }
+function previewLink(){ let v=document.getElementById('imgLink').value.trim(); if(v){selectedImage=v; document.getElementById('imgPreview').innerHTML=`<img src="${v}">`; updatePreview();} }
+function updatePreview(){ let t=document.getElementById('title').value.trim()||'Your Product Name'; let p=document.getElementById('price').value.trim(); let c=document.getElementById('category').value; let s=document.getElementById('sellerName').value.trim(); document.getElementById('livePreview').style.display='block'; document.getElementById('prevTitle').textContent=t; document.getElementById('prevMeta').textContent=c+' • '+(document.getElementById('condition').value||'Brand New'); document.getElementById('prevPrice').textContent=p?('₦'+Number(p.replace(/[^0-9]/g,'')).toLocaleString()):'Price'; document.getElementById('prevSeller').textContent=s?('Seller: '+s+(getVerificationStatus().status==='Verified'?' ✓ Verified':'')):''; if(selectedImage) document.getElementById('prevImg').src=selectedImage; }
+function clearForm(){ editingId=null; ['title','price','desc','imgLink','location','whatsapp'].forEach(id=>document.getElementById(id).value=''); document.getElementById('stock').value=1; selectedImage=''; selectedPlan='Free'; document.getElementById('imgPreview').innerHTML='No image yet<br>Tap below to add a photo'; document.getElementById('livePreview').style.display='none'; document.getElementById('submitBtn').textContent='Post to Marketplace'; document.querySelectorAll('.plan').forEach(x=>x.classList.remove('active')); document.querySelector('.plan').classList.add('active'); countChars(); updateBanner(); }
+function formatPrice(raw){ let n=Number(String(raw).replace(/[^0-9]/g,'')); if(!n) return raw; return '₦'+n.toLocaleString(); }
+function submitAd(){
+  // ENFORCE RULE BEFORE ANYTHING ELSE
+  if(!canPost()){ toast('You have used your 1 free product. Get verified to publish more.'); setTimeout(()=>location.href='verification.html', 1200); return; }
+  let title=document.getElementById('title').value.trim(); let priceRaw=document.getElementById('price').value.trim(); let category=document.getElementById('category').value; let condition=document.getElementById('condition').value; let sellerName=document.getElementById('sellerName').value.trim(); let whatsapp=document.getElementById('whatsapp').value.trim(); let location=document.getElementById('location').value.trim(); let desc=document.getElementById('desc').value.trim(); let stock=document.getElementById('stock').value||1;
+  if(!title){toast('Please enter a product name');return;}
+  if(!priceRaw || isNaN(Number(priceRaw.replace(/[^0-9]/g,'')))){toast('Please enter a valid price');return;}
+  if(!sellerName){toast('Please enter your name or shop name');return;}
+  if(!whatsapp || whatsapp.replace(/[^0-9]/g,'').length<10){toast('Please enter a valid WhatsApp number');return;}
+  if(!selectedImage){toast('Please add a product photo');return;}
+  let delivery=[]; if(document.getElementById('dPickup').checked) delivery.push('Pickup'); if(document.getElementById('dDelivery').checked) delivery.push('Delivery'); if(document.getElementById('dNationwide').checked) delivery.push('Nationwide Shipping');
+  let v=getVerificationStatus();
+  let all=JSON.parse(localStorage.getItem('luxora_user_products')||'[]');
+  let product={ id:editingId||Date.now(), title:title, name:title, price:formatPrice(priceRaw), category:category, cat:category, condition:condition, sellerName:sellerName, seller:sellerName, whatsapp:whatsapp, location:location, desc:desc, description:desc, stock:stock, delivery:delivery, image:selectedImage, img:selectedImage, plan:selectedPlan, verified:(v.status==='Verified'), verificationExpiry:(v.expiry?v.expiry.toISOString():null), status:'active', createdAt:new Date().toISOString(), ownerEmail:cur?cur.email||session.email:'guest' };
+  if(editingId){ all=all.map(x=>x.id===editingId?product:x); toast('Product updated successfully'); } else { all.unshift(product); }
+  localStorage.setItem('luxora_user_products', JSON.stringify(all)); localStorage.setItem('luxora_ads', JSON.stringify(all));
+  renderMyAds(); clearForm(); updateBanner(); document.getElementById('successBox').style.display='flex';
+}
+function closeSuccess(){ document.getElementById('successBox').style.display='none'; }
+function renderMyAds(){ let all=JSON.parse(localStorage.getItem('luxora_user_products')||'[]'); let mine=cur?all.filter(x=>x.ownerEmail===(cur.email||session.email)):all; if(cur && mine.length===0) mine=all.slice(0,10); document.getElementById('noAds').style.display=mine.length?'none':'block'; document.getElementById('myAdsList').innerHTML=mine.map(it=>`<div class="acard"><img src="${it.image||''}"><div style="flex:1"><b>${it.title} ${it.verified?'✓':''}</b><span>${it.price} • ${it.category} • ${it.condition||''}</span><span>${it.location||''} • Stock: ${it.stock||1}</span><span style="color:#0a7a44;font-weight:700">Live in Marketplace</span><div class="actions"><button class="btn-view" onclick="location.href='marketplace.html'">View</button><button class="btn-edit" onclick="editAd(${it.id})">Edit</button><button class="btn-share" onclick="shareAd('${String(it.title).replace(/'/g,'')}')">Share</button><button class="btn-del" onclick="deleteAd(${it.id})">Delete</button></div></div></div>`).join(''); updateBanner(); }
+function editAd(id){ let all=JSON.parse(localStorage.getItem('luxora_user_products')||'[]'); let it=all.find(x=>x.id===id); if(!it) return; editingId=id; document.getElementById('title').value=it.title||''; document.getElementById('price').value=String(it.price||'').replace(/[^0-9]/g,''); document.getElementById('category').value=it.category||'Fashion'; document.getElementById('condition').value=it.condition||'Brand New'; document.getElementById('sellerName').value=it.sellerName||''; document.getElementById('whatsapp').value=it.whatsapp||''; document.getElementById('location').value=it.location||''; document.getElementById('desc').value=it.desc||''; document.getElementById('stock').value=it.stock||1; selectedImage=it.image||''; if(selectedImage) document.getElementById('imgPreview').innerHTML=`<img src="${selectedImage}">`; document.getElementById('adForm').style.display='block'; document.getElementById('lockOverlay').style.display='none'; document.getElementById('submitBtn').textContent='Update Product'; countChars(); updatePreview(); window.scrollTo({top:0,behavior:'smooth'}); toast('Editing product. Update and save.'); }
+function deleteAd(id){ if(!confirm('Delete this product from the Marketplace?')) return; let all=JSON.parse(localStorage.getItem('luxora_user_products')||'[]'); all=all.filter(x=>x.id!==id); localStorage.setItem('luxora_user_products', JSON.stringify(all)); localStorage.setItem('luxora_ads', JSON.stringify(all)); renderMyAds(); toast('Product deleted'); updateBanner(); }
+function shareAd(title){ let text='Check out this product on LUXORA.DEV: '+title; if(navigator.share){ navigator.share({title:title, text:text, url:location.href}).catch(()=>{}); } else { navigator.clipboard.writeText(text).then(()=>toast('Link copied')); } }
+renderMyAds(); countChars(); updateBanner();
+</script>
+</body>
+</html>
