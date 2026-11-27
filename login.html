@@ -1,0 +1,176 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LUXORA.DEV — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Italiana&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I",
+  authDomain: "luxora-dev.firebaseapp.com",
+  projectId: "luxora-dev",
+  storageBucket: "luxora-dev.firebasestorage.app",
+  messagingSenderId: "838821661659",
+  appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe",
+  measurementId: "G-B42LXGZQEE"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+// Only remember for this tab session, not forever
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).catch(()=>{});
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:16px 20px 20px}
+.top-bar{width:100%;max-width:420px;display:flex;align-items:center;justify-content:flex-start}
+.back-btn{width:32px;height:32px;border-radius:50%;border:1px solid #e5ddd0;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.back-btn:active{transform:scale(.95)}
+.logo{font-family:'Italiana',serif;font-size:26px;letter-spacing:5px;text-align:center;margin-top:28px;cursor:pointer}
+.logo small{display:block;font-size:9px;letter-spacing:4px;margin-top:3px;color:#888}
+.card{background:#fff;border:1px solid #eee;border-radius:20px;padding:24px 20px;width:100%;max-width:420px;margin-top:18px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.card h2{text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:28px}
+.card p{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#666;margin-top:4px}
+.tabs{display:flex;background:#F5F1EA;border-radius:999px;padding:4px;margin-top:18px}
+.tabs button{flex:1;border:none;padding:11px;border-radius:999px;font-weight:700;background:transparent;cursor:pointer}
+.tabs button.active{background:#111;color:#fff}
+label{display:block;margin-top:16px;font-size:12px;font-weight:700}
+input{width:100%;padding:13px;border:1.5px solid #e8d5b5;border-radius:10px;outline:none;margin-top:6px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;background:#FFFEFB}
+input:focus{border-color:#b08d3e;background:#fff}
+.btn{width:100%;margin-top:18px;background:#111;color:#fff;border:none;padding:14px;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-green{width:100%;margin-top:12px;background:#0fa958;color:#fff;border:none;padding:14px;border-radius:10px;font-weight:800;cursor:pointer}
+.btn-light{width:100%;margin-top:12px;background:#eee;color:#111;border:none;padding:14px;border-radius:10px;font-weight:700;cursor:pointer}
+.link{text-align:center;margin-top:12px;font-size:13px;color:#b08d3e;cursor:pointer;font-weight:700}
+.note{background:#FFF8E6;border:1px solid #f0d9a0;border-radius:12px;padding:11px;font-size:12px;margin-top:14px;line-height:1.5;text-align:center}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:99;max-width:92%;text-align:center}
+.pw-wrap{position:relative}
+.pw-wrap span{position:absolute;right:12px;top:18px;cursor:pointer}
+.already{background:#fff;border:2px solid #0fa958;border-radius:16px;padding:18px;width:100%;max-width:420px;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- SMALL BACK ARROW TO HOME / INDEX.HTML -->
+<div class="top-bar">
+  <button class="back-btn" onclick="location.href='index.html'" aria-label="Back to Home">←</button>
+</div>
+
+<div class="logo" onclick="location.href='index.html'">LUXORA.DEV<small>CURATED LUXURY</small></div>
+
+<!-- ALREADY LOGGED IN BOX -->
+<div id="alreadyBox" class="already" style="display:none">
+  <h3 style="font-family:'Playfair Display',serif;font-style:italic;font-size:22px">You Are Still Logged In</h3>
+  <p id="alreadyEmail" style="margin-top:8px;font-size:14px;color:#555"></p>
+  <button class="btn-green" onclick="continueHome()">Continue to Home →</button>
+  <button class="btn-light" onclick="logoutAndStay()">Log Out and Login as Another Person</button>
+  <p style="font-size:12px;color:#888;margin-top:10px">For security, you will not be signed in automatically without your confirmation.</p>
+</div>
+
+<div class="card" id="loginCard">
+<h2>Welcome Back</h2>
+<p>Luxury is a feeling. Only verified members can enter.</p>
+<div class="tabs"><button id="tabLogin" class="active" onclick="switchTab('login')">Log In</button><button id="tabSignup" onclick="switchTab('signup')">Sign Up</button></div>
+
+<div id="loginForm">
+<label>EMAIL</label><input id="loginEmail" type="email" placeholder="you@email.com" autocomplete="email">
+<label>PASSWORD</label><div class="pw-wrap"><input id="loginPass" type="password" placeholder="Your password" autocomplete="current-password"><span onclick="togglePw('loginPass')">👁️</span></div>
+<button class="btn" onclick="doLogin()">Log In — Enter My Base →</button>
+<div class="link" onclick="forgotPass()">Forgot Password? Reset →</div>
+</div>
+
+<div id="signupForm" style="display:none">
+<label>FULL NAME</label><input id="suName" placeholder="Your full name" maxlength="60" autocomplete="name">
+<label>EMAIL</label><input id="suEmail" type="email" placeholder="you@email.com" autocomplete="email">
+<label>PASSWORD</label><div class="pw-wrap"><input id="suPass" type="password" placeholder="Create password (min 6)" autocomplete="new-password"><span onclick="togglePw('suPass')">👁️</span></div>
+<button class="btn" onclick="doSignup()">Create Account →</button>
+</div>
+
+<div class="note">🔒 Secure Login. If you are not logged in, you cannot access Home, Marketplace, Profile, or any other page. You will be redirected back here.</div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000)}
+function togglePw(id){let el=document.getElementById(id); el.type = el.type==='password'?'text':'password';}
+function switchTab(t){
+  document.getElementById('tabLogin').className = t==='login'?'active':'';
+  document.getElementById('tabSignup').className = t==='signup'?'active':'';
+  document.getElementById('loginForm').style.display = t==='login'?'block':'none';
+  document.getElementById('signupForm').style.display = t==='signup'?'block':'none';
+}
+
+auth.onAuthStateChanged((user)=>{
+  if(user){
+    document.getElementById('alreadyBox').style.display='block';
+    document.getElementById('alreadyEmail').textContent='Signed in as: '+(user.email||'');
+  } else {
+    document.getElementById('alreadyBox').style.display='none';
+  }
+});
+
+function continueHome(){
+  let next = sessionStorage.getItem('luxora_next') || 'home.html';
+  sessionStorage.removeItem('luxora_next');
+  if(next.includes('login.html')) next='home.html';
+  location.replace(next);
+}
+
+async function logoutAndStay(){
+  try{ await auth.signOut(); }catch(e){}
+  sessionStorage.removeItem('luxora_session');
+  sessionStorage.removeItem('luxora_next');
+  try{ localStorage.removeItem('luxora_profile_local'); }catch(e){}
+  document.getElementById('alreadyBox').style.display='none';
+  document.getElementById('loginEmail').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('suName').value='';
+  document.getElementById('suEmail').value='';
+  document.getElementById('suPass').value='';
+  toast('Logged out. Please enter your email and password to log in.');
+}
+
+async function doLogin(){
+  let email=document.getElementById('loginEmail').value.trim();
+  let pass=document.getElementById('loginPass').value;
+  if(!email || !pass) return alert('Please enter your email and password.');
+  try{
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    let cred=await auth.signInWithEmailAndPassword(email,pass);
+    sessionStorage.setItem('luxora_session', JSON.stringify({email:cred.user.email, uid:cred.user.uid}));
+    toast('Welcome back.');
+    setTimeout(()=>{
+      let next=sessionStorage.getItem('luxora_next')||'home.html';
+      sessionStorage.removeItem('luxora_next');
+      if(next.includes('login.html')) next='home.html';
+      location.replace(next);
+    },600);
+  }catch(e){ alert(e.message); }
+}
+async function doSignup(){
+  let name=document.getElementById('suName').value.trim();
+  let email=document.getElementById('suEmail').value.trim();
+  let pass=document.getElementById('suPass').value;
+  if(!name) return alert('Please enter your full name.');
+  if(!email || !email.includes('@')) return alert('Please enter a valid email.');
+  if(pass.length<6) return alert('Password must be at least 6 characters.');
+  try{
+    await auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    let cred=await auth.createUserWithEmailAndPassword(email,pass);
+    await cred.user.updateProfile({displayName:name});
+    await db.collection('users').doc(cred.user.uid).set({name:name,email:email,createdAt:Date.now(),verifyStatus:'not_verified',productsCount:0,totalViews:0},{merge:true});
+    sessionStorage.setItem('luxora_session', JSON.stringify({email:email,uid:cred.user.uid}));
+    toast('Account created.');
+    setTimeout(()=>location.replace('home.html'),600);
+  }catch(e){ alert(e.message); }
+}
+async function forgotPass(){
+  let email=document.getElementById('loginEmail').value.trim() || prompt('Enter your email to reset your password');
+  if(!email) return;
+  try{ await auth.sendPasswordResetEmail(email); toast('A reset link has been sent to your email.'); }catch(e){ alert(e.message); }
+}
+</script>
+</body>
+</html>
