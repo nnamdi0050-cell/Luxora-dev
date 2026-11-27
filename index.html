@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUXORA.DEV — Curated Luxury</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Great+Vibes&family=Italiana&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;overflow-x:hidden;font-family:'Cormorant Garamond',serif}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 10% 10%,#f7e8c9 0%,transparent 35%),radial-gradient(circle at 90% 25%,#e9d8b8 0%,transparent 38%),linear-gradient(180deg,#F5F1EA,#EDE6D8);z-index:-1}
+/* TIKTOK WELCOME */
+#welcome{position:fixed;inset:0;background:#111;z-index:100;overflow:hidden}
+.w-top{position:absolute;top:0;left:0;right:0;text-align:center;padding:16px 0;z-index:20;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent)}
+.w-logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:4px;color:#fff}.w-logo b{color:#d4af6a;font-family:'Playfair Display',serif;font-style:italic}
+.w-skip{position:absolute;top:18px;right:14px;font-size:12px;color:#fff;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:100px;z-index:21}
+.tiktok{height:100vh;overflow:hidden;position:relative}
+.tiktok-track{display:flex;flex-direction:column;transition:transform .75s cubic-bezier(.2,.9,.3,1)}
+.tik{height:100vh;position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:90px 22px 110px;overflow:hidden}
+.tik-bg{position:absolute;inset:0;background-size:cover;background-position:center;animation:zoom 5s ease forwards}
+@keyframes zoom{from{transform:scale(1.15)}to{transform:scale(1)}}
+.tik::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.25) 45%,rgba(0,0,0,.35) 100%)}
+.tik-content{position:relative;z-index:2}
+.tik small{font-family:'Italiana',serif;font-size:11px;letter-spacing:4px;color:#d4af6a}
+.tik .script{font-family:'Great Vibes',cursive;font-size:42px;color:#d4af6a;line-height:1}
+.tik h1{font-family:'Playfair Display',serif;font-style:italic;font-size:46px;line-height:.98;margin:8px 0}
+.tik h1 i{color:#d4af6a}
+.tik .type{font-style:italic;font-size:20px;color:#eee;line-height:1.5;max-width:330px;min-height:60px}
+.tik .pill{display:inline-block;background:#d4af6a;color:#000;padding:10px 16px;border-radius:100px;font-size:12px;margin-top:14px;font-weight:700;letter-spacing:1px;font-family:'Italiana',serif}
+.tik-bar{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:15}
+.tik-bar span{width:6px;height:22px;background:rgba(255,255,255,.4);border-radius:10px}
+.tik-bar span.on{background:#d4af6a;height:36px}
+.w-progress{position:absolute;bottom:0;left:0;height:4px;background:#d4af6a;width:0%;z-index:20}
+.w-bottom{position:absolute;bottom:22px;left:0;right:0;text-align:center;z-index:15}
+.w-bottom button{background:#fff;color:#000;border:none;padding:14px 28px;border-radius:100px;font-family:'Playfair Display',serif;font-style:italic;font-size:16px;font-weight:700}
+/* MAIN */
+header{padding:16px 20px 8px;text-align:center;position:sticky;top:0;background:rgba(245,241,234,.95);backdrop-filter:blur(10px);z-index:10}
+.logo{font-family:'Italiana',serif;font-size:24px;letter-spacing:3px}.logo b{color:#b08d3e;font-family:'Playfair Display',serif;font-style:italic}
+.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999;font-family:'Italiana',serif}
+nav{display:flex;gap:18px;justify-content:center;margin-top:8px;color:#666;font-style:italic;font-size:16px}
+.signin{position:absolute;right:16px;top:16px;background:#111;color:#fff;padding:8px 14px;border-radius:100px;font-size:12px;border:none;font-family:'Playfair Display',serif;font-style:italic}
+.hero{padding:0 0 20px;text-align:center}
+.hero-img{position:relative;height:340px;overflow:hidden}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.hero-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,#F5F1EA 0%,transparent 40%)}
+.hero-text{margin-top:-90px;position:relative;padding:0 20px}
+.hero-text small{font-size:11px;letter-spacing:3px;color:#b08d3e;font-family:'Italiana',serif}
+.hero-text h1{font-family:'Playfair Display',serif;font-style:italic;font-size:38px;line-height:1.05;margin:10px 0}
+.hero-text h1 i{color:#b08d3e}
+.hero-text .script{font-family:'Great Vibes',cursive;font-size:34px;color:#b08d3e}
+.hero-text p{font-style:italic;font-size:19px;color:#666;line-height:1.6;max-width:360px;margin:0 auto}
+.btns{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.btn-black{background:#111;color:#fff;padding:14px 22px;border-radius:100px;border:none;font-size:13px;font-family:'Playfair Display',serif;font-style:italic}
+.btn-white{background:#fff;color:#111;padding:14px 22px;border-radius:100px;border:1px solid #ddd;font-size:13px;font-family:'Playfair Display',serif;font-style:italic}
+.marquee{overflow:hidden;white-space:nowrap;background:#111;color:#fff;padding:12px 0;margin:14px 0}
+.marquee span{display:inline-block;animation:mar 16s linear infinite;font-family:'Unbounded',sans-serif;font-size:12px}
+@keyframes mar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.section{padding:20px}
+.section h2{font-family:'Playfair Display',serif;font-style:italic;font-size:28px;text-align:center}
+.section>p{font-family:'Great Vibes',cursive;font-size:22px;color:#b08d3e;text-align:center}
+.search{width:100%;padding:14px 16px;border-radius:100px;border:1px solid #e8d5b5;background:#fff;outline:none;margin:14px 0 6px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.tabs span{font-size:15px;background:#fff;padding:8px 12px;border-radius:100px;border:1px solid #eee;font-style:italic;cursor:pointer}
+.tabs span.on{background:#111;color:#fff}
+.card{background:#fff;border-radius:22px;padding:14px;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.06);overflow:hidden;position:relative}
+.card img{width:100%;height:230px;object-fit:cover;border-radius:16px}
+.card h3{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;margin:12px 0 4px;text-align:center}
+.card p{font-style:italic;font-size:17px;color:#888;text-align:center}
+.like{position:absolute;top:22px;right:22px;background:#fff;border:none;width:38px;height:38px;border-radius:100px;font-size:18px;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer}
+.like.liked{color:#e74c3c}
+.trend{display:flex;gap:14px;overflow-x:auto;padding:10px 4px;scroll-snap-type:x mandatory}
+.trend::-webkit-scrollbar{display:none}
+.trend-card{min-width:200px;scroll-snap-align:start;background:#fff;border-radius:18px;padding:12px;box-shadow:0 8px 20px rgba(0,0,0,.06)}
+.trend-card img{width:100%;height:140px;object-fit:cover;border-radius:12px}
+.trend-card h4{font-family:'Playfair Display',serif;font-style:italic;font-size:18px;margin:8px 0 2px}
+.trend-card p{font-size:13px;color:#999;font-style:italic}
+.ba{position:relative;height:240px;border-radius:18px;overflow:hidden;margin-top:12px}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba-after{clip-path:inset(0 50% 0 0)}
+.ba input{position:absolute;inset:0;width:100%;opacity:0;z-index:3}
+.ba-line{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;z-index:2}
+.ba-tag{position:absolute;top:10px;padding:4px 10px;border-radius:100px;font-size:11px;background:#000;color:#fff;z-index:2}
+.showcase{background:#111;color:#fff;margin:10px 20px;border-radius:24px;padding:24px;text-align:center}
+.showcase .script{font-family:'Great Vibes',cursive;font-size:32px;color:#d4af6a}
+.showcase h3{font-family:'Playfair Display',serif;font-style:italic;font-size:26px}
+.showcase p{font-style:italic;font-size:17px;color:#bbb;line-height:1.6}
+.showcase img{width:100%;height:200px;object-fit:cover;border-radius:16px;margin-top:14px}
+.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.mini-grid img{height:110px}
+.steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.step{background:#fff;border-radius:16px;padding:14px;text-align:center}
+.step b{font-size:28px;color:#b08d3e;font-family:'Playfair Display',serif;font-style:italic}
+.step h4{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;margin:6px 0}
+.step p{font-size:13px;color:#888;font-style:italic;line-height:1.5}
+.testi{display:flex;gap:12px;overflow-x:auto;padding:10px 4px}
+.testi::-webkit-scrollbar{display:none}
+.testi-card{min-width:260px;background:#fff;border-radius:18px;padding:16px}
+.testi-card p{font-style:italic;font-size:16px;line-height:1.6;color:#444}
+.testi-card b{display:block;margin-top:10px;font-family:'Playfair Display',serif;font-style:italic}
+.testi-card span{color:#d4af6a}
+/* ===== NEW SHOWCASE IMAGES - ADDED INSIDE INDEX ===== */
+.showcase-new{padding:20px}
+.showcase-new h2{font-family:'Playfair Display',serif;font-style:italic;font-size:28px;text-align:center}
+.showcase-new>p{font-family:'Great Vibes',cursive;font-size:22px;color:#b08d3e;text-align:center}
+.show-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.show-grid img{width:100%;height:170px;object-fit:cover;border-radius:16px}
+.show-grid img.big{grid-column:span 2;height:240px}
+.show-label{position:relative}
+.show-label span{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.65);color:#fff;font-size:11px;padding:5px 10px;border-radius:100px;font-family:'Italiana',serif;letter-spacing:1px}
+.brand-strip{background:#111;color:#fff;margin:10px 20px;border-radius:20px;padding:24px;text-align:center}
+.brand-strip .script{font-family:'Great Vibes',cursive;font-size:28px;color:#d4af6a}
+.brand-strip h3{font-family:'Playfair Display',serif;font-style:italic;font-size:24px}
+.brand-strip p{font-style:italic;font-size:17px;color:#bbb;line-height:1.6;margin-top:8px}
+.footer{text-align:center;padding:22px;color:#999;line-height:1.7;font-style:italic;font-size:15px}
+.float-wa{position:fixed;bottom:20px;right:16px;width:56px;height:56px;background:#25D366;border-radius:100px;border:none;font-size:26px;z-index:50;box-shadow:0 10px 25px rgba(0,0,0,.25)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
+.modal-box{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}
+.modal-box img{width:100%;height:220px;object-fit:cover;border-radius:14px}
+.modal-box h3{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;margin:12px 0 6px}
+.modal-box p{font-style:italic;color:#666;line-height:1.6}
+.modal-box button{margin-top:12px;width:100%;padding:12px;border-radius:100px;border:none;background:#111;color:#fff;font-weight:700}
+</style>
+</head>
+<body>
+
+<div id="welcome">
+<div class="w-top"><div class="w-logo">LUXORA<b>.DEV</b></div><button class="w-skip" onclick="enterSite()">Skip →</button></div>
+<div class="tiktok"><div class="tiktok-track" id="tikTrack">
+<div class="tik"><div class="tik-bg" style="background-image:url('https://images.unsplash.com/photo-1508296695146-257a814070b4?w=900&q=80')"></div><div class="tik-content"><small>WELCOME TO LUXORA.DEV</small><div class="script">Welcome, My Love...</div><h1>Luxury Is Not<br><i>A Word.</i></h1><p class="type" data-text="It is a feeling. We design how brands look, feel and are remembered."></p><div class="pill">ENTER THE LUXURY ↓</div></div></div>
+<div class="tik"><div class="tik-bg" style="background-image:url('https://images.unsplash.com/photo-1547658719-da2b51169166?w=900&q=80')"></div><div class="tik-content"><small>WHAT WE OFFER • 01</small><h1>We Design<br><i>Websites</i></h1><p class="type" data-text="Clean, fast, premium websites that make your brand look expensive."></p><div class="pill">WEBSITE • LANDING PAGE</div></div></div>
+<div class="tik"><div class="tik-bg" style="background-image:url('https://images.unsplash.com/photo-1561070791-2526d30994b5?w=900&q=80')"></div><div class="tik-content"><small>WHAT WE OFFER • 02</small><h1>We Create<br><i>Brands & Logos</i></h1><p class="type" data-text="Logo, colours, fonts, full identity. From idea to luxury brand."></p><div class="pill">LOGO • BRAND IDENTITY</div></div></div>
+<div class="tik"><div class="tik-bg" style="background-image:url('https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=900&q=80')"></div><div class="tik-content"><small>WHAT WE OFFER • 03</small><h1>Packaging &<br><i>Banners</i></h1><p class="type" data-text="Black & gold packaging, banners and visuals that make people stop."></p><div class="pill">PACKAGING • BANNERS</div></div></div>
+<div class="tik"><div class="tik-bg" style="background-image:url('https://images.unsplash.com/photo-1541643600914-78b084683601?w=900&q=80')"></div><div class="tik-content"><small>ARE YOU READY?</small><div class="script">Your brand deserves...</div><h1>To Look Like<br><i>Millions.</i></h1><p class="type" data-text="One studio for everything. Let's design yours."></p><div class="pill">ENTER LUXORA ↓</div></div></div>
+</div><div class="tik-bar" id="tikBar"><span class="on"></span><span></span><span></span><span></span><span></span></div></div>
+<div class="w-progress" id="bar"></div>
+<div class="w-bottom"><button onclick="enterSite()">Enter Luxora →</button></div>
+</div>
+
+<header><button class="signin" onclick="location.href='login.html'">Sign In</button><div class="logo">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><nav><span>Designs</span><span>Brands</span><span>Services</span></nav></header>
+
+<div class="hero"><div class="hero-img"><img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?w=900&q=80"></div><div class="hero-text"><small>NEW DESIGNS • BRANDING • WEBSITES • BANNERS</small><h1>Elevate Your Everyday.<br><i>Timeless Craft. Premium Design.</i></h1><div class="script">Luxury is a feeling...</div><p>We craft exquisite brand visuals, bespoke websites, logos and premium banners engineered to captivate audiences.</p><div class="btns"><button class="btn-black" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">View Our Designs →</button><button class="btn-white" onclick="location.href='login.html'">Sign In / Create Account</button></div></div></div>
+
+<div class="marquee"><span>WE DESIGN WEBSITES ✦ WE CREATE BRANDS ✦ WE DESIGN LOGOS ✦ WE DESIGN PACKAGING ✦ WE DESIGN BANNERS ✦ WE DESIGN WEBSITES ✦ WE CREATE BRANDS ✦ WE DESIGN LOGOS ✦&nbsp;</span></div>
+
+<div class="section"><h2>🔥 Trending Now</h2><p>Swipe — people dey love these...</p>
+<div class="trend">
+<div class="trend-card"><img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&q=80"><h4>Perfume Brand</h4><p>❤️ 2.4k • Branding</p></div>
+<div class="trend-card"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80"><h4>Watch Visual</h4><p>❤️ 1.9k • Product Visual</p></div>
+<div class="trend-card"><img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=500&q=80"><h4>Makeup Brand</h4><p>❤️ 1.7k • Branding</p></div>
+<div class="trend-card"><img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&q=80"><h4>Gold Watch</h4><p>❤️ 1.5k • Visual</p></div>
+</div></div>
+
+<div class="section" id="work">
+<h2>Explore Our Design Work</h2><p>Luxury is not a word — it is a feeling</p>
+<input class="search" id="search" placeholder="🔍 Search designs — e.g. logo, website, packaging..." oninput="doSearch()">
+<div class="tabs" id="tabs"><span class="on" onclick="filterCat('all',this)">All</span><span onclick="filterCat('branding',this)">Branding</span><span onclick="filterCat('website',this)">Websites</span><span onclick="filterCat('banner',this)">Banners</span><span onclick="filterCat('packaging',this)">Packaging</span><span onclick="filterCat('visual',this)">Visuals</span></div>
+<div id="cards">
+<div class="card" data-cat="branding" data-name="fleur rose brand identity logo"><button class="like" onclick="likeMe(this)">♡ <span>128</span></button><img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&q=80"><h3>Fleur Rose — Brand Identity</h3><p>BRANDING • LOGO • VISUALS</p><div class="btns"><button class="btn-black" onclick="openModal('Fleur Rose — Brand Identity','Full brand identity — logo, colours, fonts, packaging and social visuals. Luxury pink & gold feel.','https://images.unsplash.com/photo-1541643600914-78b084683601?w=800&q=80')">View Design</button><button class="btn-white" onclick="location.href='login.html'">Start A Design</button></div></div>
+<div class="card" data-cat="website" data-name="gold frame website design"><button class="like" onclick="likeMe(this)">♡ <span>96</span></button><img src="https://images.unsplash.com/photo-1508296695146-257a814070b4?w=800&q=80"><h3>Gold Frame — Website Design</h3><p>WEBSITE • BANNER • BRAND</p><div class="btns"><button class="btn-black" onclick="openModal('Gold Frame — Website Design','Premium website design for laptop & phone. Clean, fast, luxury look.','https://images.unsplash.com/photo-1508296695146-257a814070b4?w=800&q=80')">View Design</button><button class="btn-white" onclick="location.href='login.html'">Start A Design</button></div></div>
+<div class="card" data-cat="banner" data-name="curology banner visual"><button class="like" onclick="likeMe(this)">♡ <span>84</span></button><img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80"><h3>Curology — Banner & Visual</h3><p>BANNER • PRODUCT VISUAL</p><div class="btns"><button class="btn-black" onclick="openModal('Curology — Banner & Visual','Banner and product visual that makes people stop and stare.','https://images.unsplash.com/photo-1567016432779-094069958ea5?w=800&q=80')">View Design</button><button class="btn-white" onclick="location.href='login.html'">Start A Design</button></div></div>
+<div class="card" data-cat="packaging" data-name="black gold gift box packaging"><button class="like" onclick="likeMe(this)">♡ <span>210</span></button><img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80"><h3>Black Gold — Gift Box</h3><p>PACKAGING • GIFT BOX • RIBBON</p><div class="btns"><button class="btn-black" onclick="openModal('Black Gold — Gift Box','Black & gold luxury gift box, ribbon, label and packaging design.','https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=800&q=80')">View Design</button><button class="btn-white" onclick="location.href='login.html'">Start A Design</button></div></div>
+<div class="card" data-cat="visual" data-name="gold glow skincare product visual"><button class="like" onclick="likeMe(this)">♡ <span>175</span></button><img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80"><h3>Gold Glow — Skincare Visual</h3><p>PRODUCT VISUAL • SKINCARE</p><div class="btns"><button class="btn-black" onclick="openModal('Gold Glow — Skincare Visual','Gold cream jar visual — clean beige background, soft light, premium feel.','https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&q=80')">View Design</button><button class="btn-white" onclick="location.href='login.html'">Start A Design</button></div></div>
+<div class="card" data-cat="website" data-name="luxe instagram website design"><button class="like" onclick="likeMe(this)">♡ <span>142</span></button><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80"><h3>LUXÉ — Website & Instagram</h3><p>WEBSITE • INSTAGRAM • ONLINE PRESENCE</p><div class="btns"><button class="btn-black" onclick="openModal('LUXÉ — Website & Instagram','Website + Instagram page wey match — same colours, same luxury feel.','https://images.unsplash.com/photo-149
