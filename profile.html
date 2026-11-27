@@ -1,0 +1,378 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LUXORA.DEV — My Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Italiana&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I",
+  authDomain: "luxora-dev.firebaseapp.com",
+  projectId: "luxora-dev",
+  storageBucket: "luxora-dev.firebasestorage.app",
+  messagingSenderId: "838821661659",
+  appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe",
+  measurementId: "G-B42LXGZQEE"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif;padding-bottom:110px;overflow-x:hidden}
+a{text-decoration:none;color:inherit} button{cursor:pointer;font-family:'Inter',sans-serif}
+header{padding:14px 16px 6px;text-align:center;background:#F5F1EA;position:sticky;top:0;z-index:20}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:4px;cursor:pointer}
+.logo small{display:block;font-size:9px;letter-spacing:4px;color:#111;margin-top:2px}
+.logo-line{width:120px;height:1px;background:#c9a86a;margin:8px auto 0}
+.top-icons{position:absolute;right:14px;top:14px;display:flex;gap:8px}
+.icon-btn{background:#fff;border:1px solid #eee;width:38px;height:38px;border-radius:50%;font-size:16px}
+.wrap{max-width:620px;margin:0 auto;padding:0 14px;width:100%}
+.top-nav{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+.top-nav button{white-space:nowrap;padding:9px 14px;border-radius:999px;border:1px solid #eee;background:#fff;font-size:13px;font-weight:600;flex-shrink:0}
+.top-nav button.active{background:#111;color:#fff}
+.cover{background:#111;color:#fff;border-radius:20px;padding:22px 16px 36px;text-align:center}
+.cover h1{font-family:'Playfair Display',serif;font-style:italic;font-weight:900;font-size:32px;color:#d8c08a}
+.cover p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#e8d9b8;margin-top:6px}
+.cover small{display:block;margin-top:8px;font-size:10px;letter-spacing:2px;color:#999}
+.profile-card{background:#FFFEFB;border:1px solid #eee;border-radius:20px;padding:18px;margin-top:-18px;position:relative;box-shadow:0 10px 30px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:14px}
+.profile-top{display:flex;gap:14px;align-items:flex-start}
+.pic-wrap{position:relative;flex-shrink:0;text-align:center}
+.pic-wrap img{width:84px;height:84px;border-radius:50%;object-fit:cover;border:3px solid #F5F1EA;display:block}
+.pic-wrap.owner img{cursor:pointer}
+.pic-hint{font-size:10px;color:#b08d3e;font-weight:700;margin-top:5px}
+.profile-info{flex:1;min-width:0}
+.profile-info h2{font-family:'Playfair Display',serif;font-style:italic;font-size:24px;line-height:1.1;word-break:break-word}
+.profile-info p{font-size:13px;color:#555;margin-top:6px;word-break:break-word}
+.profile-info .bio{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#333;margin-top:8px;line-height:1.4}
+.profile-info .brand{font-size:12px;font-weight:800;letter-spacing:1px;color:#b08d3e;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:#d9e8d0;color:#2a5a2a;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;margin-top:10px}
+.badge.pending{background:#FFF3CD;color:#856404}
+.badge.not{background:#eee;color:#888}
+.btn-edit{width:100%;border:1.5px solid #c9a86a;background:#fff;padding:11px;border-radius:10px;font-weight:700;font-size:14px}
+.card{background:#FFFEFB;border:1px solid #eee;border-radius:18px;padding:18px;margin-top:14px;width:100%}
+.card h3{font-size:19px}
+label{display:block;margin-top:14px;font-size:12px;font-weight:700}
+input,select,textarea{width:100%;padding:13px;border:1.5px solid #e8d5b5;border-radius:10px;background:#FFFEFB;outline:none;margin-top:6px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px}
+input:focus,textarea:focus,select:focus{border-color:#b08d3e;background:#fff}
+.btn-gold{width:100%;margin-top:16px;background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:15px}
+.btn-light{width:100%;margin-top:10px;background:#eee;border:none;padding:13px;border-radius:10px;font-weight:700}
+.btn-dark{width:100%;margin-top:10px;background:#111;color:#fff;border:none;padding:13px;border-radius:10px;font-weight:700}
+.btn-verify{width:100%;margin-top:14px;background:#0fa958;color:#fff;border:none;padding:14px;border-radius:10px;font-weight:800;font-size:15px}
+.btn-save-pic{width:100%;margin-top:10px;background:#0fa958;color:#fff;border:none;padding:12px;border-radius:10px;font-weight:800;display:none}
+.check{display:flex;gap:10px;align-items:center;margin-top:13px;font-size:14px}
+.check i{width:24px;height:24px;background:#0fa958;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:13px;flex-shrink:0}
+.check i.no{background:#eee;color:#888}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.stat{background:#f3e6b8;border-radius:12px;padding:16px 8px;text-align:center}
+.stat b{display:block;font-size:22px;margin-top:4px}
+.stat span{font-size:12px;color:#555}
+.sec-head{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.prod{background:#fff;border:1px solid #eee;border-radius:16px;padding:10px;text-align:center}
+.prod img{width:100%;height:130px;object-fit:cover;border-radius:10px}
+.prod b{display:block;margin-top:8px;font-size:13px}
+.prod span{font-size:11px;color:#888}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#F5F1EA;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0 calc(12px + env(safe-area-inset-bottom));z-index:30}
+.bottom a{text-align:center;font-size:11px;color:#888}
+.bottom a.active{color:#b08d3e;font-weight:800}
+.bottom a div{font-size:22px}
+.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;z-index:999;display:none;max-width:92%;text-align:center}
+.note{background:#FFF8E6;border:1px solid #f0d9a0;border-radius:12px;padding:12px;font-size:13px;margin-top:12px;line-height:1.5}
+.visitor-note{background:#F5F1EA;border-radius:12px;padding:12px;font-size:13px;margin-top:12px;text-align:center;color:#555}
+</style>
+</head>
+<body>
+
+<header>
+<div class="logo" onclick="location.href='home.html'">LUXORA.DEV<small>CURATED LUXURY</small></div>
+<div class="logo-line"></div>
+<div class="top-icons"><button class="icon-btn" onclick="location.href='mail.html'">🔔</button><button class="icon-btn" onclick="location.href='cart.html'">🛒</button></div>
+</header>
+
+<div class="wrap">
+<div class="top-nav">
+<button onclick="location.href='home.html'">🏠 Home</button>
+<button onclick="location.href='marketplace.html'">🛒 Marketplace</button>
+<button onclick="location.href='templates.html'">📄 Templates</button>
+<button onclick="location.href='designs.html'">🎨 Designs</button>
+<button class="active">👤 Profile</button>
+</div>
+
+<div class="cover"><h1 id="coverTitle">My Profile</h1><p>Luxury is a feeling... This na your base.</p><small>MEMBER • YOUR BASE</small></div>
+
+<!-- TOP PROFILE CARD -->
+<div class="profile-card">
+<div class="profile-top">
+<div class="pic-wrap" id="picWrap">
+<img id="profilePic" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&q=80" alt="Profile">
+<div class="pic-hint" id="picHint" style="display:none">Tap to change 👆</div>
+<input type="file" id="picInput" accept="image/*" style="display:none">
+</div>
+<div class="profile-info">
+<h2 id="profileName">Your Name</h2>
+<p>✉️ <span id="profileEmail"></span></p>
+<p>📍 <span id="profileLocation">Add your location</span></p>
+<p>📞 <span id="profilePhone">Add your phone</span></p>
+<div class="brand" id="profileBrand"></div>
+<div class="bio" id="profileBio"></div>
+<span id="verifyBadge" class="badge not">NOT VERIFIED YET</span>
+</div>
+</div>
+<button class="btn-save-pic" id="savePicBtn" onclick="saveProfilePic()">💾 Save New Picture</button>
+<!-- OWNER ONLY: Edit button go hide for visitor -->
+<button class="btn-edit" id="editBtn" style="display:none" onclick="document.getElementById('editCard').scrollIntoView({behavior:'smooth'})">✎ Edit Profile</button>
+<div class="visitor-note" id="visitorNote" style="display:none">You are viewing this profile as a visitor. Only the owner can edit this page.</div>
+</div>
+
+<!-- EDIT - OWNER ONLY, NO PHONE, NO PIC LINK -->
+<div class="card" id="editCard" style="display:none">
+<h3>✎ <span style="font-family:'Playfair Display',serif;font-style:italic">Edit Profile</span></h3>
+<p style="font-size:12px;color:#888;margin-top:6px">Phone number can only be changed in Verification — for security.</p>
+<label>Full Name</label><input id="editName" placeholder="Your full name" maxlength="60" autocomplete="name">
+<label>Location</label><input id="editLocation" placeholder="Lagos, Nigeria" maxlength="80">
+<label>Bio</label><textarea id="editBio" rows="3" placeholder="Tell people about your brand..." maxlength="300"></textarea>
+<label>Country</label><select id="editCountry"><option>Nigeria</option><option>Ghana</option><option>Kenya</option><option>South Africa</option><option>UK</option><option>USA</option><option>UAE</option><option>Other</option></select>
+<label>Brand Name</label><input id="editBrand" placeholder="Your brand name" maxlength="60">
+<button class="btn-gold" onclick="saveProfile()">💾 Save Profile</button>
+<button class="btn-light" onclick="doLogout()">Log Out</button>
+<p class="note">Saved profile go remain same anytime you logout and login again.</p>
+</div>
+
+<!-- VERIFY STATUS + VERIFY BUTTON -->
+<div class="card">
+<h3>🛡️ <span style="font-family:'Playfair Display',serif;font-style:italic">Verify Status</span></h3>
+<div id="verifyList"></div>
+<p class="note" id="verifyStatusText">You are not verified yet. Only Admin can approve you.</p>
+<!-- NICE PLACE VERIFY BUTTON - OWNER ONLY, go to verify.html later -->
+<<button onclick="location.href='verification.html'" style="width:100%;background:#16a34a;color:#fff;border:none;padding:14px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;margin-top:12px">✅ Verify Now — Get More Views →</button>
+<p class="note" id="verifyVisitorNote" style="display:none">This user is not verified yet.</p>
+<h3 style="margin-top:22px">Your Stats</h3>
+<p style="font-size:12px;color:#888;margin-top:4px">Based on your account history only — not fixed.</p>
+<div class="stats">
+<div class="stat">📊<span>Products</span><b id="statProducts">0</b></div>
+<div class="stat">👁️<span>Views</span><b id="statViews">0</b></div>
+</div>
+<div id="ownerExtra" style="display:none"><button class="btn-dark" onclick="location.href='upgrade.html'">⬆️ Upgrade Plan</button></div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="sec-head"><h3>Your Products</h3><a href="marketplace.html">See All →</a></div>
+<div class="prod-grid" id="myList"></div>
+<p class="note" id="prodNote">No product yet.</p>
+<button id="addProductBtn" style="width:100%;margin-top:14px;background:#111;color:#fff;border:none;padding:14px;border-radius:12px;font-weight:700;display:none" onclick="goAddProduct()">+ Add New Product</button>
+</div>
+
+<div class="bottom">
+<a href="home.html"><div>🏠</div>Home</a>
+<a href="marketplace.html"><div>🛒</div>Marketplace</a>
+<a href="designs.html"><div>🎨</div>Designs</a>
+<a href="templates.html"><div>📄</div>Templates</a>
+<a href="profile.html" class="active"><div>👤</div>Profile</a>
+</div>
+
+<div class="toast" id="toast"></div>
+<script>
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3200)}
+function goAddProduct(){ fetch('add-product.html',{method:'HEAD'}).then(r=>{ if(r.ok) location.href='add-product.html'; else location.href='advertise.html'; }).catch(()=>location.href='advertise.html'); }
+
+// SECURE HELPERS
+function cleanText(s){ return String(s||'').replace(/[<>&"']/g,'').trim().slice(0,300); }
+function setText(id, val){ let el=document.getElementById(id); if(el) el.textContent = val || ''; }
+function getParam(name){ return new URLSearchParams(location.search).get(name); }
+
+let currentUid=null; // logged-in user
+let viewingUid=null; // profile we are viewing
+let isOwner=false;
+let currentData={};
+let newPicDataUrl=null;
+
+function applyOwnerUI(){
+  isOwner = currentUid && viewingUid && currentUid===viewingUid;
+  // If no ?id=, viewingUid = currentUid (own profile)
+  if(!getParam('id')) isOwner = !!currentUid;
+  document.getElementById('editBtn').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('editCard').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('verifyBtn').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('verifyVisitorNote').style.display = isOwner ? 'none' : 'block';
+  document.getElementById('visitorNote').style.display = isOwner ? 'none' : 'block';
+  document.getElementById('ownerExtra').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('addProductBtn').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('picHint').style.display = isOwner ? 'block' : 'none';
+  document.getElementById('picWrap').classList.toggle('owner', isOwner);
+  setText('coverTitle', isOwner ? 'My Profile' : 'User Profile');
+}
+
+// SECURE: Only PUBLIC fields for visitor. NEVER expose NIN / ID / Documents / DOB / Address
+function fillProfile(publicData){
+  // publicData contains ONLY: name, email, location, phone, bio, brand, profilePic, verifyStatus, productsCount, totalViews
+  setText('profileName', publicData.name || 'Your Name');
+  setText('profileEmail', publicData.email || '');
+  setText('profileLocation', publicData.location || 'Add your location');
+  setText('profilePhone', publicData.phone || 'Add your phone');
+  setText('profileBio', publicData.bio || '');
+  setText('profileBrand', publicData.brand ? publicData.brand.toUpperCase() : '');
+  if(publicData.profilePic) document.getElementById('profilePic').src = publicData.profilePic;
+
+  if(isOwner){
+    document.getElementById('editName').value = publicData.name || '';
+    document.getElementById('editLocation').value = publicData.location || '';
+    document.getElementById('editBio').value = publicData.bio || '';
+    try{ document.getElementById('editCountry').value = publicData.country || 'Nigeria'; }catch(e){}
+    document.getElementById('editBrand').value = publicData.brand || '';
+  }
+  let st = publicData.verifyStatus || 'not_verified';
+  let b = document.getElementById('verifyBadge');
+  if(st==='verified'){ b.textContent='✅ VERIFIED BY ADMIN'; b.className='badge'; }
+  else if(st==='pending'){ b.textContent='PENDING — WAITING FOR ADMIN'; b.className='badge pending'; }
+  else { b.textContent='NOT VERIFIED YET'; b.className='badge not'; }
+  setText('verifyStatusText', st==='verified' ? 'This account is verified by Admin.' : st==='pending' ? 'Documents don go to Admin. Wait for Admin to approve.' : 'Not verified yet. Only Admin can approve you.');
+
+  // SECURE CHECKLIST - Location now reads from saved location correctly
+  let checks = [
+    ['Email Verified', !!publicData.emailVerified || !!publicData.email],
+    ['Phone Verified', !!publicData.phoneVerified],
+    ['Location Added', !!publicData.location],
+    ['Brand Added', !!publicData.brand]
+  ];
+  let listEl = document.getElementById('verifyList');
+  listEl.innerHTML='';
+  checks.forEach(c=>{
+    let d=document.createElement('div'); d.className='check';
+    let i=document.createElement('i'); i.className=c[1]?'':'no'; i.textContent=c[1]?'✓':'✕';
+    let s=document.createElement('span'); s.textContent=c[0];
+    d.appendChild(i); d.appendChild(s); listEl.appendChild(d);
+  });
+
+  // REAL STATS - from history only, 0 for new user
+  let myProducts = [];
+  try{ myProducts = JSON.parse(localStorage.getItem('luxora_my_products_'+viewingUid)||'[]'); }catch(e){}
+  let views = 0;
+  try{ views = parseInt(localStorage.getItem('luxora_views_'+viewingUid)||'0',10) || 0; }catch(e){}
+  setText('statProducts', String(publicData.productsCount!=null ? publicData.productsCount : myProducts.length));
+  setText('statViews', String(publicData.totalViews!=null ? publicData.totalViews : views));
+  renderMyProducts(myProducts);
+}
+function renderMyProducts(list){
+  let grid=document.getElementById('myList'); grid.innerHTML='';
+  if(!list || list.length===0){ document.getElementById('prodNote').style.display='block'; return; }
+  document.getElementById('prodNote').style.display='none';
+  list.forEach(p=>{
+    let d=document.createElement('div'); d.className='prod';
+    d.onclick=()=>{ location.href='product.html?id='+(p.id||''); };
+    let img=document.createElement('img'); img.src=p.image||p.img||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80';
+    let b=document.createElement('b'); b.textContent=p.title||'Product';
+    let s=document.createElement('span'); s.textContent=p.price||'';
+    d.appendChild(img); d.appendChild(b); d.appendChild(s); grid.appendChild(d);
+  });
+}
+
+// PROFILE PIC - Tap image to change, Save button go show
+document.getElementById('profilePic').addEventListener('click', ()=>{
+  if(!isOwner) return; // visitor can NEVER change pic
+  document.getElementById('picInput').click();
+});
+document.getElementById('picInput').addEventListener('change', (e)=>{
+  if(!isOwner) return;
+  let file=e.target.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')) return alert('Pick an image only');
+  if(file.size > 2*1024*1024) return alert('Image too big. Pick under 2MB');
+  let reader=new FileReader();
+  reader.onload=()=>{ newPicDataUrl=reader.result; document.getElementById('profilePic').src=newPicDataUrl; document.getElementById('savePicBtn').style.display='block'; toast('Tap Save New Picture to save'); };
+  reader.readAsDataURL(file);
+});
+async function saveProfilePic(){
+  if(!isOwner) return alert('Only owner can change picture');
+  if(!newPicDataUrl) return;
+  // Save local FIRST so e remain after logout/login
+  try{
+    localStorage.setItem('luxora_pic_'+currentUid, newPicDataUrl);
+    localStorage.setItem('luxora_profile_local', JSON.stringify({...currentData, profilePic:newPicDataUrl}));
+  }catch(e){ return alert('Image too big for local save. Try smaller image.'); }
+  // Try Firestore - only own doc
+  try{ if(currentUid) await db.collection('users').doc(currentUid).set({profilePic:newPicDataUrl, updatedAt:Date.now()},{merge:true}); }catch(e){ console.log('Pic Firestore skipped', e.message); }
+  document.getElementById('savePicBtn').style.display='none';
+  newPicDataUrl=null;
+  toast('Profile Picture Saved ✅');
+}
+
+// SAVE PROFILE - OWNER ONLY, NO PHONE EDIT
+async function saveProfile(){
+  if(!isOwner){ return alert('You cannot edit another person profile'); }
+  if(!currentUid) return alert('Login first');
+  let data={
+    name: cleanText(document.getElementById('editName').value),
+    location: cleanText(document.getElementById('editLocation').value),
+    bio: cleanText(document.getElementById('editBio').value),
+    country: cleanText(document.getElementById('editCountry').value),
+    brand: cleanText(document.getElementById('editBrand').value)
+  };
+  if(!data.name) return alert('Put your name first');
+  // Persist local - so e remain after logout/login
+  try{
+    localStorage.setItem('luxora_profile_local', JSON.stringify({...currentData, ...data, email:document.getElementById('profileEmail').textContent}));
+    let s=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+    if(s){ let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}'); if(users[s.email]){ Object.assign(users[s.email], data); localStorage.setItem('luxora_users_v2', JSON.stringify(users)); } }
+  }catch(e){}
+  // Firestore - ONLY own doc, merge, never overwrite phone / verify / sensitive
+  try{
+    await db.collection('users').doc(currentUid).set({...data, updatedAt:Date.now()},{merge:true});
+    if(auth.currentUser){ try{ await auth.currentUser.updateProfile({displayName:data.name}); }catch(e){} }
+  }catch(e){ console.log('Firebase save skipped, local saved', e.message); }
+  currentData={...currentData, ...data};
+  fillProfile({...currentData, email:document.getElementById('profileEmail').textContent});
+  toast('Profile Saved! ✅');
+}
+
+// LOAD
+try{
+  let local=JSON.parse(localStorage.getItem('luxora_profile_local')||'null');
+  if(local) currentData=local;
+}catch(e){}
+viewingUid = getParam('id') || null;
+
+auth.onAuthStateChanged(async(user)=>{
+  currentUid = user ? user.uid : null;
+  if(!viewingUid) viewingUid = currentUid;
+  applyOwnerUI();
+
+  // If viewing someone else, load THEIR public profile only
+  let targetUid = viewingUid;
+  if(targetUid){
+    try{
+      let doc=await db.collection('users').doc(targetUid).get();
+      if(doc.exists){
+        let d=doc.data();
+        // SECURE: pick ONLY public fields, drop sensitive
+        let pub={ name:d.name, email:d.email, location:d.location, phone:d.phone, bio:d.bio, brand:d.brand, profilePic:d.profilePic, country:d.country, verifyStatus:d.verifyStatus, emailVerified:d.emailVerified, phoneVerified:d.phoneVerified, productsCount:d.productsCount, totalViews:d.totalViews };
+        // If owner, merge local pic (local pic wins for fast load)
+        if(isOwner){
+          try{ let localPic=localStorage.getItem('luxora_pic_'+currentUid); if(localPic) pub.profilePic=localPic; }catch(e){}
+        }
+        currentData = isOwner ? {...pub, ...currentData} : pub;
+        fillProfile(pub);
+        // Count real products for this user
+        try{
+          let snap=await db.collection('products').where('owner','==',targetUid).get();
+          if(snap.docs.length>=0){ setText('statProducts', String(snap.docs.length)); renderMyProducts(snap.docs.map(x=>({id:x.id,...x.data()}))); }
+        }catch(e){}
+        return;
+      }
+    }catch(e){ console.log('Read skipped', e.message); }
+  }
+  // Fallback: own local profile
+  if(isOwner && currentData && currentData.name){
+    try{ let localPic=localStorage.getItem('luxora_pic_'+currentUid); if(localPic) currentData.profilePic=localPic; }catch(e){}
+    fillProfile(currentData);
+  } else {
+    fillProfile({name:'', email:user?user.email:'', location:'', phone:''});
+  }
+});
+async function doLogout(){ try{await auth.signOut();}catch(e){} sessionStorage.removeItem('luxora_session'); location.href='login.html'; }
+</script>
+</body>
+</html>
