@@ -1,0 +1,281 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Get Verified</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0d0b08;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.topnav2{background:#0d0b08;padding:0 16px 12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.topnav2 a{padding:9px 14px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.topnav2 a.home{background:#fff;color:#111}.topnav2 a.market{background:#111;color:#fff;border:1px solid #3a2f1c}.topnav2 a.adv{background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111}.topnav2 a.ai{background:#1a160f;color:#d8b45a;border:1px solid #3a2f1c}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 100px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:22px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:28px}.hero p{color:#ccc;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;margin-top:6px}
+.badge-demo{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #eee;border-radius:16px;padding:12px;margin-top:14px}
+.badge-demo img{width:52px;height:52px;border-radius:50%;object-fit:cover}.verified{color:#1d4ed8;font-weight:800}
+.benefits{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.ben{background:#fff;border:1px solid #eee;border-radius:16px;padding:13px;text-align:center}.ben b{font-size:13px}.ben span{display:block;font-size:11px;color:#888;margin-top:4px;line-height:1.5}
+.steps{background:#fff;border:1px solid #eee;border-radius:20px;padding:18px;margin-top:14px}.steps h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+.step{display:flex;gap:10px;margin-top:12px}.step .num{width:28px;height:28px;background:#111;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}.step b{font-size:13px}.step p{font-size:12px;color:#666;margin-top:2px;line-height:1.5}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.plan{background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;text-align:center;cursor:pointer}.plan.active{border:2px solid #1d4ed8;background:#f0f6ff}.plan b{font-size:14px}.plan span{display:block;font-size:11px;color:#888;margin-top:4px}.plan .price{font-size:16px;font-weight:800;margin-top:6px}
+.form{background:#fff;border:1px solid #eee;border-radius:20px;padding:18px;margin-top:14px}.form h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+.form label{display:block;font-size:12px;font-weight:700;margin:14px 0 6px}
+.form input,.form select{width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;outline:none;font-size:14px;background:#FFFEFB}.form input:focus,.form select:focus{border-color:#1d4ed8}
+.form input.error{border-color:#dc2626;background:#fef2f2}.form input.ok{border-color:#16a34a;background:#f0fdf4}
+.hint{font-size:11px;color:#888;margin-top:4px}.hint.ok{color:#16a34a;font-weight:700}.hint.bad{color:#dc2626;font-weight:700}
+.preview{width:100%;height:150px;border:1.5px dashed #ddd;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#fafafa;color:#999;font-size:12px;text-align:center;line-height:1.5;position:relative}.preview img{width:100%;height:100%;object-fit:cover}
+.preview .score{position:absolute;bottom:8px;left:8px;background:#111;color:#fff;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700}.preview .score.good{background:#16a34a}.preview .score.bad{background:#dc2626}
+.upload-btn{display:block;text-align:center;background:#f5f1ea;padding:10px;border-radius:999px;font-weight:700;font-size:12px;margin-top:7px;cursor:pointer}
+.scan-guide{border:1px dashed #1d4ed8;border-radius:12px;padding:10px;margin-top:8px;font-size:11px;color:#1d4ed8;background:#f0f6ff;line-height:1.6}
+.submit{width:100%;background:#111;color:#fff;border:none;padding:15px;border-radius:999px;font-weight:800;font-size:15px;margin-top:16px;cursor:pointer}.submit:disabled{opacity:.6}
+.note{font-size:11px;color:#888;text-align:center;margin-top:10px;line-height:1.6}
+.my-ver{margin-top:20px}.my-ver h3{font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+.vcard{background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;margin-top:12px;display:flex;gap:12px}.vcard img{width:60px;height:60px;object-fit:cover;border-radius:12px}.vcard b{font-size:14px}.vcard span{font-size:12px;color:#888;display:block}
+.status{display:inline-block;padding:4px 9px;border-radius:999px;font-size:11px;font-weight:800;margin-top:6px}.status.Pending{background:#fef3c7;color:#92400e}.status.Approved{background:#d1fae5;color:#065f46}.status.Rejected{background:#fee2e2;color:#991b1b}.status.AwaitingPayment{background:#dbeafe;color:#1e40af}
+.vcard button{border:none;padding:8px 11px;border-radius:999px;font-weight:700;font-size:11px;cursor:pointer;margin-top:8px}.btn-wa{background:#25D366;color:#fff}.btn-del{background:#ffe5e5;color:#c00}.btn-pay{background:#111;color:#fff}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:99;max-width:90%;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.modal-card{background:#fff;border-radius:20px;padding:22px;width:100%;max-width:400px;text-align:center}
+.scan-row{display:flex;align-items:center;gap:10px;text-align:left;padding:10px;border:1px solid #eee;border-radius:12px;margin-top:8px;font-size:13px}.scan-row .dot{width:22px;height:22px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}.scan-row.done .dot{background:#16a34a;color:#fff}.scan-row.fail .dot{background:#dc2626;color:#fff}.scan-row.active .dot{background:#1d4ed8;color:#fff}
+.progress{height:8px;background:#eee;border-radius:999px;margin-top:14px;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,#1d4ed8,#16a34a);width:0%;transition:width .4s}
+.pay-box{background:#f9f7f2;border:1px solid #eee;border-radius:16px;padding:14px;margin-top:12px;text-align:left}.pay-box b{font-size:13px}.pay-box p{font-size:12px;color:#666;margin-top:4px;line-height:1.6}
+</style>
+</head>
+<body>
+<header><div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div>🔔</div></header>
+<div class="topnav2"><a href="home.html" class="home">Home</a><a href="marketplace.html" class="market">Marketplace</a><a href="advertising.html" class="adv">Advertise</a><a href="ai.html" class="ai">AI Assistant</a></div>
+
+<div class="wrap">
+<div class="hero"><h1>Get Verified</h1><p>We scan your ID and selfie to confirm you are real.<br>Only real sellers get the blue badge.</p></div>
+<div class="badge-demo"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200"><div style="flex:1"><b>Ada's Store <span class="verified">✓ Verified</span></b><span style="font-size:12px;color:#888;display:block">Verified Seller • Lagos</span><span style="font-size:11px;color:#0a7a44;font-weight:700">Buyers trust verified sellers 3x more</span></div></div>
+<div class="benefits"><div class="ben"><b>Blue Verified Badge</b><span>Shows on all your products</span></div><div class="ben"><b>Top Placement</b><span>Your products appear first</span></div><div class="ben"><b>More Sales</b><span>Buyers trust you faster</span></div><div class="ben"><b>Priority Support</b><span>Admin helps you first</span></div></div>
+<div class="steps"><h3>How Verification Works</h3>
+<div class="step"><div class="num">1</div><div><b>Fill Your Details</b><p>Enter your real name and ID number. Fake numbers are rejected.</p></div></div>
+<div class="step"><div class="num">2</div><div><b>Upload ID + Selfie</b><p>Our system scans image quality and compares your selfie with your ID.</p></div></div>
+<div class="step"><div class="num">3</div><div><b>Pay Verification Fee</b><p>Pay the fee for your plan and upload payment proof.</p></div></div>
+<div class="step"><div class="num">4</div><div><b>Admin Final Review</b><p>Admin checks the scan result and payment, then approves you.</p></div></div>
+</div>
+
+<div class="plans">
+<div class="plan active" onclick="setPlan('Seller Verification',5000,this)"><b>Seller Verification</b><span>For individual sellers</span><div class="price">₦5,000</div><span>ID + Selfie Required</span></div>
+<div class="plan" onclick="setPlan('Business Verification',10000,this)"><b>Business Verification</b><span>For shops and brands</span><div class="price">₦10,000</div><span>ID + Business Proof Required</span></div>
+</div>
+<p class="hint" style="text-align:center;margin-top:6px">To change the prices, edit the numbers in setPlan() in the code.</p>
+
+<div class="form">
+<h3>Step 1: Your Details</h3>
+<label>Full Name *</label>
+<input id="vName" placeholder="Your full legal name as on your ID" oninput="validateName()">
+<div class="hint" id="nameHint">Enter the exact name on your ID.</div>
+
+<label>Shop / Business Name *</label>
+<input id="vShop" placeholder="Example: Ada's Store">
+
+<label>WhatsApp Number *</label>
+<input id="vPhone" placeholder="Example: 08031234567" inputmode="tel">
+
+<label>ID Type *</label>
+<select id="vIdType" onchange="onIdTypeChange()">
+<option value="National ID (NIN)">National ID (NIN) — 11 Digits</option>
+<option value="Driver's License">Driver's License — Example: ABC12345AA12</option>
+<option value="International Passport">International Passport — Example: A12345678</option>
+<option value="Voter's Card">Voter's Card — 19 Characters</option>
+</select>
+
+<label>ID Number *</label>
+<input id="vIdNumber" placeholder="Enter your ID number" oninput="validateIdNumber()">
+<div class="hint" id="idHint">Your ID number will be scanned and checked.</div>
+
+<label>Photo of Your ID (Front) *</label>
+<div class="preview" id="prevId">No ID photo yet<br>Make sure all text is clear</div>
+<label class="upload-btn" for="fileId">Upload ID Photo</label>
+<input type="file" id="fileId" accept="image/*" style="display:none" onchange="handleImage(event,'id')">
+<div class="scan-guide">ID Photo Tips: Good light, no flash glare, all 4 corners visible, no fingers covering text.</div>
+<div class="hint" id="idImgHint"></div>
+
+<label>Selfie Holding Your ID *</label>
+<div class="preview" id="prevSelfie">No selfie yet<br>Hold your ID next to your face</div>
+<label class="upload-btn" for="fileSelfie">Upload Selfie</label>
+<input type="file" id="fileSelfie" accept="image/*" style="display:none" onchange="handleImage(event,'selfie')">
+<div class="scan-guide">Selfie Tips: Look at the camera, hold ID beside your face, do not wear sunglasses or a cap, use good light.</div>
+<div class="hint" id="selfieHint"></div>
+
+<label>Proof of Business (Required for Business Plan)</label>
+<input id="vProofText" placeholder="Example: CAC certificate, shop receipt, Instagram page">
+<div class="preview" id="prevProof" style="margin-top:8px">No proof photo yet (Optional for Seller)</div>
+<label class="upload-btn" for="fileProof">Upload Proof Photo</label>
+<input type="file" id="fileProof" accept="image/*" style="display:none" onchange="handleImage(event,'proof')">
+
+<label><input type="checkbox" id="agree" style="width:auto"> I confirm all information is true and my documents are real.</label>
+
+<button class="submit" id="scanBtn" onclick="startScan()">Scan and Verify My Details</button>
+<p class="note">Our system scans your ID and images instantly. If the scan fails, fix the issue and try again. Your documents are private. Only Admin can see them.</p>
+
+<div id="paymentSection" style="display:none">
+<h3 style="margin-top:18px">Step 2: Payment</h3>
+<div class="pay-box"><b id="payPlanText">Seller Verification — ₦5,000</b><p>Transfer to:<br><b>Bank: Opay Digital Services</b><br>Account Number: <b>7083358402</b><br>Account Name: <b>LUXORA.DEV</b><br><br>After payment, upload your receipt below.</p></div>
+<label>Upload Payment Receipt *</label>
+<div class="preview" id="prevPay">No receipt yet</div>
+<label class="upload-btn" for="filePay">Upload Payment Receipt</label>
+<input type="file" id="filePay" accept="image/*" style="display:none" onchange="handleImage(event,'pay')">
+<button class="submit" onclick="submitVerification()">Submit to Admin for Final Review</button>
+</div>
+</div>
+
+<div class="my-ver"><h3>My Verification Requests</h3><p style="font-size:12px;color:#888">Track your verification status here.</p><div id="verList"></div><div id="noVer" style="text-align:center;color:#888;padding:20px;font-size:13px">You have not applied yet.<br>Submit your application above.</div></div>
+</div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="scanModal"><div class="modal-card">
+<div style="font-size:36px">🔍</div><h2 style="font-family:'Playfair Display',serif;font-style:italic">Scanning Your Details</h2><p style="font-size:12px;color:#666;margin-top:6px">Please wait. Do not close this page.</p>
+<div id="scanList"></div><div class="progress"><i id="scanBar"></i></div><p id="scanResult" style="font-size:13px;font-weight:700;margin-top:10px"></p>
+</div></div>
+
+<div class="modal" id="successBox"><div class="modal-card"><div style="font-size:40px">✅</div><h2>Application Submitted</h2><p>Your verification passed the scan and has been sent to Admin for final review.</p><button style="width:100%;padding:13px;border-radius:999px;border:none;font-weight:800;margin-top:10px;background:#25D366;color:#fff" onclick="sendLastToWhatsApp()">Send to WhatsApp</button><button style="width:100%;padding:13px;border-radius:999px;border:none;font-weight:800;margin-top:10px;background:#111;color:#fff" onclick="closeSuccess()">Done</button></div></div>
+
+<script>
+const ADMIN_WHATSAPP = "2347083358402";
+let selectedPlan='Seller Verification'; let selectedPrice=5000;
+let idImg='', selfieImg='', proofImg='', payImg='';
+let idQuality=0, selfieQuality=0, idMeta=null, selfieMeta=null;
+let scanPassed=false; let lastApp=null;
+let session=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+let cur=session&&users[session.email]?users[session.email]:null;
+if(cur){ document.getElementById('vName').value=cur.name||''; document.getElementById('vShop').value=cur.name||''; }
+
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3200)}
+function setPlan(p,price,el){selectedPlan=p;selectedPrice=price;document.querySelectorAll('.plan').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('payPlanText').textContent=p+' — ₦'+price.toLocaleString();}
+function onIdTypeChange(){ validateIdNumber(); }
+
+function validateName(){
+  let v=document.getElementById('vName').value.trim(); let el=document.getElementById('vName'); let hint=document.getElementById('nameHint');
+  if(v.length<3){ el.className=''; hint.textContent='Name is too short.'; hint.className='hint bad'; return false; }
+  if(!/^[A-Za-z\s'\\-]{3,}$/.test(v)){ el.classList.add('error'); hint.textContent='Enter a real name. No numbers or symbols.'; hint.className='hint bad'; return false; }
+  el.classList.remove('error'); el.classList.add('ok'); hint.textContent='Name looks valid.'; hint.className='hint ok'; return true;
+}
+function validateIdNumber(){
+  let type=document.getElementById('vIdType').value; let v=document.getElementById('vIdNumber').value.trim().toUpperCase(); let el=document.getElementById('vIdNumber'); let hint=document.getElementById('idHint');
+  let ok=false, msg='';
+  if(type.includes('National ID')){ ok=/^\d{11}$/.test(v); msg=ok?'NIN format is correct (11 digits).':'NIN must be exactly 11 digits. Example: 12345678901'; }
+  else if(type.includes('Driver')){ ok=/^[A-Z]{3}[0-9]{5}[A-Z]{2}[0-9]{2}$/.test(v); msg=ok?'Driver License format is correct.':'Driver License format is wrong. Example: ABC12345AA12'; }
+  else if(type.includes('Passport')){ ok=/^[A-Z][0-9]{8}$/.test(v); msg=ok?'Passport format is correct.':'Passport must be 1 letter + 8 digits. Example: A12345678'; }
+  else if(type.includes('Voter')){ ok=v.replace(/[\s-]/g,'').length>=18; msg=ok?'Voter Card number looks valid.':'Voter Card number is too short. Check it again.'; }
+  el.classList.toggle('error', !ok && v.length>0); el.classList.toggle('ok', ok);
+  hint.textContent=msg; hint.className='hint '+(ok?'ok':(v.length?'bad':'')); return ok;
+}
+function checkImageQuality(dataUrl){
+  return new Promise((resolve)=>{
+    let img=new Image(); img.onload=function(){
+      let canvas=document.createElement('canvas'); let w=Math.min(img.width,400); let h=Math.round(img.height*(w/img.width)); canvas.width=w; canvas.height=h;
+      let ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+      let data=ctx.getImageData(0,0,w,h).data; let bright=0, contrast=0;
+      for(let i=0;i<data.length;i+=16){ bright+=(data[i]+data[i+1]+data[i+2])/3; }
+      bright=bright/(data.length/16);
+      let variance=0; for(let i=0;i<data.length;i+=32){ let g=(data[i]+data[i+1]+data[i+2])/3; variance+=Math.pow(g-bright,2); }
+      variance=variance/(data.length/32);
+      let score=50;
+      if(img.width>=600) score+=20; else if(img.width>=300) score+=10; else score-=20;
+      if(bright>40 && bright<220) score+=15; else score-=25;
+      if(variance>300) score+=15; else score-=20;
+      resolve({score:Math.max(0,Math.min(100,Math.round(score))), width:img.width, height:img.height, brightness:Math.round(bright)});
+    }; img.src=dataUrl;
+  });
+}
+async function handleImage(e,type){
+  let f=e.target.files[0]; if(!f) return;
+  if(!f.type.startsWith('image/')){ toast('Please upload an image file'); return; }
+  if(f.size>5*1024*1024){ toast('Image is too large. Use an image under 5MB'); return; }
+  if(f.size<15000){ toast('Image is too small or too blurry. Take a clearer photo'); return; }
+  let r=new FileReader(); r.onload=async function(){
+    let data=r.result;
+    let q=await checkImageQuality(data);
+    let previewId= type==='id'?'prevId': type==='selfie'?'prevSelfie': type==='proof'?'prevProof':'prevPay';
+    let hintId= type==='id'?'idImgHint': type==='selfie'?'selfieHint':null;
+    if(type==='id'){ idImg=data; idQuality=q.score; idMeta=q; }
+    if(type==='selfie'){ selfieImg=data; selfieQuality=q.score; selfieMeta=q; }
+    if(type==='proof'){ proofImg=data; }
+    if(type==='pay'){ payImg=data; }
+    document.getElementById(previewId).innerHTML=`<img src="${data}"><span class="score ${q.score>=60?'good':'bad'}">Quality: ${q.score}%</span>`;
+    if(hintId){ let h=document.getElementById(hintId); if(q.score>=60){ h.textContent='Image quality is good ('+q.score+'%).'; h.className='hint ok'; } else { h.textContent='Image is too blurry or too dark ('+q.score+'%). Please retake in good light.'; h.className='hint bad'; } }
+  }; r.readAsDataURL(f);
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+async function startScan(){
+  let name=document.getElementById('vName').value.trim();
+  let shop=document.getElementById('vShop').value.trim();
+  let phone=document.getElementById('vPhone').value.trim();
+  let idNumber=document.getElementById('vIdNumber').value.trim();
+  let proofText=document.getElementById('vProofText').value.trim();
+  if(!validateName()){ toast('Please fix your full name'); return; }
+  if(!shop){ toast('Please enter your shop name'); return; }
+  if(!phone || phone.replace(/[^0-9]/g,'').length<10){ toast('Please enter a valid WhatsApp number'); return; }
+  if(!validateIdNumber()){ toast('Your ID number format is wrong. Check it and try again'); return; }
+  if(!idImg){ toast('Please upload your ID photo'); return; }
+  if(!selfieImg){ toast('Please upload a selfie holding your ID'); return; }
+  if(idQuality<50){ toast('Your ID photo is too blurry or too dark. Retake it in good light'); return; }
+  if(selfieQuality<50){ toast('Your selfie is too blurry or too dark. Retake it in good light'); return; }
+  if(idImg===selfieImg){ toast('Selfie cannot be the same as your ID photo. Take a live selfie'); return; }
+  if(selectedPlan==='Business Verification' && !proofImg && !proofText){ toast('Business verification requires proof of business'); return; }
+  if(!document.getElementById('agree').checked){ toast('Please confirm your information is true'); return; }
+  // Duplicate check
+  let existing=JSON.parse(localStorage.getItem('luxora_verifications')||'[]');
+  if(existing.some(x=>x.idNumber===idNumber)){ toast('This ID number has already been used for verification'); return; }
+  if(existing.some(x=>x.phone===phone && x.status==='Approved')){ toast('This phone number is already verified'); return; }
+
+  // Show scan modal
+  let modal=document.getElementById('scanModal'); modal.style.display='flex';
+  let steps=[
+    {label:'Checking ID number format', test:()=>validateIdNumber()},
+    {label:'Checking ID image quality', test:()=>idQuality>=60},
+    {label:'Checking selfie image quality', test:()=>selfieQuality>=60},
+    {label:'Comparing selfie with ID photo', test:()=>idImg!==selfieImg && Math.abs(idQuality-selfieQuality)<60},
+    {label:'Checking for duplicate ID', test:()=>!existing.some(x=>x.idNumber===idNumber)},
+    {label:'Checking name on ID', test:()=>name.split(' ').length>=2}
+  ];
+  let list=document.getElementById('scanList'); list.innerHTML=''; document.getElementById('scanResult').textContent='';
+  for(let i=0;i<steps.length;i++){
+    let row=document.createElement('div'); row.className='scan-row active'; row.innerHTML=`<span class="dot">...</span><span>${steps[i].label}</span>`; list.appendChild(row);
+    document.getElementById('scanBar').style.width=((i+1)/steps.length*100)+'%';
+    await sleep(700);
+    let pass=steps[i].test();
+    row.className='scan-row '+(pass?'done':'fail'); row.querySelector('.dot').textContent=pass?'✓':'✕';
+    if(!pass){
+      document.getElementById('scanResult').textContent='Scan Failed: '+steps[i].label+'. Please fix it and try again.'; document.getElementById('scanResult').style.color='#dc2626';
+      await sleep(1200); modal.style.display='none'; toast('Scan failed. Please fix the issue and try again'); return;
+    }
+  }
+  document.getElementById('scanResult').textContent='Scan Passed! Your details look real. Proceed to payment.'; document.getElementById('scanResult').style.color='#16a34a';
+  scanPassed=true; await sleep(1000); modal.style.display='none';
+  document.getElementById('paymentSection').style.display='block';
+  document.getElementById('payPlanText').textContent=selectedPlan+' — ₦'+selectedPrice.toLocaleString();
+  document.getElementById('paymentSection').scrollIntoView({behavior:'smooth'});
+  toast('Scan passed. Now complete payment');
+}
+function buildWA(a){ return `Hello LUXORA.DEV Admin,\n\n*New Verification Application - SCAN PASSED*\n\nPlan: ${a.plan} - ₦${a.price}\nName: ${a.name}\nShop: ${a.shop}\nPhone: ${a.phone}\nID Type: ${a.idType}\nID Number: ${a.idNumber}\nScan Score: ID ${a.idQuality}% / Selfie ${a.selfieQuality}%\nPayment: Receipt Uploaded\n\nPlease do final review. Thank you.`; }
+function sendLastToWhatsApp(){ if(!lastApp) return; window.open('https://wa.me/'+ADMIN_WHATSAPP+'?text='+encodeURIComponent(buildWA(lastApp)), '_blank'); }
+function submitVerification(){
+  if(!scanPassed){ toast('Please run the scan first'); return; }
+  if(!payImg){ toast('Please upload your payment receipt'); return; }
+  let app={ id:Date.now(), plan:selectedPlan, price:selectedPrice, name:document.getElementById('vName').value.trim(), shop:document.getElementById('vShop').value.trim(), phone:document.getElementById('vPhone').value.trim(), idType:document.getElementById('vIdType').value, idNumber:document.getElementById('vIdNumber').value.trim(), proofText:document.getElementById('vProofText').value.trim(), idImg:idImg, selfieImg:selfieImg, proofImg:proofImg, payImg:payImg, idQuality:idQuality, selfieQuality:selfieQuality, scanPassed:true, status:'Pending', createdAt:new Date().toLocaleString(), ownerEmail:cur?cur.email||session.email:'guest' };
+  let all=JSON.parse(localStorage.getItem('luxora_verifications')||'[]'); all.unshift(app); localStorage.setItem('luxora_verifications', JSON.stringify(all)); lastApp=app; renderList();
+  document.getElementById('successBox').style.display='flex';
+}
+function closeSuccess(){ document.getElementById('successBox').style.display='none'; }
+function renderList(){
+  let all=JSON.parse(localStorage.getItem('luxora_verifications')||'[]'); let mine=cur?all.filter(x=>x.ownerEmail===(cur.email||session.email)):all; if(cur && mine.length===0) mine=all.slice(0,10);
+  document.getElementById('noVer').style.display=mine.length?'none':'block';
+  document.getElementById('verList').innerHTML=mine.map(a=>`<div class="vcard"><img src="${a.selfieImg||''}"><div style="flex:1"><b>${a.shop} — ${a.plan}</b><span>${a.name} • ${a.idType} • Scan: ${a.idQuality||'-'}%</span><span>${a.createdAt}</span><span class="status ${a.status==='Awaiting Payment'?'AwaitingPayment':a.status}">${a.status}</span><br><button class="btn-wa" onclick="sendOneToWA(${a.id})">Send to WhatsApp</button> <button class="btn-del" onclick="deleteOne(${a.id})">Delete</button></div></div>`).join('');
+}
+function sendOneToWA(id){ let all=JSON.parse(localStorage.getItem('luxora_verifications')||'[]'); let a=all.find(x=>x.id===id); if(!a) return; window.open('https://wa.me/'+ADMIN_WHATSAPP+'?text='+encodeURIComponent(buildWA(a)), '_blank'); }
+function deleteOne(id){ if(!confirm('Delete this verification application?')) return; let all=JSON.parse(localStorage.getItem('luxora_verifications')||'[]'); all=all.filter(x=>x.id!==id); localStorage.setItem('luxora_verifications', JSON.stringify(all)); renderList(); toast('Application deleted'); }
+renderList();
+</script>
+</body>
+</html>
