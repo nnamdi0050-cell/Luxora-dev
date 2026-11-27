@@ -1,0 +1,248 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — AI Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0d0b08;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.topnav2{background:#0d0b08;padding:0 16px 12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.topnav2 a{padding:9px 14px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.topnav2 a.home{background:#fff;color:#111}
+.topnav2 a.market{background:#111;color:#fff;border:1px solid #3a2f1c}
+.topnav2 a.adv{background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111}
+.topnav2 a.follow{background:#0fa958;color:#fff}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 110px}
+.ai-hero{background:#111;color:#fff;border-radius:22px;padding:18px;margin-top:14px;display:flex;gap:14px;align-items:center}
+.ai-hero img{width:76px;height:76px;border-radius:50%;object-fit:cover;border:2px solid #d8b45a;flex-shrink:0}
+.ai-hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:24px}
+.ai-hero p{color:#ccc;font-size:12px;margin-top:4px;line-height:1.5}
+.online{display:inline-flex;align-items:center;gap:6px;background:#0a7a44;color:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;margin-top:8px}
+.online i{width:7px;height:7px;background:#7CFFB2;border-radius:50%;display:block;animation:pulse 1.2s infinite}
+@keyframes pulse{0%{opacity:1}50%{opacity:.3}100%{opacity:1}}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px}
+.stat{background:#fff;border:1px solid #eee;border-radius:14px;padding:10px;text-align:center}
+.stat b{font-size:14px}.stat span{display:block;font-size:10px;color:#888;margin-top:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:2px}
+.chip{background:#fff;border:1px solid #eee;padding:9px 13px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.chip:hover{background:#111;color:#fff}
+.chat{background:#fff;border:1px solid #eee;border-radius:20px;margin-top:14px;padding:14px;min-height:340px;display:flex;flex-direction:column;gap:12px}
+.msg{max-width:86%;padding:11px 13px;border-radius:16px;font-size:13.5px;line-height:1.6;white-space:pre-line}
+.msg small{display:block;font-size:10px;color:#999;margin-top:5px}
+.msg.user{background:#111;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.msg.ai{background:#f9f7f2;border:1px solid #eee;align-self:flex-start;border-bottom-left-radius:4px}
+.msg.ai b{color:#111}
+.msg .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.msg .btns button{border:none;padding:8px 12px;border-radius:999px;font-weight:700;font-size:11px;cursor:pointer}
+.btn-dark{background:#111;color:#fff}.btn-gold{background:linear-gradient(180deg,#d8b45a,#b08d3e);color:#111}.btn-green{background:#25D366;color:#fff}.btn-light{background:#eee;color:#111}
+.typing{display:none;align-items:center;gap:6px;background:#f9f7f2;border:1px solid #eee;padding:11px 13px;border-radius:16px;align-self:flex-start;font-size:12px;color:#888}
+.typing i{width:7px;height:7px;background:#b08d3e;border-radius:50%;display:inline-block;animation:bounce 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.inputbar{position:fixed;bottom:56px;left:0;right:0;background:#fff;border-top:1px solid #eee;padding:10px 12px;z-index:30}
+.inputwrap{max-width:560px;margin:0 auto;display:flex;gap:8px;align-items:center}
+.inputwrap input{flex:1;padding:12px 14px;border:1.5px solid #eee;border-radius:999px;outline:none;font-size:14px}
+.inputwrap input:focus{border-color:#b08d3e}
+.send{width:46px;height:46px;border-radius:50%;border:none;background:#111;color:#fff;font-size:18px;cursor:pointer;flex-shrink:0}
+.clear{width:46px;height:46px;border-radius:50%;border:1px solid #eee;background:#fff;font-size:16px;cursor:pointer;flex-shrink:0}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:40}
+.bottom a{text-align:center;font-size:11px;color:#888}.bottom a.active{color:#111;font-weight:700}
+.help-box{background:#111;color:#fff;border-radius:18px;padding:16px;margin-top:14px;text-align:center}
+.help-box p{font-size:12px;color:#bbb;margin-top:6px}
+.help-box button{margin-top:11px;background:#25D366;color:#fff;border:none;padding:11px 18px;border-radius:999px;font-weight:800;cursor:pointer}
+</style>
+</head>
+<body>
+<header><div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div>🔔</div></header>
+<div class="topnav2">
+<a href="home.html" class="home">Home</a>
+<a href="marketplace.html" class="market">Marketplace</a>
+<a href="advertising.html" class="adv">Advertise</a>
+<a href="#" class="follow">Follow Channel</a>
+</div>
+
+<div class="wrap">
+<div class="ai-hero">
+<img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=300" alt="LUXORA AI">
+<div>
+<h1>Hi, I am LUXORA AI</h1>
+<p>Ask me anything about LUXORA.DEV. I can help you buy, sell, advertise, or find the right product.</p>
+<span class="online"><i></i> Online • Replies in seconds</span>
+</div>
+</div>
+
+<div class="stats">
+<div class="stat"><b>24/7</b><span>Always Available</span></div>
+<div class="stat"><b>&lt; 1 sec</b><span>Fast Replies</span></div>
+<div class="stat"><b>100%</b><span>Free to Use</span></div>
+</div>
+
+<div class="chips" id="chips">
+<div class="chip" onclick="askChip('How do I buy a product?')">How do I buy?</div>
+<div class="chip" onclick="askChip('How do I advertise my product?')">How do I sell?</div>
+<div class="chip" onclick="askChip('How do I get verified?')">How do I get verified?</div>
+<div class="chip" onclick="askChip('How does delivery work?')">Delivery</div>
+<div class="chip" onclick="askChip('Recommend a product for me')">Recommend a product</div>
+<div class="chip" onclick="askChip('Is LUXORA.DEV safe?')">Is it safe?</div>
+</div>
+
+<div class="chat" id="chatBox"></div>
+
+<div class="help-box">
+<h3 style="font-family:'Playfair Display',serif;font-style:italic">Need a Human?</h3>
+<p>If the AI cannot solve your issue, our support team will help you directly.</p>
+<button onclick="goSupport()">Contact Customer Service</button>
+</div>
+</div>
+
+<div class="inputbar"><div class="inputwrap">
+<button class="clear" onclick="clearChat()" title="Clear chat">🗑️</button>
+<input id="userInput" placeholder="Ask LUXORA AI anything..." onkeydown="if(event.key==='Enter')sendMsg()">
+<button class="send" onclick="sendMsg()">➤</button>
+</div></div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+
+<script>
+let chatBox=document.getElementById('chatBox');
+let input=document.getElementById('userInput');
+let products=JSON.parse(localStorage.getItem('luxora_user_products')||'[]');
+let session=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+let cur=session&&users[session.email]?users[session.email]:null;
+let userName=cur?cur.name.split(' ')[0]:'there';
+
+function timeNow(){ return new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}); }
+function scrollDown(){ chatBox.scrollIntoView({behavior:'smooth', block:'end'}); }
+
+function addMsg(text, who, buttons){
+  let div=document.createElement('div');
+  div.className='msg '+(who==='user'?'user':'ai');
+  div.innerHTML=text+`<small>${who==='user'?'You':'LUXORA AI'} • ${timeNow()}</small>`;
+  if(buttons){
+    let b=document.createElement('div'); b.className='btns'; b.innerHTML=buttons;
+    div.appendChild(b);
+  }
+  chatBox.appendChild(div);
+  saveChat();
+  scrollDown();
+}
+function saveChat(){ localStorage.setItem('luxora_ai_chat', chatBox.innerHTML); }
+function loadChat(){
+  let saved=localStorage.getItem('luxora_ai_chat');
+  if(saved){ chatBox.innerHTML=saved; }
+  else {
+    addMsg(`Hello ${userName}! Welcome to LUXORA.DEV.\n\nI can help you:\n• Find products in the Marketplace\n• Advertise your product\n• Understand verification\n• Track delivery and orders\n• Explain how LUXORA.DEV works\n\nWhat do you need help with today?`, 'ai', `<button class="btn-dark" onclick="askChip('How do I buy a product?')">I want to buy</button><button class="btn-gold" onclick="askChip('How do I advertise my product?')">I want to sell</button><button class="btn-light" onclick="askChip('Recommend a product for me')">Recommend a product</button>`);
+  }
+}
+function clearChat(){ if(confirm('Clear this chat?')){ localStorage.removeItem('luxora_ai_chat'); chatBox.innerHTML=''; loadChat(); } }
+function askChip(q){ input.value=q; sendMsg(); }
+
+function showTyping(){
+  let t=document.createElement('div'); t.className='typing'; t.id='typing';
+  t.innerHTML=`<i></i><i></i><i></i> LUXORA AI is typing...`;
+  chatBox.appendChild(t); scrollDown();
+}
+function hideTyping(){ let t=document.getElementById('typing'); if(t) t.remove(); }
+
+function sendMsg(){
+  let q=input.value.trim(); if(!q) return;
+  addMsg(q, 'user');
+  input.value='';
+  showTyping();
+  // Reply in under 1 second for a fast feel
+  setTimeout(()=>{ hideTyping(); let ans=getAIReply(q); addMsg(ans.text, 'ai', ans.buttons); }, 650);
+}
+
+function getAIReply(raw){
+  let q=raw.toLowerCase();
+  let supportBtn=`<button class="btn-green" onclick="goSupport()">Contact Customer Service</button>`;
+
+  // RECOMMENDATION - based on real products in Marketplace
+  if(q.includes('recommend') || q.includes('suggest') || q.includes('best product') || q.includes('what should i buy')){
+    if(products.length===0){
+      return {text:`Right now, there are no products listed in the Marketplace yet.\n\nOnce sellers post products, I will recommend the best one for you based on your budget and category.\n\nWould you like to be the first to advertise a product?`, buttons:`<button class="btn-gold" onclick="location.href='advertising.html'">Advertise a Product</button><button class="btn-dark" onclick="location.href='marketplace.html'">Check Marketplace</button>${supportBtn}`};
+    }
+    let top=products.slice(0,3).map(p=>`• ${p.title} — ${p.price} (${p.category}) by ${p.sellerName||'Seller'}`).join('\n');
+    return {text:`Here are the top products in the Marketplace right now:\n\n${top}\n\nTell me your budget or category, and I will narrow it down for you.`, buttons:`<button class="btn-dark" onclick="location.href='marketplace.html'">View All in Marketplace</button>${supportBtn}`};
+  }
+
+  // BUY
+  if(q.includes('buy') || q.includes('purchase') || q.includes('order') || q.includes('how do i get') || q.includes('checkout')){
+    return {text:`Buying on LUXORA.DEV is simple:\n\n1. Go to Marketplace\n2. Find a product you like\n3. Tap Buy Now\n4. Contact the seller on WhatsApp to confirm price and delivery\n5. Pay the seller directly and arrange delivery\n\nLUXORA.DEV connects you to verified sellers. You pay only after you confirm the product with the seller.`, buttons:`<button class="btn-dark" onclick="location.href='marketplace.html'">Go to Marketplace</button>${supportBtn}`};
+  }
+
+  // SELL / ADVERTISE
+  if(q.includes('sell') || q.includes('advertise') || q.includes('post') || q.includes('list my') || q.includes('advert')){
+    return {text:`To sell on LUXORA.DEV:\n\n1. Go to Advertise Your Product\n2. Add your product name, price, photo, and WhatsApp number\n3. Choose Free Listing\n4. Tap Post to Marketplace\n\nYour product will appear in the Marketplace immediately, and buyers can contact you on WhatsApp.`, buttons:`<button class="btn-gold" onclick="location.href='advertising.html'">Advertise Your Product</button>${supportBtn}`};
+  }
+
+  // VERIFICATION
+  if(q.includes('verif') || q.includes('badge') || q.includes('blue tick') || q.includes('trusted')){
+    return {text:`Verification gives you a blue verified badge so buyers trust you faster.\n\nVerified sellers get:\n• A verified badge on all their products\n• Higher placement in the Marketplace\n• More buyer confidence\n\nTo get verified, open the Verification page and follow the steps.`, buttons:`<button class="btn-dark" onclick="location.href='verification.html'">Go to Verification</button>${supportBtn}`};
+  }
+
+  // DELIVERY
+  if(q.includes('deliver') || q.includes('shipping') || q.includes('pickup') || q.includes('how long')){
+    return {text:`Delivery depends on the seller and your location.\n\n• Pickup: You meet the seller directly\n• Delivery: The seller arranges delivery to you\n• Nationwide Shipping: Available for some products\n\nEach product shows its delivery options. Always confirm delivery cost with the seller on WhatsApp before you pay.`, buttons:`<button class="btn-dark" onclick="location.href='marketplace.html'">Check Delivery Options</button>${supportBtn}`};
+  }
+
+  // PAYMENT
+  if(q.includes('pay') || q.includes('payment') || q.includes('transfer') || q.includes('card')){
+    return {text:`Payment is made directly to the seller.\n\nFor your safety:\n• Confirm the product, price, and delivery first\n• Do not send payment to a stranger without confirming\n• Ask for a receipt or proof of delivery\n• If anything looks suspicious, contact Customer Service immediately`, buttons:supportBtn};
+  }
+
+  // SAFE / SCAM / TRUST
+  if(q.includes('safe') || q.includes('scam') || q.includes('trust') || q.includes('fake') || q.includes('fraud')){
+    return {text:`LUXORA.DEV is built for safe buying and selling.\n\nSafety tips:\n• Buy from verified sellers when possible\n• Confirm the product on a video call or in person\n• Do not share your bank PIN or OTP with anyone\n• Report any suspicious seller\n\nIf you feel unsafe about a seller, contact Customer Service right away and we will help you.`, buttons:supportBtn};
+  }
+
+  // ACCOUNT / LOGIN / SIGNUP
+  if(q.includes('account') || q.includes('login') || q.includes('sign') || q.includes('password') || q.includes('profile')){
+    return {text:`For account help:\n\n• To create an account, go to Sign Up\n• To log in, go to Login\n• To update your profile, go to Profile\n\nIf you cannot log in or you forgot your password, Customer Service can help you recover your account.`, buttons:`<button class="btn-dark" onclick="location.href='profile.html'">Go to Profile</button>${supportBtn}`};
+  }
+
+  // DESIGNS / TEMPLATES
+  if(q.includes('design') || q.includes('template')){
+    return {text:`LUXORA.DEV also has Designs and Templates.\n\n• Designs: Created by designers and admins\n• Templates: Ready-made templates you can use for your business\n\nYou can browse them from the bottom navigation.`, buttons:`<button class="btn-dark" onclick="location.href='designs.html'">View Designs</button><button class="btn-light" onclick="location.href='templates.html'">View Templates</button>${supportBtn}`};
+  }
+
+  // PRICE / COST / FEE
+  if(q.includes('cost') || q.includes('fee') || q.includes('how much') || q.includes('price') || q.includes('free')){
+    return {text:`Using LUXORA.DEV is free for buyers.\n\n• Browsing the Marketplace is free\n• Posting a Free Listing is free\n• Using the AI Assistant is free\n\nVerification has its own page with its own details. There are no hidden fees for buying or browsing.`, buttons:`<button class="btn-gold" onclick="location.href='advertising.html'">Start Selling Free</button>${supportBtn}`};
+  }
+
+  // GREETING
+  if(q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('good morning') || q.includes('good evening')){
+    return {text:`Hello ${userName}! Great to see you.\n\nHow can I help you today? I can help you buy, sell, get verified, or find the right product.`, buttons:`<button class="btn-dark" onclick="askChip('How do I buy a product?')">I want to buy</button><button class="btn-gold" onclick="askChip('How do I advertise my product?')">I want to sell</button>`};
+  }
+
+  // HUMAN / CUSTOMER SERVICE REQUEST
+  if(q.includes('human') || q.includes('customer service') || q.includes('support') || q.includes('complain') || q.includes('report')){
+    return {text:`No problem. I will connect you to Customer Service.\n\nTap the button below and our support team will help you directly. Please describe your issue so they can help you faster.`, buttons:supportBtn};
+  }
+
+  // PRICE SEARCH - find product by name
+  let found=products.find(p=>q.includes((p.title||'').toLowerCase().split(' ')[0]) || (p.title||'').toLowerCase().includes(q));
+  if(found){
+    return {text:`Yes, I found this for you:\n\n${found.title} — ${found.price}\nCategory: ${found.category}\nSeller: ${found.sellerName||'Seller'}\n${found.desc||''}\n\nDo you want to view it in the Marketplace?`, buttons:`<button class="btn-dark" onclick="location.href='marketplace.html'">View in Marketplace</button>${supportBtn}`};
+  }
+
+  // FALLBACK - AI cannot help, direct to Customer Service
+  return {text:`I understand your question, but I do not have a complete answer for that yet.\n\nI do not want to give you the wrong information. The best next step is to talk to Customer Service — a real person will help you and solve it quickly.\n\nTap below to contact Customer Service.`, buttons:supportBtn};
+}
+
+function goSupport(){
+  // Change this number to your real Customer Service WhatsApp number
+  let msg=encodeURIComponent('Hello LUXORA.DEV Customer Service, I need help.');
+  window.open('https://wa.me/2340000000000?text='+msg, '_blank');
+}
+
+loadChat();
+</script>
+</body>
+</html>
