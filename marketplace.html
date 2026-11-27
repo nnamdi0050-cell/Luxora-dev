@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Italiana&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I",
+  authDomain: "luxora-dev.firebaseapp.com",
+  projectId: "luxora-dev",
+  storageBucket: "luxora-dev.firebasestorage.app",
+  messagingSenderId: "838821661659",
+  appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe",
+  measurementId: "G-B42LXGZQEE"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:#0d0b08;position:sticky;top:0;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px 110px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:20px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:26px}.hero p{color:#ccc;font-size:13px;margin-top:6px;line-height:1.6}
+.search{width:100%;padding:12px;border:1.5px solid #eee;border-radius:999px;outline:none;margin-top:12px;background:#fff}
+.filters{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.filters button{background:#fff;border:1px solid #eee;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}.filters button.active{background:#111;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.card{background:#fff;border:1px solid #eee;border-radius:18px;overflow:hidden;cursor:pointer}
+.card img{width:100%;height:150px;object-fit:cover}
+.card .pad{padding:12px}
+.card b{font-size:13px;display:block;line-height:1.3}.card .price{font-weight:800;margin-top:6px}.card .seller{font-size:11px;color:#888;margin-top:4px}
+.badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:800;margin-top:6px}.badge.verified{background:#d1fae5;color:#065f46}.badge.unverified{background:#fee2e2;color:#991b1b}.badge.sold{background:#111;color:#fff}
+.buy{width:100%;background:#111;color:#fff;border:none;padding:11px;border-radius:999px;font-weight:800;margin-top:10px;cursor:pointer;font-size:12px}.buy.green{background:#16a34a}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.sheet{background:#fff;width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:20px;max-height:88vh;overflow-y:auto}
+.sheet img{width:100%;height:220px;object-fit:cover;border-radius:14px}
+.sheet h2{font-family:'Playfair Display',serif;font-style:italic;font-size:22px;margin-top:12px}.sheet p{font-size:13px;color:#666;margin-top:8px;line-height:1.6}
+.warn{background:#fef3c7;border:1px solid #fde68a;padding:12px;border-radius:12px;font-size:12px;line-height:1.6;margin-top:12px}.warn.safe{background:#d1fae5;border-color:#a7f3d0}
+.sheet label{display:block;font-size:12px;font-weight:700;margin:14px 0 6px}.sheet input{width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;outline:none}
+.btn{width:100%;padding:14px;border:none;border-radius:999px;font-weight:800;margin-top:12px;cursor:pointer}.btn-wa{background:#25D366;color:#fff;font-size:15px}.btn-close{background:#eee;color:#111}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}.bottom a.active{color:#111;font-weight:700}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:200;max-width:90%;text-align:center}
+.empty{text-align:center;padding:30px;color:#888;font-size:13px;line-height:1.6;background:#fff;border-radius:18px;margin-top:14px}
+</style>
+</head>
+<body>
+<header><div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div style="display:flex;gap:10px"><span onclick="location.href='notification.html'" style="color:#fff;font-size:20px;cursor:pointer">🔔</span><span onclick="location.href='profile.html'" style="color:#fff;font-size:20px;cursor:pointer">👤</span></div></header>
+<div class="wrap">
+<div class="hero"><h1>Marketplace</h1><p>Buy from real users. Chat on WhatsApp. Meet up or get delivery.<br><b style="color:#d8b45a">Always check Verified Badge ✅</b></p></div>
+<input class="search" id="search" placeholder="Search products, e.g. iPhone, Sneakers, Bag..." oninput="render()">
+<div class="filters" id="filters"><button class="active" onclick="setCat('All',this)">All</button><button onclick="setCat('Electronics',this)">Electronics</button><button onclick="setCat('Fashion',this)">Fashion</button><button onclick="setCat('Beauty',this)">Beauty</button><button onclick="setCat('Home',this)">Home</button><button onclick="setCat('Other',this)">Other</button></div>
+<div id="grid" class="grid"></div>
+<div id="empty" class="empty" style="display:none">No products yet.<br>Be the first to advertise your product.<br><br><button onclick="location.href='advertising.html'" style="background:#111;color:#fff;border:none;padding:11px 18px;border-radius:999px;font-weight:800;cursor:pointer">Advertise Now →</button></div>
+</div>
+
+<!-- BUY MODAL -->
+<div class="modal" id="buyModal"><div class="sheet">
+<img id="mImg"><h2 id="mTitle"></h2>
+<p id="mPrice" style="font-weight:800;font-size:16px;color:#111"></p>
+<p id="mSeller"></p>
+<p id="mDesc"></p>
+<div id="mWarn"></div>
+<label>Your Name (so seller knows who you are)</label><input id="buyerName" placeholder="e.g. Chinedu">
+<label>Your WhatsApp Number</label><input id="buyerPhone" placeholder="e.g. 0803...">
+<button class="btn btn-wa" onclick="confirmBuy()">Chat Seller on WhatsApp →</button>
+<p style="text-align:center;font-size:11px;color:#888;margin-top:10px">Seller will get a notification that you are interested.</p>
+<button class="btn btn-close" onclick="closeBuy()">Cancel</button>
+</div></div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html" class="active">Marketplace</a><a href="designs.html">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+
+<script>
+let products=[]; let currentCat='All'; let selected=null;
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
+function setCat(c,el){currentCat=c;document.querySelectorAll('#filters button').forEach(b=>b.classList.remove('active'));el.classList.add('active');render()}
+
+async function loadProducts(){
+  try{
+    let snap=await db.collection('user_products').orderBy('createdAt','desc').get();
+    products=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(!products.length) products=JSON.parse(localStorage.getItem('luxora_user_products')||'[]');
+  }catch(e){ products=JSON.parse(localStorage.getItem('luxora_user_products')||'[]'); }
+  // Demo products if empty - so you can test buying
+  if(!products.length){
+    products=[
+      {id:'demo1', title:'iPhone 13 Pro - Neatly Used', price:'₦450,000', category:'Electronics', sellerName:'Emeka O.', sellerPhone:'08030000001', ownerEmail:'emeka@test.com', verified:true, image:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=600', desc:'Neatly used, battery 89%, no fault. Comes with charger.'},
+      {id:'demo2', title:'Nike Air Force 1 - Size 43', price:'₦85,000', category:'Fashion', sellerName:'Adaeze', sellerPhone:'08030000002', ownerEmail:'ada@test.com', verified:false, image:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600', desc:'Brand new, original. Size 43, white.'}
+    ];
+  }
+  render();
+}
+function render(){
+  let q=(document.getElementById('search').value||'').toLowerCase();
+  let list=products.filter(p=>p.status!=='sold' && p.status!=='hidden');
+  if(currentCat!=='All') list=list.filter(p=>p.category===currentCat);
+  if(q) list=list.filter(p=>(p.title+' '+p.category+' '+p.sellerName).toLowerCase().includes(q));
+  document.getElementById('empty').style.display=list.length?'none':'block';
+  document.getElementById('grid').innerHTML=list.map(p=>`
+    <div class="card" onclick="openBuy('${p.id}')">
+      <img src="${p.image||p.img||'https://via.placeholder.com/300'}">
+      <div class="pad">
+        <b>${p.title||''}</b>
+        <div class="price">${p.price||''}</div>
+        <div class="seller">by ${p.sellerName||p.ownerName||'Seller'}</div>
+        <span class="badge ${p.verified?'verified':'unverified'}">${p.verified?'✅ Verified Seller':'⚠️ Unverified'}</span>
+        <button class="buy green" onclick="event.stopPropagation(); openBuy('${p.id}')">I Want To Buy →</button>
+      </div>
+    </div>`).join('');
+}
+function openBuy(id){
+  selected=products.find(p=>String(p.id)===String(id)); if(!selected) return;
+  document.getElementById('mImg').src=selected.image||selected.img||'';
+  document.getElementById('mTitle').textContent=selected.title||'';
+  document.getElementById('mPrice').textContent=selected.price||'';
+  document.getElementById('mSeller').innerHTML=`Seller: <b>${selected.sellerName||'Seller'}</b> • ${selected.verified?'✅ Verified':'⚠️ Unverified'} • Location: ${selected.location||'Nigeria'}`;
+  document.getElementById('mDesc').textContent=selected.desc||selected.description||'';
+  document.getElementById('mWarn').innerHTML = selected.verified
+    ? `<div class="warn safe">✅ <b>Verified Seller</b> — This seller has been verified by LUXORA.DEV. You can deal with confidence, but still meet in a public place or confirm delivery before paying full amount.</div>`
+    : `<div class="warn">⚠️ <b>Unverified Seller</b> — Be careful. Meet in a public place, check the product before you pay, and never send money before you see the product or get a tracking number.</div>`;
+  // Pre-fill buyer info if logged in
+  let sess=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+  let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+  if(sess && users[sess.email]){ document.getElementById('buyerName').value=users[sess.email].name||''; document.getElementById('buyerPhone').value=users[sess.email].phone||''; }
+  document.getElementById('buyModal').style.display='flex';
+}
+function closeBuy(){ document.getElementById('buyModal').style.display='none'; }
+
+// === THE MAIN BUY FLOW ===
+async function confirmBuy(){
+  if(!selected){ toast('Select a product first'); return; }
+  let buyerName=document.getElementById('buyerName').value.trim() || 'A buyer';
+  let buyerPhone=document.getElementById('buyerPhone').value.trim();
+  if(!buyerPhone){ toast('Enter your WhatsApp number so seller can reply'); return; }
+
+  // 1. NOTIFY SELLER - Save to localStorage so notification.html shows it
+  let interest={ productTitle:selected.title, productPrice:selected.price, productId:selected.id, sellerEmail:selected.ownerEmail||selected.sellerEmail||'', sellerPhone:selected.sellerPhone||selected.whatsapp||'', sellerName:selected.sellerName||'', buyerName:buyerName, buyerPhone:buyerPhone, createdAt:Date.now(), read:false };
+  let list=JSON.parse(localStorage.getItem('luxora_buyer_interests')||'[]');
+  list.unshift(interest); localStorage.setItem('luxora_buyer_interests', JSON.stringify(list));
+
+  // 2. NOTIFY SELLER - Save to Firebase so seller sees it on any phone
+  try{ await db.collection('buyer_interests').add(interest); }catch(e){ console.log(e); }
+
+  // 3. OPEN WHATSAPP - Buyer chats seller directly
+  let sellerPhone=String(selected.sellerPhone||selected.whatsapp||'').replace(/[^0-9]/g,'');
+  if(sellerPhone.startsWith('0')) sellerPhone='234'+sellerPhone.slice(1);
+  closeBuy();
+  toast('Seller has been notified! Opening WhatsApp...');
+  setTimeout(()=>{
+    if(!sellerPhone){ toast('Seller WhatsApp not available. Check notification.'); return; }
+    let msg=encodeURIComponent(`Hello ${selected.sellerName||''}, I saw your "${selected.title}" (${selected.price}) on LUXORA.DEV Marketplace. Is it still available? My name is ${buyerName}.`);
+    window.open('https://wa.me/'+sellerPhone+'?text='+msg, '_blank');
+  }, 800);
+}
+loadProducts();
+</script>
+</body>
+</html>
