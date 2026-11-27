@@ -1,0 +1,164 @@
+!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = { apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I", authDomain: "luxora-dev.firebaseapp.com", projectId: "luxora-dev", storageBucket: "luxora-dev.firebasestorage.app", messagingSenderId: "838821661659", appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe", measurementId: "G-B42LXGZQEE" };
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(); const db = firebase.firestore();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#F5F1EA;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px}.logo b{color:#b08d3e;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px 90px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:24px;margin-top:10px}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:32px}
+.hero p{color:#ccc;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;margin-top:6px}
+.hero button{margin-top:12px;background:#b08d3e;color:#fff;border:none;padding:12px 20px;border-radius:999px;font-weight:700;cursor:pointer}
+.planBadge{display:inline-block;background:#d8b45a;color:#111;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-top:10px}
+.planBadge.locked{background:#fff;color:#111}
+.search{background:#fff;border:1px solid #eee;border-radius:999px;padding:12px 14px;display:flex;gap:8px;margin-top:14px}
+.search input{border:none;outline:none;width:100%;font-size:14px}
+.tabs{display:flex;gap:8px;margin-top:16px;overflow-x:auto}
+.tab{padding:9px 16px;border-radius:999px;background:#fff;border:1px solid #eee;font-size:13px;white-space:nowrap;cursor:pointer}
+.tab.active{background:#111;color:#fff}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(min-width:800px){.grid{grid-template-columns:1fr 1fr 1fr 1fr}}
+.pcard{background:#fff;border:1px solid #eee;border-radius:16px;overflow:hidden;position:relative}
+.pcard img{width:100%;height:170px;object-fit:cover}
+.pcard-body{padding:14px}.badge{font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;background:#fef3c7;color:#92400e}
+.pcard-body h3{font-size:15px;margin-top:10px}.pcard-body p{font-size:12px;color:#888}
+.price-row{display:flex;justify-content:space-between;margin-top:10px;align-items:center}.view-btn{border:1px solid #ddd;background:#fff;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}.unlock-btn{background:#111;color:#fff;border:none;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer}
+.lockOverlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:10px;z-index:2}.lockOverlay b{font-size:22px}.lockOverlay span{font-size:11px;margin-top:4px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}
+.bottom a{text-align:center;font-size:11px;color:#888;text-decoration:none}.bottom a.active{color:#111;font-weight:700}
+.empty{text-align:center;color:#888;padding:40px 0}
+.section-title{margin-top:22px;font-family:'Playfair Display',serif;font-style:italic;font-size:20px}
+</style>
+</head>
+<body>
+<header><div class="logo">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div>🔔</div></header>
+<div class="wrap">
+<div class="hero"><h1>Welcome Home,<br><span id="homeName">Luxury Lover</span> ✨</h1><p>Luxury is a feeling... New drops everyday.</p><div><span class="planBadge locked" id="myPlanBadge">Checking your plan...</span><span class="planBadge locked" id="myVerifyBadge" style="margin-left:6px;display:none">✓ Verified</span></div><button onclick="document.getElementById('gridWrap').scrollIntoView({behavior:'smooth'})">Explore Fresh Drops ↓</button> <button onclick="location.href='subscription.html'" style="background:#fff;color:#111">Upgrade 💎</button></div>
+<div class="search">🔍 <input id="searchInput" placeholder="Search designs, templates..." oninput="renderHome()"></div>
+<div class="tabs">
+<div class="tab active" onclick="setFilter('All',this)">All</div>
+<div class="tab" onclick="setFilter('Marketplace',this)">Marketplace</div>
+<div class="tab" onclick="setFilter('Designs',this)">Designs</div>
+<div class="tab" onclick="setFilter('Templates',this)">Templates</div>
+</div>
+
+<div id="gridWrap">
+<h3 class="section-title">Fresh Drops — From Admin</h3>
+<p style="font-size:12px;color:#888" id="accessHint">Only what Admin published shows here. Templates go lock/unlock according to your plan.</p>
+<div id="homeGrid" class="grid"></div>
+<div id="homeEmpty" class="empty" style="display:none"><h3>No drops yet</h3><p>Admin never publish anything yet. Once Admin publish, e go show here.</p></div>
+</div>
+</div>
+<div class="bottom"><a href="home.html" class="active">🏠<br>Home</a><a href="marketplace.html">🛒<br>Marketplace</a><a href="designs.html">🎨<br>Designs</a><a href="templates.html">📄<br>Templates</a><a href="profile.html">👤<br>Profile</a></div>
+<script>
+let session=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+let cur=session&&users[session.email]?users[session.email]:null;
+if(cur) document.getElementById('homeName').innerText=cur.name.split(' ')[0];
+
+let homeFilter='All';
+let myPlan='free', myLimit=0, myActive=false, myExpiry=0, firebaseItems=[];
+let templateUnlockCount=0; // how many templates don open for this user in this render
+
+function getLimitForPlan(plan){
+  if(plan==='Premium') return 999;
+  if(plan==='Pro') return 5;
+  if(plan==='Basic') return 1;
+  return 0;
+}
+function getAllAdminPublished(){
+  let fromHome = JSON.parse(localStorage.getItem('luxora_admin_home')||'[]');
+  let fromMarket = JSON.parse(localStorage.getItem('luxora_user_products')||'[]');
+  let fromTemplates = JSON.parse(localStorage.getItem('luxora_templates')||'[]');
+  let fromDesigns = JSON.parse(localStorage.getItem('luxora_designs')||'[]');
+  let all = [
+    ...firebaseItems,
+    ...fromHome.map(x=>({...x, cat:x.type||x.cat||'Designs'})),
+    ...fromMarket.map(x=>({...x, cat:'Marketplace'})),
+    ...fromTemplates.map(x=>({...x, cat:'Templates'})),
+    ...fromDesigns.map(x=>({...x, cat:'Designs'}))
+  ];
+  // Remove duplicates by title+image
+  let seen={}; all=all.filter(it=>{ let k=(it.title||'')+'|'+(it.image||it.img||''); if(seen[k]) return false; seen[k]=1; return true; });
+  return all.filter(it => it.status!=='hidden' && it.status!=='unpublished');
+}
+function setFilter(c,el){homeFilter=c;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');renderHome();}
+function renderHome(){
+  let q=(document.getElementById('searchInput').value||'').toLowerCase();
+  let all = getAllAdminPublished();
+  let show = all.filter(it=> (homeFilter==='All'||it.cat===homeFilter) && ((it.title||'').toLowerCase().includes(q) || (it.desc||it.description||'').toLowerCase().includes(q)));
+  document.getElementById('homeEmpty').style.display=show.length===0?'block':'none';
+  templateUnlockCount=0;
+  document.getElementById('homeGrid').innerHTML=show.map(it=>{
+    let isTemplate = it.cat==='Templates';
+    let locked=false;
+    if(isTemplate){
+      // Templates respect subscription: first N open, rest locked
+      if(templateUnlockCount < myLimit){ templateUnlockCount++; }
+      else { locked=true; }
+    }
+    let img = it.image||it.img||'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600';
+    let link = it.cat==='Marketplace'?'marketplace.html':it.cat==='Templates'?'templates.html':'designs.html';
+    return `<div class="pcard">
+      ${locked?`<div class="lockOverlay"><b>🔒</b><span>Locked — ${myPlan==='free'?'Pay to unlock':'Upgrade to unlock'}</span></div>`:''}
+      <img src="${img}"><div class="pcard-body"><span class="badge">${(it.cat||'Design').toUpperCase()} • NEW ${isTemplate&&!locked?'• ✅ UNLOCKED':''}</span><h3>${it.title||'Untitled'}</h3><p>${it.desc||it.description||''}</p><div class="price-row"><b>${it.price||'Free'}</b>${locked?`<button class="unlock-btn" onclick="location.href='payment.html'">Unlock →</button>`:`<button class="view-btn" onclick="location.href='${link}'">View</button>`}</div></div></div>`;
+  }).join('');
+  // Update hint
+  document.getElementById('accessHint').textContent = myActive ? `Your plan: ${myPlan} — You fit use ${myLimit===999?'all':myLimit} template(s). Expires ${myExpiry?new Date(myExpiry).toLocaleDateString():''}` : 'Templates go lock/unlock according to your plan. Free users see lock 🔒.';
+}
+
+// === FIREBASE: READ ADMIN UNLOCK LIVE ===
+async function loadFirebaseHome(){
+  try{
+    let s=await db.collection('admin_home').where('status','!=','hidden').get();
+    firebaseItems=s.docs.map(d=>{ let v=d.data(); return {...v, id:d.id, cat:v.type||'Designs'}; });
+  }catch(e){ firebaseItems=[]; }
+  renderHome();
+}
+function updatePlanUI(data){
+  let now=Date.now();
+  let plan=data.subPlan||'free'; let status=data.subStatus||'expired'; let expiry=data.subExpiry||data.subExpiresAt||0;
+  myActive = status==='active' && expiry>now;
+  myPlan = myActive ? plan : 'free';
+  myLimit = myActive ? getLimitForPlan(plan) : 0;
+  myExpiry = expiry;
+  let badge=document.getElementById('myPlanBadge');
+  badge.textContent = myActive ? `💎 ${plan} ACTIVE — ${myLimit===999?'All':myLimit} Template(s)` : '🔒 FREE — Upgrade to Unlock';
+  badge.className='planBadge '+(myActive?'':'locked');
+  let vBadge=document.getElementById('myVerifyBadge');
+  let verified = data.verifyStatus==='verified'||data.verified;
+  vBadge.style.display = verified ? 'inline-block':'none';
+  if(verified) vBadge.textContent='✓ Verified';
+  renderHome();
+}
+auth.onAuthStateChanged(async (user)=>{
+  if(!user){
+    // Try session email fallback
+    if(cur && cur.email) document.getElementById('homeName').innerText=cur.name.split(' ')[0];
+    updatePlanUI({}); loadFirebaseHome(); return;
+  }
+  // Name
+  try{ let d=await db.collection('users').doc(user.uid).get(); if(d.exists){ let u=d.data(); if(u.name) document.getElementById('homeName').innerText=u.name.split(' ')[0]; updatePlanUI(u); } }catch(e){}
+  // LIVE: if admin unlock you while you dey Home, e go change instantly, no refresh
+  db.collection('users').doc(user.uid).onSnapshot(s=>{ if(s.exists) updatePlanUI(s.data()); });
+  loadFirebaseHome();
+  // Live admin posts
+  db.collection('admin_home').onSnapshot(()=>loadFirebaseHome());
+});
+renderHome(); loadFirebaseHome();
+</script>
+</body>
+</html>
