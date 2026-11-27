@@ -1,0 +1,168 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Designs</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:#0d0b08;position:sticky;top:0;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.wrap{max-width:620px;margin:0 auto;padding:0 16px 110px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:24px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:30px}.hero p{color:#ccc;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;margin-top:8px;line-height:1.6}
+.card{background:#fff;border:1px solid #eee;border-radius:22px;padding:20px;margin-top:14px;cursor:pointer;position:relative;overflow:hidden}
+.card .icon{font-size:36px}.card h2{font-size:19px;margin-top:10px}.card p{font-size:13px;color:#666;margin-top:6px;line-height:1.6}
+.card .tag{position:absolute;top:14px;right:14px;background:#111;color:#d8b45a;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800}
+.card button{width:100%;padding:13px;border:none;border-radius:999px;font-weight:800;margin-top:14px;cursor:pointer;font-size:14px}
+.card.gold{border:2px solid #d8b45a;background:#fffdf5}.card.gold button{background:#b08d3e;color:#fff}
+.card.dark{background:#111;color:#fff;border-color:#111}.card.dark p{color:#ccc}.card.dark button{background:#d8b45a;color:#111}
+.card.blue{background:#eff6ff;border-color:#bfdbfe}.card.blue button{background:#111;color:#fff}
+.examples{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.examples span{background:#f5f1ea;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700}.card.dark .examples span{background:#1a160f;color:#d8b45a}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.sheet{background:#fff;width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:20px;max-height:90vh;overflow-y:auto}
+.sheet h2{font-family:'Playfair Display',serif;font-style:italic;font-size:22px}.sheet p{font-size:13px;color:#666;margin-top:6px;line-height:1.6}
+.sheet label{display:block;font-size:12px;font-weight:700;margin:14px 0 6px}.sheet input,.sheet select,.sheet textarea{width:100%;padding:12px;border:1.5px solid #eee;border-radius:12px;outline:none;font-family:'Inter',sans-serif}
+.btn{width:100%;padding:14px;border:none;border-radius:999px;font-weight:800;margin-top:12px;cursor:pointer}.btn-wa{background:#25D366;color:#fff;font-size:15px}.btn-close{background:#eee;color:#111}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}.bottom a.active{color:#111;font-weight:700}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:200;max-width:90%;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button onclick="location.href='notification.html'" style="background:#fff;color:#111;border:none;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer">🔔 Notification</button>
+    <button onclick="location.href='profile.html'" style="background:#111;color:#fff;border:1px solid #3a2f1c;padding:8px 12px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer">👤 Profile</button>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="hero"><h1>Designs</h1><p>3 ways to create. Pick one and start designing now.</p></div>
+
+<!-- 1. MANUAL DESIGN TOOL -->
+<div class="card gold" onclick="location.href='design-tool.html'">
+<span class="tag">DO IT YOURSELF</span>
+<div class="icon">🎨</div>
+<h2>1. Manual Design Tool</h2>
+<p>Design by yourself using our design tools. Draw, add text, colors, shapes, upload your picture. No AI, just your creativity.</p>
+<div class="examples"><span>✏️ Draw</span><span>🔤 Add Text</span><span>🎨 Colors</span><span>🖼️ Upload Photo</span><span>💾 Save Design</span></div>
+<button>Open Design Tool →</button>
+</div>
+
+<!-- 2. WEB DESIGN -->
+<div class="card dark" onclick="openWeb()">
+<span class="tag" style="background:#d8b45a;color:#111">ADMIN WILL BUILD IT</span>
+<div class="icon">🌐</div>
+<h2>2. Web Design</h2>
+<p>Want a website? Tell us the type of website you want, describe it, and submit. It goes straight to Admin on WhatsApp.</p>
+<div class="examples"><span>🛍️ Business Website</span><span>👗 Fashion Store</span><span>🍔 Restaurant</span><span>💼 Portfolio</span><span>🏫 School</span></div>
+<button>Request Web Design →</button>
+</div>
+
+<!-- 3. AI DESIGN -->
+<div class="card blue" onclick="location.href='ai-design.html'">
+<span class="tag" style="background:#111;color:#fff">AI POWERED</span>
+<div class="icon">🤖</div>
+<h2>3. AI Design — Brand, Logo & More</h2>
+<p>Describe what you want — a logo, brand, flyer, poster — and AI will design it for you in seconds. This is NOT AI Assistant, this is AI Designer.</p>
+<div class="examples"><span>🏷️ Logo</span><span>🏢 Brand Kit</span><span>📢 Flyer</span><span>📱 Poster</span><span>💳 Business Card</span></div>
+<button>Open AI Design →</button>
+</div>
+
+<div style="background:#fff;border:1px solid #eee;border-radius:20px;padding:18px;margin-top:14px;text-align:center">
+<h3 style="font-family:'Playfair Display',serif;font-style:italic;font-size:18px">Not Sure Which One To Pick?</h3>
+<p style="font-size:12px;color:#888;margin-top:6px;line-height:1.6">Want to do it yourself → Manual Tool<br>Want Admin to build your website → Web Design<br>Want AI to design logo/brand fast → AI Design</p>
+</div>
+</div>
+
+<!-- WEB DESIGN FORM MODAL -->
+<div class="modal" id="webModal"><div class="sheet">
+<h2>🌐 Request Web Design</h2>
+<p>Fill this form. When you tap Submit, it will open WhatsApp to Admin (+234 708 335 8402) with everything already written.</p>
+
+<label>Type of Website You Want</label>
+<select id="webType">
+<option>Business / Company Website</option>
+<option>Online Store / E-commerce</option>
+<option>Fashion / Boutique Website</option>
+<option>Restaurant / Food Website</option>
+<option>School / Church Website</option>
+<option>Portfolio / Personal Website</option>
+<option>Blog / News Website</option>
+<option>Landing Page (One Page)</option>
+<option>Other</option>
+</select>
+
+<label>Website Name</label>
+<input id="webName" placeholder="e.g. Ada Fashion Store">
+
+<label>Describe Your Website</label>
+<textarea id="webDesc" rows="4" placeholder="e.g. I want a fashion store where customers can see my clothes, chat me on WhatsApp, and order. Colors: Black and Gold. I have logo already..."></textarea>
+
+<label>Features You Want (tick what you need)</label>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px" id="webFeatures">
+<label style="display:flex;gap:6px;align-items:center;font-weight:400;margin:0;background:#f5f1ea;padding:8px 10px;border-radius:999px;font-size:12px"><input type="checkbox" value="WhatsApp Order Button" checked style="width:auto"> WhatsApp Order</label>
+<label style="display:flex;gap:6px;align-items:center;font-weight:400;margin:0;background:#f5f1ea;padding:8px 10px;border-radius:999px;font-size:12px"><input type="checkbox" value="Online Payment" style="width:auto"> Online Payment</label>
+<label style="display:flex;gap:6px;align-items:center;font-weight:400;margin:0;background:#f5f1ea;padding:8px 10px;border-radius:999px;font-size:12px"><input type="checkbox" value="Admin Dashboard" style="width:auto"> Admin Dashboard</label>
+<label style="display:flex;gap:6px;align-items:center;font-weight:400;margin:0;background:#f5f1ea;padding:8px 10px;border-radius:999px;font-size:12px"><input type="checkbox" value="Login / Signup" style="width:auto"> Login / Signup</label>
+<label style="display:flex;gap:6px;align-items:center;font-weight:400;margin:0;background:#f5f1ea;padding:8px 10px;border-radius:999px;font-size:12px"><input type="checkbox" value="Blog Section" style="width:auto"> Blog</label>
+</div>
+
+<label>Your Budget</label>
+<select id="webBudget"><option>₦30,000 - ₦70,000</option><option>₦70,000 - ₦150,000</option><option>₦150,000 - ₦300,000</option><option>₦300,000+</option><option>Not sure yet</option></select>
+
+<label>When Do You Need It?</label>
+<select id="webWhen"><option>As soon as possible</option><option>In 1 week</option><option>In 2 weeks</option><option>In 1 month</option><option>No rush</option></select>
+
+<label>Your Name</label><input id="webYourName" placeholder="e.g. Chinedu">
+<label>Your WhatsApp Number</label><input id="webYourPhone" placeholder="e.g. 0803...">
+
+<button class="btn btn-wa" onclick="submitWeb()">Submit → Send To Admin on WhatsApp</button>
+<p style="text-align:center;font-size:11px;color:#888;margin-top:8px">Admin WhatsApp: +234 708 335 8402</p>
+<button class="btn btn-close" onclick="closeWeb()">Cancel</button>
+</div></div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html" class="active">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_WHATSAPP = '2347083358402';
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3500)}
+function openWeb(){
+  let sess=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+  let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+  if(sess && users[sess.email]){ document.getElementById('webYourName').value=users[sess.email].name||''; document.getElementById('webYourPhone').value=users[sess.email].phone||''; }
+  document.getElementById('webModal').style.display='flex';
+}
+function closeWeb(){ document.getElementById('webModal').style.display='none'; }
+function submitWeb(){
+  let type=document.getElementById('webType').value;
+  let name=document.getElementById('webName').value.trim();
+  let desc=document.getElementById('webDesc').value.trim();
+  let budget=document.getElementById('webBudget').value;
+  let when=document.getElementById('webWhen').value;
+  let yourName=document.getElementById('webYourName').value.trim()||'Customer';
+  let yourPhone=document.getElementById('webYourPhone').value.trim();
+  if(!name){ toast('Enter your website name'); return; }
+  if(!desc){ toast('Describe your website small'); return; }
+  if(!yourPhone){ toast('Enter your WhatsApp number so Admin can reply'); return; }
+
+  // Save request locally
+  let reqs=JSON.parse(localStorage.getItem('luxora_web_requests')||'[]');
+  reqs.unshift({type:type, websiteName:name, desc:desc, budget:budget, when:when, name:yourName, phone:yourPhone, createdAt:Date.now()});
+  localStorage.setItem('luxora_web_requests', JSON.stringify(reqs));
+
+  closeWeb(); toast('Sending to Admin on WhatsApp...');
+  setTimeout(()=>{
+    let features=[...document.querySelectorAll('#webFeatures input:checked')].map(c=>c.value).join(', ')||'None';
+    let msg=encodeURIComponent(`Hello LUXORA Admin, I want a WEBSITE:\n\n🌐 Type: ${type}\n🏷️ Website Name: ${name}\n📝 Description: ${desc}\n⚙️ Features: ${features}\n💰 Budget: ${budget}\n⏰ Needed: ${when}\n\n👤 My Name: ${yourName}\n📱 My WhatsApp: ${yourPhone}`);
+    window.open('https://wa.me/'+ADMIN_WHATSAPP+'?text='+msg, '_blank');
+  }, 700);
+}
+</script>
+</body>
+</html>
