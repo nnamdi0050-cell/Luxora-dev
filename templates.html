@@ -1,0 +1,127 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = { apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I", authDomain: "luxora-dev.firebaseapp.com", projectId: "luxora-dev", storageBucket: "luxora-dev.firebasestorage.app", messagingSenderId: "838821661659", appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe", measurementId: "G-B42LXGZQEE" };
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth(); const db = firebase.firestore();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#fff;color:#111;font-family:'Inter',sans-serif;padding:0 16px 110px}
+.top{max-width:640px;margin:0 auto;padding:16px 0;display:flex;justify-content:space-between;align-items:center}.logo{font-family:'Playfair Display',serif;font-style:italic;font-size:22px}.logo span{color:#b08d3e}
+.wrap{max-width:640px;margin:0 auto}
+.statusBar{background:#111;color:#fff;border-radius:16px;padding:16px;margin-top:6px}.statusBar b{font-size:15px}.statusBar p{font-size:12px;color:#ccc;margin-top:4px;line-height:1.6}.statusBar .gold{color:#d8b45a}
+.upgrade{width:100%;background:linear-gradient(180deg,#d8b45a,#b08d3e);border:none;padding:12px;border-radius:999px;font-weight:800;margin-top:10px;cursor:pointer}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.card{border:1px solid #eee;border-radius:18px;overflow:hidden;background:#fff;position:relative}.card img{width:100%;height:150px;object-fit:cover;display:block}.card .body{padding:12px}.card b{font-size:13px}.card span{font-size:11px;color:#888;display:block;margin-top:3px}
+.lockOverlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center;padding:10px}.lockOverlay b{font-size:20px}.lockOverlay span{font-size:11px;color:#eee;margin-top:4px}
+.openBtn{width:100%;background:#111;color:#fff;border:none;padding:10px;border-radius:999px;font-weight:700;font-size:12px;margin-top:8px;cursor:pointer}.lockBtn{width:100%;background:#d8b45a;border:none;padding:10px;border-radius:999px;font-weight:800;font-size:12px;margin-top:8px;cursor:pointer}
+.badge{position:absolute;top:8px;left:8px;background:#d8b45a;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;z-index:2}
+.debug{text-align:center;font-size:11px;color:#888;margin-top:12px}
+.bottomNav{position:fixed;bottom:0;left:0;right:0;background:#111;display:flex;justify-content:space-around;padding:12px 0}.bottomNav a{color:#ccc;font-size:11px;font-weight:700;text-align:center;text-decoration:none}.bottomNav a b{display:block;font-size:16px}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">LUXORA<span>.DEV</span></div><button onclick="location.href='subscription.html'" style="background:#111;color:#fff;border:none;padding:8px 14px;border-radius:999px;font-weight:700;font-size:12px">Upgrade 💎</button></div>
+<div class="wrap">
+<div class="statusBar"><b id="statusTitle">Checking your subscription...</b><p id="statusSub">Please wait, we dey confirm your plan from admin.</p><button class="upgrade" onclick="location.href='subscription.html'" id="upgradeBtn" style="display:none">Upgrade to Unlock Templates →</button><button onclick="checkAccess(true)" style="margin-top:8px;background:#fff;color:#111;border:none;padding:8px 14px;border-radius:999px;font-weight:700;font-size:12px;cursor:pointer">↻ Refresh My Access</button></div>
+<div class="grid" id="grid"></div>
+<p class="debug" id="debugLine">Loading templates...</p>
+</div>
+<div class="bottomNav"><a href="home.html"><b>🏠</b>Home</a><a href="templates.html"><b>🎨</b>Templates</a><a href="subscription.html"><b>💎</b>Plans</a><a href="payment.html"><b>💳</b>Pay</a><a href="marketplace.html"><b>🛒</b>Market</a></div>
+<script>
+// === 1. YOUR TEMPLATES - admin publish go still enter here via admin_home ===
+let ALL_TEMPLATES = JSON.parse(localStorage.getItem('luxora_admin_home')||'[]').filter(x=>x.type==='Templates' || x.title?.includes('Template'));
+if(!ALL_TEMPLATES.length){
+  // Demo templates so you fit test lock/unlock even before you publish
+  ALL_TEMPLATES = [
+    {id:1,title:'Luxury Logo Pack',category:'Logo',image:'https://images.unsplash.com/photo-1634942537034-2531766767d1?w=600'},
+    {id:2,title:'Brand Identity Kit',category:'Brand',image:'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600'},
+    {id:3,title:'Website Template - Fashion',category:'Website',image:'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600'},
+    {id:4,title:'Instagram Flyer Pack',category:'Social',image:'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600'},
+    {id:5,title:'Business Card Luxury',category:'Card',image:'https://images.unsplash.com/photo-1589041127168-9b1915731dc3?w=600'},
+    {id:6,title:'Premium Full Bundle',category:'All',image:'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600'},
+  ];
+}
+let myPlan='free', myLimit=0, myExpiry=0, myEmail='';
+
+function getLimitForPlan(plan){
+  if(plan==='Premium') return 999;
+  if(plan==='Pro') return 5;
+  if(plan==='Basic') return 1;
+  return 0; // free + Verification = 0 templates
+}
+async function checkAccess(manual){
+  let user = auth.currentUser;
+  // If no login, show locked
+  if(!user){
+    myPlan='free'; myLimit=0; myEmail='Guest';
+    renderGrid(); updateStatus('Not logged in','Login to see your plan. Admin unlock go reflect after you login.');
+    document.getElementById('debugLine').textContent='Not logged in — showing locked. Login with the email admin unlocked.';
+    return;
+  }
+  myEmail=user.email||'';
+  try{
+    let doc = await db.collection('users').doc(user.uid).get();
+    let data = doc.exists ? doc.data() : {};
+    // Backup from localStorage (if admin save for backup)
+    let backup = JSON.parse(localStorage.getItem('luxora_subs_backup')||'{}')[user.uid] || {};
+    // Firebase na main, backup na fallback
+    let plan = data.subPlan || backup.subPlan || 'free';
+    let status = data.subStatus || backup.subStatus || 'expired';
+    let expiry = data.subExpiry || data.subExpiresAt || backup.subExpiry || 0;
+    let now = Date.now();
+    let active = status==='active' && expiry > now;
+    if(!active){ myPlan='free'; myLimit=0; myExpiry=expiry; }
+    else { myPlan=plan; myLimit=getLimitForPlan(plan); myExpiry=expiry; }
+    if(manual) alert('Access refreshed!\nPlan: '+myPlan+'\nActive: '+(active?'YES':'NO')+'\nUnlocked: '+myLimit+' templates');
+    updateStatus(active ? '💎 '+myPlan+' — ACTIVE' : '🔒 LOCKED / EXPIRED',
+      active ? 'Welcome '+myEmail+' — You fit use '+myLimit+' template(s). Expires: '+new Date(expiry).toLocaleDateString()+' ('+Math.ceil((expiry-now)/(1000*60*60*24))+' days left)' : 'You never pay or your plan don expire. Admin go unlock you after you pay. Your email: '+myEmail);
+    document.getElementById('debugLine').textContent='Email: '+myEmail+' • Plan: '+myPlan+' • Active: '+(active?'YES':'NO')+' • Limit: '+myLimit;
+  }catch(e){
+    document.getElementById('debugLine').textContent='Error reading access: '+e.message;
+    updateStatus('Error','Check internet and tap Refresh My Access. '+e.message);
+  }
+  renderGrid();
+}
+function updateStatus(title, sub){
+  document.getElementById('statusTitle').textContent=title;
+  document.getElementById('statusSub').textContent=sub;
+  document.getElementById('upgradeBtn').style.display = myLimit===0 ? 'block' : 'none';
+}
+function renderGrid(){
+  document.getElementById('grid').innerHTML = ALL_TEMPLATES.map((t,i)=>{
+    let unlocked = i < myLimit;
+    return `<div class="card">
+      ${i===0?'<span class="badge">FREE PREVIEW</span>':''}
+      <img src="${t.image||t.img||''}">
+      ${!unlocked?`<div class="lockOverlay"><b>🔒</b><span>Locked — ${myPlan==='free'?'Pay to unlock':'Upgrade to Pro/Premium to unlock this one'}</span></div>`:''}
+      <div class="body"><b>${t.title}</b><span>${t.category||'Template'} • ${unlocked?'✅ Unlocked':'🔒 Locked'}</span>
+      ${unlocked?`<button class="openBtn" onclick="openTemplate('${t.id}','${(t.title||'').replace(/'/g,'')}')">Open / Download Template →</button>`:`<button class="lockBtn" onclick="location.href='payment.html'">Unlock — Go Pay →</button>`}
+      </div></div>`;
+  }).join('');
+}
+function openTemplate(id,title){
+  // This na where download go happen. For now e go confirm say access work.
+  alert('✅ Access Granted!\n\nTemplate: '+title+'\nYour Plan: '+myPlan+'\nYou fit use this template now.\n\nAdmin go send you the file / link on WhatsApp, or you fit add download link here.');
+  // If you get file link for template, put am here later: window.open(fileLink)
+}
+auth.onAuthStateChanged(()=>checkAccess(false));
+// Also listen live - if admin unlock you WHILE you dey this page, e go unlock instantly, no refresh needed!
+auth.onAuthStateChanged((user)=>{
+  if(user){ db.collection('users').doc(user.uid).onSnapshot(()=>{ checkAccess(false); }); }
+});
+// Load templates from Firebase too (admin publish)
+async function loadTemplatesFromFirebase(){
+  try{ let s=await db.collection('admin_home').where('type','==','Templates').get(); let fb=s.docs.map(d=>({id:d.id,...d.data()})); if(fb.length){ ALL_TEMPLATES=fb; renderGrid(); } }catch(e){}
+}
+loadTemplatesFromFirebase(); checkAccess(false);
+</script>
+</body>
+</html>
