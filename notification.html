@@ -1,0 +1,282 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUXORA.DEV — Notifications</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700;1,900&family=Cormorant+Garamond:ital,wght@1,500&family=Italiana&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyB2Y6WrT2a-d7uYINM5WGVoppENVq65d_I",
+  authDomain: "luxora-dev.firebaseapp.com",
+  projectId: "luxora-dev",
+  storageBucket: "luxora-dev.firebasestorage.app",
+  messagingSenderId: "838821661659",
+  appId: "1:838821661659:web:96cdeed0451fcbc3d6b5fe",
+  measurementId: "G-B42LXGZQEE"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#F5F1EA;color:#111;font-family:'Inter',sans-serif}
+a{text-decoration:none;color:inherit}
+header{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#0d0b08;z-index:10}
+.logo{font-family:'Italiana',serif;font-size:22px;letter-spacing:3px;color:#fff;cursor:pointer}.logo b{color:#d8b45a;font-family:'Playfair Display',serif;font-style:italic}.logo small{display:block;font-size:9px;letter-spacing:3px;color:#999}
+.topnav2{background:#0d0b08;padding:0 16px 12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.topnav2 a{padding:9px 14px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.topnav2 a.home{background:#fff;color:#111}.topnav2 a.market{background:#111;color:#fff;border:1px solid #3a2f1c}.topnav2 a.ai{background:#1a160f;color:#d8b45a;border:1px solid #3a2f1c}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 100px}
+.hero{background:#111;color:#fff;border-radius:22px;padding:22px;margin-top:14px;text-align:center}
+.hero h1{font-family:'Playfair Display',serif;font-style:italic;font-size:28px}.hero p{color:#ccc;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;margin-top:6px}
+.hero .count{display:inline-block;margin-top:10px;background:#1a160f;color:#d8b45a;border:1px solid #3a2f1c;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800}
+.tabs{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.tabs button{background:#fff;border:1px solid #eee;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}.tabs button.active{background:#111;color:#fff}
+.tabs button .dot{display:inline-block;background:#dc2626;color:#fff;font-size:10px;padding:1px 6px;border-radius:999px;margin-left:4px}
+.actions{display:flex;gap:8px;margin-top:12px}
+.actions button{flex:1;background:#fff;border:1px solid #eee;padding:10px;border-radius:999px;font-weight:700;font-size:12px;cursor:pointer}
+.actions button.primary{background:#111;color:#fff}
+.notif{background:#fff;border:1px solid #eee;border-radius:18px;padding:14px;margin-top:12px;display:flex;gap:12px;position:relative}
+.notif.unread{border:2px solid #b08d3e;background:#fffdf5}
+.notif .icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:#f5f1ea}
+.notif.admin .icon{background:#111;color:#d8b45a}
+.notif.buyer .icon{background:#d1fae5;color:#065f46}
+.notif.verify .icon{background:#dbeafe;color:#1e40af}
+.notif.complaint .icon{background:#fef3c7;color:#92400e}
+.notif.system .icon{background:#eee;color:#111}
+.notif b{font-size:14px;display:block;line-height:1.3}
+.notif p{font-size:12px;color:#666;margin-top:4px;line-height:1.6}
+.notif .time{font-size:11px;color:#999;margin-top:6px}
+.notif .badge{position:absolute;top:12px;right:12px;background:#dc2626;color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:999px}
+.notif .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.notif .btns button{border:none;padding:7px 12px;border-radius:999px;font-weight:700;font-size:11px;cursor:pointer}
+.btn-view{background:#111;color:#fff}.btn-wa{background:#25D366;color:#fff}.btn-read{background:#eee;color:#111}.btn-del{background:#ffe5e5;color:#c00}
+.empty{text-align:center;padding:40px 16px;background:#fff;border:1px solid #eee;border-radius:20px;margin-top:14px}
+.empty h3{font-family:'Playfair Display',serif;font-style:italic;font-size:22px}.empty p{font-size:13px;color:#888;margin-top:8px;line-height:1.6}.empty button{margin-top:14px;background:#111;color:#fff;border:none;padding:11px 18px;border-radius:999px;font-weight:800;cursor:pointer}
+.info{background:#fff;border:1px solid #eee;border-radius:18px;padding:16px;margin-top:14px;text-align:center}
+.info h3{font-size:15px}.info p{font-size:12px;color:#888;margin-top:6px;line-height:1.6}.info button{margin-top:10px;background:#111;color:#fff;border:none;padding:11px 18px;border-radius:999px;font-weight:800;cursor:pointer}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;z-index:20}.bottom a{text-align:center;font-size:11px;color:#888}.bottom a.active{color:#111;font-weight:700}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#111;color:#fff;padding:12px 16px;border-radius:999px;font-weight:700;font-size:13px;display:none;z-index:99;max-width:90%;text-align:center}
+</style>
+</head>
+<body>
+<header><div class="logo" onclick="location.href='home.html'">LUXORA<b>.DEV</b><small>CURATED LUXURY</small></div><div style="display:flex;gap:8px"><span style="color:#fff;font-size:18px" onclick="location.href='notification.html'">🔔 <span id="bellCount" style="background:#dc2626;color:#fff;font-size:10px;padding:1px 6px;border-radius:999px;display:none">0</span></span><span style="color:#fff;font-size:18px" onclick="location.href='profile.html'">👤</span></div></header>
+<div class="topnav2"><a href="home.html" class="home">Home</a><a href="marketplace.html" class="market">Marketplace</a><a href="ai.html" class="ai">AI Assistant</a></div>
+
+<div class="wrap">
+<div class="hero"><h1>Notifications</h1><p>Messages from Admin, buyers interested in your products, and updates on your account.</p><span class="count" id="unreadCount">0 Unread Notifications</span></div>
+
+<div class="tabs" id="tabs">
+<button class="active" onclick="setFilter('All',this)">All <span class="dot" id="dotAll">0</span></button>
+<button onclick="setFilter('Admin',this)">From Admin</button>
+<button onclick="setFilter('Buyer',this)">Buyers Interested 🛒</button>
+<button onclick="setFilter('Verification',this)">Verification</button>
+<button onclick="setFilter('Complaint',this)">Complaints</button>
+<button onclick="setFilter('System',this)">System</button>
+</div>
+
+<div class="actions"><button class="primary" onclick="markAllRead()">Mark All As Read</button><button onclick="clearRead()">Clear Read</button></div>
+
+<div id="notifList"></div>
+
+<div id="emptyBox" class="empty" style="display:none">
+<h3>No Notifications Yet</h3>
+<p>When Admin sends you a message, or a buyer is interested in your product, it will show here.</p>
+<button onclick="location.href='marketplace.html'">Browse Marketplace →</button>
+</div>
+
+<div class="info"><h3>Want To Sell Faster?</h3><p>Advertise your product. When a buyer clicks "I want to buy", you will get a notification here instantly.</p><button onclick="location.href='advertising.html'">Advertise Your Product →</button></div>
+<div class="info"><h3>Need Help?</h3><p>Report a problem in Customer Service. When Admin replies, you will see it here.</p><button onclick="location.href='support.html'">Go To Customer Service →</button></div>
+</div>
+
+<div class="bottom"><a href="home.html">Home</a><a href="marketplace.html">Marketplace</a><a href="designs.html">Designs</a><a href="templates.html">Templates</a><a href="profile.html">Profile</a></div>
+<div class="toast" id="toast"></div>
+
+<script>
+let currentFilter='All';
+let allNotifs=[];
+let session=JSON.parse(sessionStorage.getItem('luxora_session')||'null');
+let users=JSON.parse(localStorage.getItem('luxora_users_v2')||'{}');
+let cur=session&&users[session.email]?users[session.email]:null;
+let myEmail = cur ? (cur.email||session.email||'').toLowerCase() : (session?session.email.toLowerCase():'');
+let myPhone = cur ? String(cur.phone||'') : '';
+
+function toast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000)}
+function setFilter(f,el){currentFilter=f;document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();}
+function timeAgo(ts){
+  if(!ts) return 'Just now';
+  let d = typeof ts==='number' ? ts : new Date(ts).getTime();
+  let diff = Date.now()-d;
+  if(diff<60000) return 'Just now';
+  if(diff<3600000) return Math.floor(diff/60000)+' min ago';
+  if(diff<86400000) return Math.floor(diff/3600000)+' hours ago';
+  return new Date(d).toLocaleDateString();
+}
+function getIcon(type){
+  if(type==='Admin') return '👑';
+  if(type==='Buyer') return '🛒';
+  if(type==='Verification') return '✅';
+  if(type==='Complaint') return '🎧';
+  return '🔔';
+}
+
+// === BUILD NOTIFICATIONS FROM ALL SOURCES ===
+function buildLocalNotifications(){
+  let list=[];
+  // 1. Admin messages - from admin-dashboard Send Messages
+  let adminMsgs=JSON.parse(localStorage.getItem('luxora_admin_messages')||'[]');
+  let notifs=JSON.parse(localStorage.getItem('luxora_notifications')||'[]');
+  [...adminMsgs, ...notifs].forEach((m,i)=>{
+    // Check if this message is for me: all, verified, unverified, or my email
+    let isForMe=false;
+    if(!m.to || m.to==='all') isForMe=true;
+    else if(m.to==='verified' && cur && (cur.verified||cur.verifyStatus==='verified')) isForMe=true;
+    else if(m.to==='unverified' && (!cur || !cur.verified)) isForMe=true;
+    else if(String(m.to).toLowerCase()===myEmail) isForMe=true;
+    if(isForMe) list.push({id:'admin-'+i+'-'+(m.createdAt||''), type:'Admin', title:m.title||'Message From Admin', body:m.body||'', time:m.createdAt||Date.now(), read:m.read||false, action:'home', actionLabel:'View Home'});
+  });
+  // 2. Buyer interest - someone clicked Buy on my product
+  let interests=JSON.parse(localStorage.getItem('luxora_buyer_interests')||'[]');
+  interests.forEach((it,i)=>{
+    if(!myEmail || String(it.sellerEmail||'').toLowerCase()===myEmail || String(it.sellerPhone||'')===myPhone){
+      list.push({id:'buyer-'+i+'-'+(it.createdAt||''), type:'Buyer', title:'Someone Wants To Buy Your Product!', body:`${it.buyerName||'A buyer'} is interested in "${it.productTitle||'your product'}" (${it.productPrice||''}). Tap to chat on WhatsApp.`, time:it.createdAt||Date.now(), read:it.read||false, action:'whatsapp', phone:it.buyerPhone, product:it.productTitle, actionLabel:'Chat Buyer on WhatsApp'});
+    }
+  });
+  // 3. Verification status
+  let vers=JSON.parse(localStorage.getItem('luxora_verifications')||'[]');
+  vers.forEach((v,i)=>{
+    if(myEmail && String(v.ownerEmail||'').toLowerCase()===myEmail){
+      if(v.status==='Approved') list.push({id:'ver-'+i, type:'Verification', title:'Verification Approved! ✅', body:`Congratulations! You are now Verified for 30 days. Your badge expires on ${v.expiry?new Date(v.expiry).toLocaleDateString():''}. You can now publish unlimited products.`, time:v.approvedAt||v.createdAt||Date.now(), read:v.notifRead||false, action:'advertising', actionLabel:'Publish Product'});
+      if(v.status==='Rejected') list.push({id:'ver-'+i, type:'Verification', title:'Verification Rejected', body:'Your verification was rejected. Please check your documents and apply again.', time:v.createdAt||Date.now(), read:v.notifRead||false, action:'verification', actionLabel:'Re-apply'});
+      if(v.status==='Pending') list.push({id:'ver-'+i, type:'Verification', title:'Verification Under Review', body:'Your verification is being reviewed by Admin. You will be notified when it is approved.', time:v.createdAt||Date.now(), read:true, action:'verification', actionLabel:'View Status'});
+    }
+  });
+  // 4. Complaints status
+  let comps=JSON.parse(localStorage.getItem('luxora_complaints')||'[]');
+  comps.forEach((c,i)=>{
+    if(myEmail && (String(c.email||'').toLowerCase()===myEmail || String(c.phone||'')===myPhone)){
+      if(c.status==='Resolved') list.push({id:'comp-'+i, type:'Complaint', title:'Complaint Resolved ✅', body:`Your complaint ${c.ticketId||''} has been resolved by Admin. Thank you for your patience.`, time:c.createdAt||Date.now(), read:c.notifRead||false, action:'support', actionLabel:'View Complaint'});
+      else if(c.status==='In Review') list.push({id:'comp-'+i, type:'Complaint', title:'Complaint In Review', body:`Your complaint ${c.ticketId||''} is now being reviewed by Admin.`, time:c.createdAt||Date.now(), read:true, action:'support', actionLabel:'View Complaint'});
+    }
+  });
+  // 5. System - Welcome
+  if(list.length===0){
+    list.push({id:'sys-welcome', type:'System', title:'Welcome to LUXORA.DEV', body:'Welcome! Advertise your first product for free. When a buyer is interested, you will get a notification here.', time:Date.now(), read:true, action:'advertising', actionLabel:'Advertise Now'});
+  }
+  // Remove duplicates
+  let seen={}; list=list.filter(x=>{ if(seen[x.id]) return false; seen[x.id]=true; return true; });
+  // Newest first
+  list.sort((a,b)=> (b.time-a.time));
+  return list;
+}
+
+async function loadFromFirebase(){
+  // If user is logged in with Firebase, also load admin_messages from Firebase
+  try{
+    let snap=await db.collection('admin_messages').orderBy('createdAt','desc').limit(50).get();
+    snap.forEach(doc=>{
+      let m=doc.data();
+      let isForMe=false;
+      if(!m.to || m.to==='all') isForMe=true;
+      else if(m.to==='verified' && cur && (cur.verified||cur.verifyStatus==='verified')) isForMe=true;
+      else if(m.to==='unverified' && (!cur || !cur.verified)) isForMe=true;
+      else if(String(m.to||'').toLowerCase()===myEmail) isForMe=true;
+      if(isForMe){
+        allNotifs.push({id:'fb-'+doc.id, type:'Admin', title:m.title||'Message From Admin', body:m.body||'', time:m.createdAt||Date.now(), read:false, action:'home', actionLabel:'View Home'});
+      }
+    });
+    // Buyer interests from Firebase
+    let bSnap=await db.collection('buyer_interests').orderBy('createdAt','desc').limit(50).get();
+    bSnap.forEach(doc=>{
+      let it=doc.data();
+      if(!myEmail || String(it.sellerEmail||'').toLowerCase()===myEmail){
+        allNotifs.push({id:'fb-buyer-'+doc.id, type:'Buyer', title:'Someone Wants To Buy Your Product!', body:`${it.buyerName||'A buyer'} is interested in "${it.productTitle||'your product'}" (${it.productPrice||''}).`, time:it.createdAt||Date.now(), read:false, action:'whatsapp', phone:it.buyerPhone, actionLabel:'Chat Buyer'});
+      }
+    });
+    render();
+  }catch(e){ console.log(e); }
+}
+
+function render(){
+  let filtered = currentFilter==='All' ? allNotifs : allNotifs.filter(n=>n.type===currentFilter);
+  let unread = allNotifs.filter(n=>!n.read).length;
+  document.getElementById('unreadCount').textContent=unread+' Unread Notification'+(unread===1?'':'s');
+  document.getElementById('bellCount').textContent=unread; document.getElementById('bellCount').style.display=unread?'inline-block':'none';
+  document.getElementById('dotAll').textContent=allNotifs.length;
+  document.getElementById('emptyBox').style.display=filtered.length?'none':'block';
+  document.getElementById('notifList').innerHTML=filtered.map(n=>`
+    <div class="notif ${n.type.toLowerCase()} ${n.read?'':'unread'}" onclick="markRead('${n.id}')">
+      <div class="icon">${getIcon(n.type)}</div>
+      <div style="flex:1">
+        <b>${n.title}</b>
+        <p>${n.body}</p>
+        <div class="time">${timeAgo(n.time)} • ${n.type}</div>
+        <div class="btns">
+          ${n.action==='whatsapp' && n.phone ? `<button class="btn-wa" onclick="event.stopPropagation(); chatBuyer('${n.phone}','${String(n.product||'').replace(/'/g,'')}')">Chat Buyer on WhatsApp</button>` : ''}
+          ${n.action==='home' ? `<button class="btn-view" onclick="event.stopPropagation(); location.href='home.html'">View Home</button>` : ''}
+          ${n.action==='advertising' ? `<button class="btn-view" onclick="event.stopPropagation(); location.href='advertising.html'">Open Advertising</button>` : ''}
+          ${n.action==='verification' ? `<button class="btn-view" onclick="event.stopPropagation(); location.href='verification.html'">Open Verification</button>` : ''}
+          ${n.action==='support' ? `<button class="btn-view" onclick="event.stopPropagation(); location.href='support.html'">Open Support</button>` : ''}
+          <button class="btn-read" onclick="event.stopPropagation(); markRead('${n.id}')">${n.read?'Mark Unread':'Mark Read'}</button>
+          <button class="btn-del" onclick="event.stopPropagation(); deleteNotif('${n.id}')">Delete</button>
+        </div>
+      </div>
+      ${n.read?'':'<span class="badge">NEW</span>'}
+    </div>`).join('');
+}
+
+function markRead(id){
+  let n=allNotifs.find(x=>x.id===id); if(n) n.read=!n.read;
+  // Save read state
+  let readIds=JSON.parse(localStorage.getItem('luxora_read_notifs')||'[]');
+  if(n.read && !readIds.includes(id)) readIds.push(id); else if(!n.read) readIds=readIds.filter(x=>x!==id);
+  localStorage.setItem('luxora_read_notifs', JSON.stringify(readIds));
+  render();
+}
+function markAllRead(){
+  allNotifs.forEach(n=>n.read=true);
+  localStorage.setItem('luxora_read_notifs', JSON.stringify(allNotifs.map(n=>n.id)));
+  render(); toast('All marked as read');
+}
+function clearRead(){
+  allNotifs=allNotifs.filter(n=>!n.read);
+  render(); toast('Read notifications cleared');
+}
+function deleteNotif(id){
+  allNotifs=allNotifs.filter(n=>n.id!==id);
+  render(); toast('Notification deleted');
+}
+function chatBuyer(phone, product){
+  let clean=String(phone||'').replace(/[^0-9]/g,'');
+  if(clean.startsWith('0')) clean='234'+clean.slice(1);
+  if(!clean){ toast('Buyer phone not available'); return; }
+  let msg=encodeURIComponent(`Hello, I saw you are interested in my product "${product}" on LUXORA.DEV. Is it still available? Let's talk.`);
+  window.open('https://wa.me/'+clean+'?text='+msg, '_blank');
+}
+
+// === THIS FUNCTION IS CALLED BY MARKETPLACE WHEN BUYER CLICKS BUY ===
+// Call this from marketplace.html: notifySeller(product, buyerName, buyerPhone)
+function notifySeller(product, buyerName, buyerPhone){
+  let list=JSON.parse(localStorage.getItem('luxora_buyer_interests')||'[]');
+  list.unshift({ productTitle:product.title, productPrice:product.price, sellerEmail:product.ownerEmail, sellerPhone:product.sellerPhone||'', buyerName:buyerName||'A buyer', buyerPhone:buyerPhone||'', createdAt:Date.now(), read:false });
+  localStorage.setItem('luxora_buyer_interests', JSON.stringify(list));
+}
+
+// Init
+allNotifs=buildLocalNotifications();
+// Apply saved read state
+let readIds=JSON.parse(localStorage.getItem('luxora_read_notifs')||'[]');
+allNotifs.forEach(n=>{ if(readIds.includes(n.id)) n.read=true; });
+render();
+loadFromFirebase();
+// Live update from Firebase
+try{
+  db.collection('admin_messages').onSnapshot(()=>{ loadFromFirebase(); });
+}catch(e){}
+</script>
+</body>
+</html>
